@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* SAMITI DESIGN SYSTEM */
+:root {
+  /* 🔵 Brand Colors */
+  --color-primary: #23307d;     /* Logo Blue */
+  --color-secondary: #F58220;   /* Logo Orange */
+
+  /* Background */
+  --color-bg-light: #F9FAFB;
+  --color-bg-white: #FFFFFF;
+
+  /* Text */
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-white: #FFFFFF;
+
+  /* Border */
+  --color-border: #E5E7EB;
+
+  /*  Fonts */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* UTILITY CLASSES */
+
+body {
+  font-family: var(--font-body);
+}
+
+.primary-bg {
+  background-color: var(--color-primary);
+}
+
+.secondary-bg {
+  background-color: var(--color-secondary);
+}
+
+.primary-text {
+  color: var(--color-primary);
+}
+
+.secondary-text {
+  color: var(--color-secondary);
+}
+
+.section-bg {
+  background-color: var(--color-bg-light);
+}
+
+.border-custom {
+  border-color: var(--color-border);
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-zoom {
+  animation: zoom 10s ease-in-out infinite alternate;
+}
+
+.section-pattern {
+  background-image: radial-gradient(circle at 1px 1px, #e5e7eb 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* 🔥 FADE UP ANIMATION */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeUp 0.9s ease forwards;
+}
+
+.fade-up-delay {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🔥 CARD HOVER */
+.card-hover {
+  transition: all 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+/* 🔥 CENTER ICON PULSE */
+.pulse-soft {
+  animation: pulseSoft 2.5s infinite ease-in-out;
+}
+@keyframes pulseSoft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+li:hover {
+  text-decoration: underline;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
