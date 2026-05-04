@@ -2,10 +2,11 @@ import { useState } from "react";
 import PageHero from "../components/PageHero";
 import heroImg from "../assets/aboutvsspune/aboutvss.png";
 import { sendContactEmail } from "../services/emailService";
+import { rules, validateForm, sanitizeName, sanitizePhone } from "../utils/validation";
 import {
   FaMapMarkerAlt, FaPhoneAlt, FaEnvelope,
   FaFacebookF, FaInstagram, FaYoutube, FaArrowRight,
-  FaCheckCircle, FaTimesCircle,
+  FaCheckCircle, FaTimesCircle, FaExclamationCircle,
 } from "react-icons/fa";
 
 const contactInfo = [
@@ -33,24 +34,65 @@ const contactInfo = [
 ];
 
 const inputClass = "w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all duration-200";
+const inputError = "w-full bg-white border border-rose-300 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all duration-200";
+const FieldError = ({ msg }) => msg ? (
+  <p className="flex items-center gap-1.5 text-xs text-rose-500 mt-1">
+    <FaExclamationCircle size={11} /> {msg}
+  </p>
+) : null;
 
 export default function Contact() {
   const [form, setForm] = useState({ first_name: "", last_name: "", address: "", phone: "", email: "", message: "" });
-  const [status, setStatus] = useState(""); // "", "sending", "success", "error"
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [status, setStatus] = useState("");
+
+  const validate = (f) => validateForm({
+    first_name: { value: f.first_name, rule: rules.name    },
+    last_name:  { value: f.last_name,  rule: rules.name    },
+    email:      { value: f.email,      rule: rules.email   },
+    phone:      { value: f.phone,      rule: rules.phone   },
+    message:    { value: f.message,    rule: rules.message },
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let sanitized = value;
+    if (name === "first_name" || name === "last_name") sanitized = sanitizeName(value);
+    // phone: don't sanitize letters — let validation show the error
+    const updated = { ...form, [name]: sanitized };
+    setForm(updated);
+    // validate live on every keystroke once field has been touched
+    if (touched[name] || sanitized !== "") {
+      setTouched((prev) => ({ ...prev, [name]: true }));
+      setErrors(validate(updated));
+    }
+  };
+
+  const handleBlur = (e) => {
+    setTouched((prev) => ({ ...prev, [e.target.name]: true }));
+    setErrors(validate(form));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const allTouched = { first_name: true, last_name: true, email: true, phone: true, message: true };
+    setTouched(allTouched);
+    const errs = validate(form);
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
     setStatus("sending");
     try {
       await sendContactEmail(form);
       setStatus("success");
       setForm({ first_name: "", last_name: "", address: "", phone: "", email: "", message: "" });
+      setTouched({});
+      setErrors({});
     } catch (error) {
       console.error(error);
       setStatus("error");
     }
   };
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
     <>
@@ -158,25 +200,29 @@ export default function Contact() {
                   {/* NAME ROW */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name</label>
-                      <input name="first_name" type="text" placeholder="Rahul" value={form.first_name} onChange={handleChange} className={inputClass} />
+                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name <span className="text-rose-400">*</span></label>
+                      <input name="first_name" type="text" placeholder="Rahul" value={form.first_name} onChange={handleChange} onBlur={handleBlur} className={touched.first_name && errors.first_name ? inputError : inputClass} />
+                      <FieldError msg={touched.first_name && errors.first_name} />
                     </div>
                     <div>
-                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name</label>
-                      <input name="last_name" type="text" placeholder="Sharma" value={form.last_name} onChange={handleChange} className={inputClass} />
+                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name <span className="text-rose-400">*</span></label>
+                      <input name="last_name" type="text" placeholder="Sharma" value={form.last_name} onChange={handleChange} onBlur={handleBlur} className={touched.last_name && errors.last_name ? inputError : inputClass} />
+                      <FieldError msg={touched.last_name && errors.last_name} />
                     </div>
                   </div>
 
                   {/* EMAIL */}
                   <div>
-                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Email Address</label>
-                    <input name="email" type="email" placeholder="you@example.com" value={form.email} onChange={handleChange} className={inputClass} />
+                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Email Address <span className="text-rose-400">*</span></label>
+                    <input name="email" type="email" placeholder="you@example.com" value={form.email} onChange={handleChange} onBlur={handleBlur} className={touched.email && errors.email ? inputError : inputClass} />
+                    <FieldError msg={touched.email && errors.email} />
                   </div>
 
                   {/* PHONE */}
                   <div>
-                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Phone Number</label>
-                    <input name="phone" type="tel" placeholder="+1 (000) 000-0000" value={form.phone} onChange={handleChange} className={inputClass} />
+                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Phone Number <span className="text-rose-400">*</span></label>
+                    <input name="phone" type="tel" placeholder="+1 (000) 000-0000" value={form.phone} onChange={handleChange} onBlur={handleBlur} maxLength={15} className={touched.phone && errors.phone ? inputError : inputClass} />
+                    <FieldError msg={touched.phone && errors.phone} />
                   </div>
 
                   {/* ADDRESS */}
@@ -187,8 +233,9 @@ export default function Contact() {
 
                   {/* MESSAGE */}
                   <div>
-                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Your Message</label>
-                    <textarea name="message" rows={4} placeholder="How can we help you?" value={form.message} onChange={handleChange} className={inputClass + " resize-none"} />
+                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Your Message <span className="text-rose-400">*</span></label>
+                    <textarea name="message" rows={4} placeholder="How can we help you?" value={form.message} onChange={handleChange} onBlur={handleBlur} className={(touched.message && errors.message ? inputError : inputClass) + " resize-none"} />
+                    <FieldError msg={touched.message && errors.message} />
                   </div>
 
                   {/* STATUS MESSAGE */}
