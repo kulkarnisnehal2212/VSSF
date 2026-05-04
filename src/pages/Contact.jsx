@@ -1,9 +1,11 @@
 import { useState } from "react";
 import PageHero from "../components/PageHero";
 import heroImg from "../assets/aboutvsspune/aboutvss.png";
+import { sendContactEmail } from "../services/emailService";
 import {
   FaMapMarkerAlt, FaPhoneAlt, FaEnvelope,
   FaFacebookF, FaInstagram, FaYoutube, FaArrowRight,
+  FaCheckCircle, FaTimesCircle,
 } from "react-icons/fa";
 
 const contactInfo = [
@@ -33,8 +35,21 @@ const contactInfo = [
 const inputClass = "w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all duration-200";
 
 export default function Contact() {
-  const [form, setForm] = useState({ firstName: "", lastName: "", address: "", phone: "", email: "", message: "" });
+  const [form, setForm] = useState({ first_name: "", last_name: "", address: "", phone: "", email: "", message: "" });
+  const [status, setStatus] = useState(""); // "", "sending", "success", "error"
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      await sendContactEmail(form);
+      setStatus("success");
+      setForm({ first_name: "", last_name: "", address: "", phone: "", email: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    }
+  };
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
@@ -138,17 +153,17 @@ export default function Contact() {
                   <p className="text-sm text-gray-400">We'll get back to you within 24–48 hours.</p>
                 </div>
 
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4" onSubmit={handleSubmit}>
 
                   {/* NAME ROW */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name</label>
-                      <input name="firstName" type="text" placeholder="Rahul" value={form.firstName} onChange={handleChange} className={inputClass} />
+                      <input name="first_name" type="text" placeholder="Rahul" value={form.first_name} onChange={handleChange} className={inputClass} />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name</label>
-                      <input name="lastName" type="text" placeholder="Sharma" value={form.lastName} onChange={handleChange} className={inputClass} />
+                      <input name="last_name" type="text" placeholder="Sharma" value={form.last_name} onChange={handleChange} className={inputClass} />
                     </div>
                   </div>
 
@@ -176,12 +191,27 @@ export default function Contact() {
                     <textarea name="message" rows={4} placeholder="How can we help you?" value={form.message} onChange={handleChange} className={inputClass + " resize-none"} />
                   </div>
 
+                  {/* STATUS MESSAGE */}
+                  {status === "success" && (
+                    <div className="flex items-center gap-3 text-sm text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
+                      <FaCheckCircle size={15} className="flex-shrink-0" />
+                      We appreciate your interest in supporting our mission and will get back to you shortly.
+                    </div>
+                  )}
+                  {status === "error" && (
+                    <div className="flex items-center gap-3 text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-xl px-4 py-3">
+                      <FaTimesCircle size={15} className="flex-shrink-0" />
+                      Your request could not be processed at this time.
+                    </div>
+                  )}
+
                   {/* SUBMIT */}
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[#1a2568] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(35,48,125,0.2)] hover:shadow-[0_12px_32px_rgba(35,48,125,0.3)] hover:-translate-y-0.5 transition-all duration-200"
+                    disabled={status === "sending"}
+                    className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[#1a2568] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(35,48,125,0.2)] hover:shadow-[0_12px_32px_rgba(35,48,125,0.3)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
-                    Send Message <FaArrowRight size={12} />
+                    {status === "sending" ? "Sending..." : <>Send Message <FaArrowRight size={12} /></>}
                   </button>
 
                 </form>
