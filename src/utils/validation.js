@@ -27,9 +27,6 @@ export const rules = {
 
   amount: (v) => {
     if (!v || v.trim() === "") return "Please select or enter a donation amount.";
-    if (/[a-zA-Z]/.test(v)) return "Amount must be a number, not letters.";
-    if (isNaN(v.replace(/[^0-9.]/g, "")) || Number(v.replace(/[^0-9.]/g, "")) <= 0)
-      return "Enter a valid amount greater than 0.";
     return null;
   },
 

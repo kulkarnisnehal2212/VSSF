@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaTimes, FaHeart, FaHandshake, FaArrowRight, FaLock, FaCheckCircle, FaExclamationCircle, FaTimesCircle } from "react-icons/fa";
-import { rules, validateForm, sanitizeName, sanitizePhone, sanitizeAmount } from "../../utils/validation";
+import { rules, validateForm, sanitizeName, sanitizeAmount } from "../../utils/validation";
+import { sendDonationEmail } from "../../services/emailService";
 
 const inputClass = "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all duration-200";
 const inputError = "w-full bg-gray-50 border border-rose-300 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all duration-200";
@@ -32,19 +33,33 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
   const [nonTouched, setNonTouched] = useState({});
   const [nonStatus, setNonStatus] = useState("");
 
-  useEffect(() => { setTab(defaultTab); }, [defaultTab]);
+  useEffect(() => {
+    if (isOpen) {
+      setTab(defaultTab);
+      // reset both forms cleanly every time modal opens
+      setFin(initFinancial);
+      setFinErrors({});
+      setFinTouched({});
+      setFinStatus("");
+      setNon(initNonFinancial);
+      setNonErrors({});
+      setNonTouched({});
+      setNonStatus("");
+      setSelectedAmount("");
+    }
+  }, [isOpen, defaultTab]);
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
   // ── FINANCIAL VALIDATION ──
-  const validateFin = (f, amt) => validateForm({
-    first_name:    { value: f.first_name,  rule: rules.name     },
-    last_name:     { value: f.last_name,   rule: rules.name     },
-    email:         { value: f.email,       rule: rules.email    },
-    phone:         { value: f.phone,       rule: rules.phone    },
-    amount:        { value: amt || f.custom_amount, rule: rules.amount },
+  const validateFin = (f) => validateForm({
+    first_name:    { value: f.first_name,    rule: rules.name     },
+    last_name:     { value: f.last_name,     rule: rules.name     },
+    email:         { value: f.email,         rule: rules.email    },
+    phone:         { value: f.phone,         rule: rules.phone    },
+    amount:        { value: f.custom_amount, rule: rules.amount   },
   });
 
   const handleFinChange = (e) => {
@@ -52,29 +67,51 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     let v = value;
     if (name === "first_name" || name === "last_name") v = sanitizeName(value);
     // phone: don't sanitize — let validation show the error
-    if (name === "custom_amount") { v = sanitizeAmount(value); setSelectedAmount(""); }
+    if (name === "custom_amount") {
+      setSelectedAmount(""); // deselect pill when user types manually
+    }
     const updated = { ...fin, [name]: v };
     setFin(updated);
     if (finTouched[name] || v !== "") {
       setFinTouched((p) => ({ ...p, [name]: true }));
-      setFinErrors(validateFin(updated, selectedAmount));
+      setFinErrors(validateFin(updated));
     }
   };
 
   const handleFinBlur = (e) => {
     setFinTouched((p) => ({ ...p, [e.target.name]: true }));
-    setFinErrors(validateFin(fin, selectedAmount));
+    setFinErrors(validateFin(fin));
   };
 
-  const handleFinSubmit = (e) => {
+  const handleFinSubmit = async (e) => {
     e.preventDefault();
     const allTouched = { first_name: true, last_name: true, email: true, phone: true, amount: true };
     setFinTouched(allTouched);
-    const errs = validateFin(fin, selectedAmount);
+    const errs = validateFin(fin);
     setFinErrors(errs);
     if (Object.keys(errs).length > 0) return;
-    setFinStatus("success");
-    // TODO: wire emailjs here
+    setFinStatus("sending");
+    try {
+      await sendDonationEmail({
+        donor_type:    "Financial Donor",
+        first_name:    fin.first_name,
+        last_name:     fin.last_name,
+        email:         fin.email,
+        phone:         fin.phone,
+        address:       fin.address || "—",
+        amount:        selectedAmount || "—",
+        custom_amount: fin.custom_amount || "—",
+        message:       fin.message || "—",
+      });
+      setFinStatus("success");
+      setFin(initFinancial);
+      setSelectedAmount("");
+      setFinTouched({});
+      setFinErrors({});
+    } catch (err) {
+      console.error(err);
+      setFinStatus("error");
+    }
   };
 
   // ── NON-FINANCIAL VALIDATION ──
@@ -106,15 +143,35 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     setNonErrors(validateNon(non));
   };
 
-  const handleNonSubmit = (e) => {
+  const handleNonSubmit = async (e) => {
     e.preventDefault();
     const allTouched = { first_name: true, last_name: true, email: true, phone: true, help_type: true, profession: true, details: true };
     setNonTouched(allTouched);
     const errs = validateNon(non);
     setNonErrors(errs);
     if (Object.keys(errs).length > 0) return;
-    setNonStatus("success");
-    // TODO: wire emailjs here
+    setNonStatus("sending");
+    try {
+      await sendDonationEmail({
+        donor_type:   "Non-Financial Donor",
+        first_name:   non.first_name,
+        last_name:    non.last_name,
+        email:        non.email,
+        phone:        non.phone,
+        address:      "—",
+        amount:       "—",
+        help_type:    non.help_type,
+        profession:   non.profession,
+        message:      non.details,
+      });
+      setNonStatus("success");
+      setNon(initNonFinancial);
+      setNonTouched({});
+      setNonErrors({});
+    } catch (err) {
+      console.error(err);
+      setNonStatus("error");
+    }
   };
 
   if (!isOpen) return null;
@@ -195,7 +252,12 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   {donationAmounts.map((amt) => (
                     <button key={amt} type="button"
-                      onClick={() => { setSelectedAmount(amt); setFin((p) => ({ ...p, custom_amount: "" })); setFinErrors((p) => ({ ...p, amount: null })); }}
+                      onClick={() => {
+                        setSelectedAmount(amt);
+                        setFin((p) => ({ ...p, custom_amount: amt }));
+                        setFinErrors((p) => ({ ...p, amount: null }));
+                        setFinTouched((p) => ({ ...p, amount: true }));
+                      }}
                       className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all duration-200 ${selectedAmount === amt ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-md" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-[var(--color-primary)]/30"}`}>
                       {amt}
                     </button>

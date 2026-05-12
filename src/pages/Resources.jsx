@@ -1,202 +1,352 @@
 import { useState } from "react";
 import PageHero from "../components/PageHero";
-import VideoModal from "../components/VideoModal";
-import heroImg from "../assets/aboutvsspune/aboutvss.png";
+import PdfModal from "../components/PdfModal";
+import { resourcesData } from "../data/resourcesData";
 import {
-  FaFilePdf, FaLink, FaYoutube, FaDownload,
-  FaExternalLinkAlt, FaPlay, FaNewspaper, FaGlobe,
+  FaNewspaper, FaFileInvoiceDollar, FaFolderOpen,
+  FaFilePdf, FaDownload, FaExpand, FaCalendarAlt, FaArrowRight,
 } from "react-icons/fa";
+import heroImg from "../assets/heroimges/Aapte-hostel.jpg";
 
-const documents = [
-  { icon: <FaFilePdf />, color: "bg-rose-50 text-rose-500 border-rose-100",    title: "VSSF Annual Report 2023–24",       desc: "Overview of activities, financials and impact.",          tag: "Annual Report" },
-  { icon: <FaFilePdf />, color: "bg-blue-50 text-blue-500 border-blue-100",    title: "501(c)(3) Tax Exemption Letter",    desc: "Official IRS exemption certificate for VSSF.",            tag: "Legal"         },
-  { icon: <FaFilePdf />, color: "bg-orange-50 text-orange-500 border-orange-100", title: "Donation Impact Brochure",       desc: "How your donation is used and its direct impact.",        tag: "Brochure"      },
-  { icon: <FaFilePdf />, color: "bg-green-50 text-green-500 border-green-100", title: "VSS Hostel Sponsorship Package",    desc: "Details on sponsoring rooms in the new girls hostel.",    tag: "Sponsorship"   },
-  { icon: <FaFilePdf />, color: "bg-purple-50 text-purple-500 border-purple-100", title: "Earn & Learn Program Overview", desc: "Full details of the student self-reliance initiative.",    tag: "Program"       },
-  { icon: <FaFilePdf />, color: "bg-amber-50 text-amber-500 border-amber-100", title: "Student Support Guidelines",        desc: "How donors can sponsor and track student progress.",      tag: "Guidelines"    },
-];
+/* ─────────────────────────────────────────────────────────────
+   DARPAN CARD  — live iframe preview + expand on click
+───────────────────────────────────────────────────────────── */
+const DarpanCard = ({ item, onExpand, featured = false }) => (
+  <div
+    className={`group bg-white rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col
+      ${featured
+        ? "border-[var(--color-secondary)]/60 shadow-xl ring-2 ring-[var(--color-secondary)]/20"
+        : "border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-[var(--color-primary)]/20"
+      }`}
+  >
+    {/* Live PDF preview */}
+    <div className="relative h-56 bg-gray-50 overflow-hidden">
+      {featured && (
+        <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-[var(--color-secondary)] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          Latest
+        </div>
+      )}
+      <iframe
+        src={`${item.file}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+        title={item.title}
+        className="w-full h-full border-0 pointer-events-none"
+        loading="lazy"
+      />
+      {/* Click overlay */}
+      <div
+        className="absolute inset-0 cursor-pointer bg-transparent group-hover:bg-[var(--color-primary)]/10 transition-all duration-300 flex items-center justify-center"
+        onClick={() => onExpand(item.file)}
+      >
+        <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 bg-white rounded-full px-5 py-2.5 flex items-center gap-2 shadow-xl">
+          <FaExpand size={12} className="text-[var(--color-primary)]" />
+          <span className="text-xs font-bold text-[var(--color-primary)]">Full Preview</span>
+        </div>
+      </div>
+    </div>
 
-const links = [
-  { icon: <FaGlobe />,   color: "bg-blue-50 text-blue-500",   title: "VSS Pune Official Website",    url: "https://samiti.org/en/",                          desc: "Main website of Vidyarthi Sahayyak Samiti, Pune." },
-  { icon: <FaYoutube />, color: "bg-rose-50 text-rose-500",   title: "VSS Documentary Film",         url: null,       isFilm: true,  desc: "Watch the official VSS film on YouTube."          },
-  { icon: <FaGlobe />,   color: "bg-orange-50 text-orange-500", title: "VSSF Foundation Website",   url: "#",                                               desc: "Official website of Vidyarthi Sahayyak Samiti Foundation." },
-  { icon: <FaNewspaper />, color: "bg-green-50 text-green-500", title: "VSS in the News",           url: "#",                                               desc: "Media coverage and press mentions of VSS."        },
-];
+    {/* Card body */}
+    <div className="p-4 flex flex-col flex-1">
+      <div className="flex items-start gap-3 mb-4 flex-1">
+        <div className="w-9 h-9 flex-shrink-0 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-sm mt-0.5">
+          <FaNewspaper size={14} className="text-white" />
+        </div>
+        <div className="min-w-0">
+          <p className="text-[10px] text-gray-400 uppercase tracking-widest font-medium mb-0.5">Darpan</p>
+          <h4 className="text-sm font-bold text-gray-800 leading-snug">{item.title}</h4>
+        </div>
+      </div>
 
-const videos = [
-  { id: "XWYJYe7x3UQ", title: "Student Experience",   tag: "Testimonial"  },
-  { id: "2K5ghfrbu6E", title: "Student Journey",       tag: "Story"        },
-  { id: "OerOXtVU-qc", title: "Student Growth",        tag: "Testimonial"  },
-  { id: "KgqsRRdiMg0", title: "Learning Experience",   tag: "Campus Life"  },
-  { id: "mpKyzWNeeZY", title: "Campus Life",            tag: "Campus Life"  },
-  { id: "KetG-Pqafhw", title: "VSS Documentary Film",  tag: "Documentary"  },
-];
+      {/* Actions */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => onExpand(item.file)}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[var(--color-primary)] hover:bg-[#1a2568] text-white text-xs font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+        >
+          <FaExpand size={10} /> Full Preview
+        </button>
+        <a
+          href={item.file}
+          download
+          className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 hover:border-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/8 text-gray-400 hover:text-[var(--color-secondary)] transition-all duration-200"
+          title="Download"
+        >
+          <FaDownload size={12} />
+        </a>
+      </div>
+    </div>
+  </div>
+);
 
-export default function Resources() {
-  const [filmOpen, setFilmOpen] = useState(false);
+/* ─────────────────────────────────────────────────────────────
+   PDF PREVIEW CARD  — live iframe preview + actions
+───────────────────────────────────────────────────────────── */
+const PdfPreviewCard = ({ item, onExpand }) => (
+  <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-[var(--color-primary)]/20 transition-all duration-300 flex flex-col">
+
+    {/* Live PDF preview */}
+    <div className="relative h-56 bg-gray-50 overflow-hidden">
+      <iframe
+        src={`${item.file}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+        title={item.title}
+        className="w-full h-full border-0 pointer-events-none"
+        loading="lazy"
+      />
+      {/* Click overlay — captures click to open modal */}
+      <div
+        className="absolute inset-0 cursor-pointer bg-transparent group-hover:bg-[var(--color-primary)]/10 transition-all duration-300 flex items-center justify-center"
+        onClick={() => onExpand(item.file)}
+      >
+        <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 bg-white rounded-full px-5 py-2.5 flex items-center gap-2 shadow-xl">
+          <FaExpand size={12} className="text-[var(--color-primary)]" />
+          <span className="text-xs font-bold text-[var(--color-primary)]">Full Preview</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Card body */}
+    <div className="p-4 flex flex-col flex-1">
+      <div className="flex items-start gap-3 mb-4 flex-1">
+        <div className="w-9 h-9 flex-shrink-0 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-sm mt-0.5">
+          <FaFilePdf size={14} className="text-white" />
+        </div>
+        <div className="min-w-0">
+          <h4 className="text-sm font-bold text-gray-800 leading-snug">{item.title}</h4>
+          {item.description && (
+            <p className="text-xs text-gray-400 mt-1 leading-relaxed">{item.description}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => onExpand(item.file)}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[var(--color-primary)] hover:bg-[#1a2568] text-white text-xs font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+        >
+          <FaExpand size={10} /> Full Preview
+        </button>
+        <a
+          href={item.file}
+          download
+          className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 hover:border-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/8 text-gray-400 hover:text-[var(--color-secondary)] transition-all duration-200"
+          title="Download"
+        >
+          <FaDownload size={12} />
+        </a>
+      </div>
+    </div>
+  </div>
+);
+
+/* ─────────────────────────────────────────────────────────────
+   MAIN PAGE
+───────────────────────────────────────────────────────────── */
+const Resources = () => {
+  const [activeTab, setActiveTab] = useState("darpan");
+  const [selectedPdf, setSelectedPdf] = useState(null);
+
+  const tabs = [
+    {
+      id: "darpan",
+      label: "Darpan",
+      icon: <FaNewspaper size={13} />,
+      count: resourcesData.darpan.reduce((acc, y) => acc + y.items.length, 0),
+    },
+    {
+      id: "financial",
+      label: "Financial Reports",
+      icon: <FaFileInvoiceDollar size={13} />,
+      count: resourcesData.financial.length,
+    },
+    {
+      id: "others",
+      label: "Other Documents",
+      icon: <FaFolderOpen size={13} />,
+      count: resourcesData.others.length,
+    },
+  ];
+
   return (
     <>
-      <VideoModal videoId="KetG-Pqafhw" isOpen={filmOpen} onClose={() => setFilmOpen(false)} />
       <PageHero
         label="Resources"
-        title="Everything You"
-        highlight="Need to Know"
-        subtitle="Documents, links, videos and media to help you learn more about VSS and VSSF."
+        title="Resources &"
+        highlight="Publications"
+        subtitle="Explore our newsletters, financial reports, and official documents reflecting our journey and transparency."
         image={heroImg}
-        objectPosition="80% 15%"
+        objectPosition="center 35%"
       />
 
-      <div className="w-full bg-white">
-        <div className="max-w-[1100px] mx-auto px-6 py-16 space-y-20">
+      <div className="bg-[#f8f9fc] min-h-screen">
+        <div className="max-w-[1100px] mx-auto px-6 py-14">
 
-          {/* DOCUMENTS */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-10">
-              <div>
-                <p className="secondary-text text-xs uppercase tracking-[0.2em] mb-2 font-medium">Downloads</p>
-                <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)]">Documents & Reports</h2>
-              </div>
-              <p className="text-xs text-gray-400">All documents are free to download</p>
+          {/* ── SECTION HEADER ── */}
+          <div className="mb-10">
+            <div className="inline-flex items-center gap-2 bg-[var(--color-secondary)]/10 border border-[var(--color-secondary)]/20 rounded-full px-4 py-1.5 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)]" />
+              <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">Document Library</p>
             </div>
-
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
-              {documents.map((doc, i) => (
-                <div key={i} className="group flex flex-col gap-4 p-5 rounded-2xl border border-gray-100 bg-white hover:shadow-lg hover:border-[var(--color-primary)]/15 hover:-translate-y-0.5 transition-all duration-300">
-                  <div className="flex items-start justify-between">
-                    <div className={`w-10 h-10 flex items-center justify-center rounded-xl border ${doc.color} text-lg flex-shrink-0`}>
-                      {doc.icon}
-                    </div>
-                    <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
-                      {doc.tag}
-                    </span>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="heading-font text-sm font-semibold text-gray-800 mb-1">{doc.title}</h3>
-                    <p className="text-xs text-gray-500 leading-relaxed">{doc.desc}</p>
-                  </div>
-                  <button className="self-start flex items-center gap-2 text-xs font-semibold text-[var(--color-primary)] hover:text-[var(--color-secondary)] transition-colors duration-200">
-                    <FaDownload size={11} /> Download PDF
-                  </button>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)]">
+                  Transparency &{" "}
+                  <span className="text-[var(--color-secondary)]">Accountability</span>
+                </h2>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="w-8 h-[2px] bg-[var(--color-secondary)]" />
+                  <span className="w-4 h-[2px] bg-gray-200" />
                 </div>
+              </div>
+              <p className="text-sm text-gray-500 max-w-[380px] leading-relaxed">
+                Our complete archive of newsletters, financial statements, and official certifications.
+              </p>
+            </div>
+          </div>
+
+          {/* ── PILL TABS ── */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-white rounded-2xl border border-gray-100 shadow-sm mb-10 w-fit">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? "bg-[var(--color-primary)] text-white shadow-md"
+                    : "text-gray-500 hover:text-gray-800 hover:bg-gray-50"
+                }`}
+              >
+                {tab.icon}
+                {tab.label}
+                <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
+                  activeTab === tab.id ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+                }`}>
+                  {tab.count}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* ── DARPAN TAB ── */}
+          {activeTab === "darpan" && (
+            <div className="animate-fadeIn space-y-12">
+
+              {/* Latest edition */}
+              <section>
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="w-1 h-5 rounded-full bg-[var(--color-secondary)]" />
+                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Latest Edition</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  <DarpanCard
+                    item={resourcesData.darpan[0].items[0]}
+                    onExpand={setSelectedPdf}
+                    featured
+                  />
+                </div>
+              </section>
+
+              {/* Archive by year */}
+              {resourcesData.darpan.map((yearBlock) => (
+                <section key={yearBlock.year}>
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary)] text-white rounded-xl text-sm font-bold shadow-sm">
+                      <FaCalendarAlt size={11} />
+                      {yearBlock.year}
+                    </div>
+                    <div className="flex-1 h-px bg-gray-200" />
+                    <span className="text-xs text-gray-400 font-medium">{yearBlock.items.length} issues</span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                    {yearBlock.items.map((item, i) => (
+                      <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
+                    ))}
+                  </div>
+                </section>
               ))}
             </div>
-          </div>
+          )}
 
-          {/* USEFUL LINKS */}
-          <div>
-            <div className="mb-10">
-              <p className="secondary-text text-xs uppercase tracking-[0.2em] mb-2 font-medium">External Links</p>
-              <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)]">Useful Links</h2>
+          {/* ── FINANCIAL TAB ── */}
+          {activeTab === "financial" && (
+            <div className="animate-fadeIn space-y-8">
+
+              {/* Info banner */}
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
+                <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[var(--color-primary)] flex items-center justify-center shadow-sm">
+                  <FaFileInvoiceDollar size={16} className="text-white" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">Financial Transparency</h4>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    VSS Foundation is a 501(c)(3) registered non-profit (EIN: 33-1919808). All annual reports are
+                    audited and publicly available for review.
+                  </p>
+                </div>
+              </div>
+
+              {/* PDF preview cards */}
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {resourcesData.financial.map((item, i) => (
+                  <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
+                ))}
+              </div>
             </div>
+          )}
 
-            <div className="grid sm:grid-cols-2 gap-4">
-              {links.map((link, i) =>
-                link.isFilm ? (
-                  <button
-                    key={i}
-                    onClick={() => setFilmOpen(true)}
-                    className="group flex items-center gap-4 p-5 rounded-2xl border border-gray-100 bg-white hover:shadow-lg hover:border-[var(--color-primary)]/15 hover:-translate-y-0.5 transition-all duration-300 text-left w-full"
-                  >
-                    <div className={`w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-xl ${link.color} text-lg border border-current/10`}>
-                      {link.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-800 group-hover:text-[var(--color-primary)] transition-colors duration-200 truncate">{link.title}</p>
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">{link.desc}</p>
-                    </div>
-                    <FaPlay size={11} className="text-gray-300 group-hover:text-[var(--color-secondary)] flex-shrink-0 transition-colors duration-200" />
-                  </button>
-                ) : (
-                  <a
-                    key={i}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-4 p-5 rounded-2xl border border-gray-100 bg-white hover:shadow-lg hover:border-[var(--color-primary)]/15 hover:-translate-y-0.5 transition-all duration-300"
-                  >
-                    <div className={`w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-xl ${link.color} text-lg border border-current/10`}>
-                      {link.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-800 group-hover:text-[var(--color-primary)] transition-colors duration-200 truncate">{link.title}</p>
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">{link.desc}</p>
-                    </div>
-                    <FaExternalLinkAlt size={11} className="text-gray-300 group-hover:text-[var(--color-secondary)] flex-shrink-0 transition-colors duration-200" />
-                  </a>
-                )
+          {/* ── OTHERS TAB ── */}
+          {activeTab === "others" && (
+            <div className="animate-fadeIn">
+              {resourcesData.others.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-24 text-center">
+                  <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
+                    <FaFolderOpen size={28} className="text-gray-300" />
+                  </div>
+                  <h4 className="text-base font-semibold text-gray-400 mb-1">No documents yet</h4>
+                  <p className="text-sm text-gray-300">Check back soon.</p>
+                </div>
+              ) : (
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {resourcesData.others.map((item, i) => (
+                    <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
+                  ))}
+                </div>
               )}
             </div>
-          </div>
+          )}
 
-          {/* VIDEO GALLERY */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-10">
-              <div>
-                <p className="secondary-text text-xs uppercase tracking-[0.2em] mb-2 font-medium">Media</p>
-                <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)]">Videos & Stories</h2>
-              </div>
-              <a
-                href="https://www.youtube.com/@vssf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--color-primary)] hover:text-[var(--color-secondary)] transition-colors duration-200"
-              >
-                <FaYoutube size={14} /> View YouTube Channel
-              </a>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-              {videos.map((video, i) => {
-                const isFilm = video.id === "KetG-Pqafhw";
-                const Wrapper = ({ children }) => isFilm ? (
-                  <button key={i} onClick={() => setFilmOpen(true)} className="group relative overflow-hidden rounded-2xl border border-gray-100 hover:shadow-xl hover:border-[var(--color-secondary)]/30 transition-all duration-300 text-left w-full">{children}</button>
-                ) : (
-                  <a key={i} href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-2xl border border-gray-100 hover:shadow-xl hover:border-[var(--color-secondary)]/30 transition-all duration-300">{children}</a>
-                );
-                return (
-                  <Wrapper key={i}>
-                    <div className="aspect-[9/16] overflow-hidden bg-gray-100">
-                      <img src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`} alt={video.title} className="w-full h-full object-cover scale-[1.1] group-hover:scale-125 transition-transform duration-700" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:bg-[var(--color-secondary)] group-hover:border-[var(--color-secondary)] transition-all duration-300">
-                        <FaPlay className="text-white text-xs ml-0.5" />
-                      </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--color-secondary)]">{video.tag}</span>
-                      <p className="text-white text-xs font-medium leading-tight line-clamp-2 mt-0.5">{video.title}</p>
-                    </div>
-                  </Wrapper>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* END CTA */}
-          <div className="relative overflow-hidden rounded-3xl bg-[var(--color-primary)] p-10 md:p-14 text-white shadow-2xl">
+          {/* ── BOTTOM CTA ── */}
+          <div className="relative overflow-hidden rounded-3xl bg-[var(--color-primary)] p-10 md:p-12 text-white shadow-2xl mt-16">
             <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-16 -left-16 w-80 h-80 bg-[var(--color-secondary)]/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
               <div className="max-w-[520px]">
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 mb-5">
+                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 mb-4">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)] animate-pulse" />
-                  <span className="text-white/70 text-[11px] uppercase tracking-[0.2em] font-medium">Need More Info?</span>
+                  <span className="text-white/70 text-[11px] uppercase tracking-[0.2em] font-medium">Need More?</span>
                 </div>
                 <h2 className="heading-font text-2xl md:text-3xl font-semibold leading-snug mb-3">
-                  Can't Find What <span className="text-[var(--color-secondary)]">You're Looking For?</span>
+                  Can't Find What You're{" "}
+                  <span className="text-[var(--color-secondary)]">Looking For?</span>
                 </h2>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  Reach out to us directly and we'll be happy to share any additional information, reports or media you need.
+                  Reach out for additional documents, reports, or any questions about our operations.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row md:flex-col gap-3 flex-shrink-0">
-                <a href="/contact" className="flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white px-7 py-3 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200">
-                  Contact Us
+                <a
+                  href="/contact"
+                  className="flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white px-7 py-3 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  Contact Us <FaArrowRight size={11} />
                 </a>
-                <a href="/donate" className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-7 py-3 rounded-xl text-sm font-semibold backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200">
-                  Support Us
+                <a
+                  href="https://samiti.org/en/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-7 py-3 rounded-xl text-sm font-semibold backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  Visit VSS Website
                 </a>
               </div>
             </div>
@@ -204,6 +354,15 @@ export default function Resources() {
 
         </div>
       </div>
+
+      {/* FULL SCREEN PDF MODAL */}
+      <PdfModal
+        isOpen={!!selectedPdf}
+        pdfUrl={selectedPdf}
+        onClose={() => setSelectedPdf(null)}
+      />
     </>
   );
-}
+};
+
+export default Resources;
