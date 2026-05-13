@@ -6,12 +6,12 @@ import About from "../pages/About";
 import AboutVSS from "../pages/AboutVSS";
 import FacilitiesActivities from "../pages/FacilitiesActivities";
 import EarnLearn from "../pages/EarnLearn";
-// import Resources from "../pages/Resources";
 import Projects from "../pages/Projects";
 import Contact from "../pages/Contact";
 import Donate from "../pages/Donate";
 import Resources from "../pages/Resources";
 import SupportUs from "../pages/Supportus";
+import DigitalInitiatives from "../pages/DigitalInitiatives";
 
 export default function AppRoutes() {
   return (
@@ -20,6 +20,7 @@ export default function AppRoutes() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/vssf/digital-initiatives" element={<DigitalInitiatives />} />
           <Route path="/vss-pune" element={<Navigate to="/vss-pune/about" replace />} />
           <Route path="/vss-pune/about" element={<AboutVSS />} />
           <Route path="/vss-pune/facilities" element={<FacilitiesActivities />} />
