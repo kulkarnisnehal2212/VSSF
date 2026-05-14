@@ -1,16 +1,19 @@
 import PageHero from "../components/PageHero";
 import heroImg from "../assets/heroimges/Lajpat-Bhavan.jpg";
-import webDev from "../assets/projects/websitedevlopment.png";
+import webDev from "../assets/aboutvsspune/website/digitalteam.png";
 import logoA2MM from "../assets/aboutvsspune/website/A2MM.png";
 import logoBmm from "../assets/aboutvsspune/website/bmm.png";
 import logoBmm1 from "../assets/aboutvsspune/website/bmm1.png";
+import logoBmm2 from "../assets/aboutvsspune/website/bmm_report.png";
 import logoKalasanman from "../assets/aboutvsspune/website/kalasanman.png";
 import logoParagon from "../assets/aboutvsspune/website/paragon.png";
+import samitius from "../assets/aboutvsspune/website/us_samiti.png";
+import swa from "../assets/aboutvsspune/website/swa.png";
+
 import {
   FaLaptopCode, FaUsers, FaHandshake, FaArrowRight,
   FaCheckCircle, FaGlobe, FaCode, FaPaintBrush,
-  FaExternalLinkAlt, FaCircle,
-  FaStar, FaQuoteLeft, FaLinkedin, FaEnvelope,
+  FaExternalLinkAlt, FaLinkedin, FaEnvelope, FaStar,
 } from "react-icons/fa";
 
 const ecosystem = [
@@ -52,21 +55,16 @@ const highlights = [
   "Builds confidence, portfolio, and industry readiness",
 ];
 
-const pastProjects = [
-  { name: "Paragon Arts",      url: "https://paragonarts.com",    logo: logoParagon,    domain: "paragonarts.com"    },
-  { name: "BMM Online",        url: "https://bmmonline.org",      logo: logoBmm,        domain: "bmmonline.org"      },
-  { name: "Kalasanman",        url: "https://kalasanman.org",     logo: logoKalasanman, domain: "kalasanman.org"     },
-  { name: "VSS Samiti (US)",   url: "https://us.samiti.org",      logo: null,           domain: "us.samiti.org"      },
-  { name: "SWA Pune",          url: "https://swapune.org",        logo: null,           domain: "swapune.org"        },
-  { name: "PMM Annual Report", url: null,                         logo: null,           domain: "PMM Annual Report"  },
-  { name: "A2MM",              url: "https://a2mm.org",           logo: logoA2MM,       domain: "a2mm.org"           },
-  { name: "BMM Seattle 2025",  url: null,                         logo: logoBmm1,       domain: "bmmseattle.org"     },
-];
-
-const ongoingProjects = [
-  { name: "Rung Munch",       url: "https://rungmunch.org",      logo: null, domain: "rungmunch.org"      },
-  { name: "Dad on the Trail", url: "https://dadionthetrail.com", logo: null, domain: "dadionthetrail.com" },
-  { name: "BMM Seattle 2026", url: "https://bmmseattle2026.org", logo: null, domain: "bmmseattle2026.org" },
+const allProjects = [
+  { name: "Paragon Arts",      url: "https://paragonart.com",       logo: logoParagon,    domain: "paragonarts.com"    },
+  { name: "BMM Online",        url: "https://bmmonline.org",         logo: logoBmm,        domain: "bmmonline.org"      },
+  { name: "Kalasanman",        url: "https://kalasanman.org",        logo: logoKalasanman, domain: "kalasanman.org"     },
+  { name: "VSS Samiti (US)",   url: "https://us.samiti.org",         logo: samitius,       domain: "us.samiti.org"      },
+  { name: "SWA Pune",          url: "https://www.swapune.org",       logo: swa,            domain: "swapune.org"        },
+  { name: "BMM Annual Report", url: "https://bmmonline.org",         logo: logoBmm2,       domain: "BMM Annual Report"  },
+  { name: "A2MM",              url: "https://www.a2mm.org",          logo: logoA2MM,       domain: "a2mm.org"           },
+  { name: "BMM Seattle 2025",  url: "https://bmmseattle2026.org",    logo: logoBmm1,       domain: "bmmseattle.org"     },
+  { name: "BMM Seattle 2026",  url: "https://bmmseattle2026.org",    logo: logoBmm1,       domain: "bmmseattle2026.org" },
 ];
 
 const howItWorks = [
@@ -148,83 +146,101 @@ export default function DigitalInitiatives() {
             </div>
           </div>
 
-          {/* ── ENHANCED ECOSYSTEM SECTION ── */}
-          <div className="rounded-3xl bg-[#f8f9fc] overflow-hidden">
-            {/* Header */}
-            <div className="text-center pt-12 pb-8 px-6">
+          {/* ── HOW WE WORK / SERVICES ── */}
+          <div>
+            <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 bg-[var(--color-secondary)]/10 border border-[var(--color-secondary)]/20 rounded-full px-4 py-1.5 mb-4">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)]" />
-                <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">Our Ecosystem</p>
+                <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">What We Do</p>
               </div>
               <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)] mb-3">
-                A Community Built on <span className="text-[var(--color-secondary)]">Collaboration</span>
+                Services We <span className="text-[var(--color-secondary)]">Provide</span>
               </h2>
-              <div className="flex justify-center items-center gap-2 mb-3">
+              <div className="flex justify-center items-center gap-2 mb-4">
                 <span className="w-8 h-[2px] bg-[var(--color-secondary)]" />
-                <span className="w-4 h-[2px] bg-gray-300" />
+                <span className="w-4 h-[2px] bg-gray-200" />
               </div>
-              <p className="text-sm text-gray-500 max-w-[520px] mx-auto leading-relaxed">
-                Three pillars that power every project — alumni expertise, student energy, and partner trust.
+              <p className="text-sm text-gray-500 max-w-[540px] mx-auto leading-relaxed">
+                From concept to launch — the VSS Digital Team delivers end-to-end digital solutions,
+                mentored by alumni and powered by student talent.
               </p>
             </div>
 
-            {/* Feature Cards */}
-            <div className="grid md:grid-cols-3 gap-5 px-6 pb-8">
-              {ecosystem.map((item, i) => (
-                <div
-                  key={i}
-                  className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[var(--color-primary)]/20 hover:shadow-xl transition-all duration-300 p-7 flex flex-col overflow-hidden"
-                >
-                  {/* Bottom border accent */}
-                  <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${item.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl`} />
-
-                  {/* Large gradient icon */}
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white mb-5 shadow-lg group-hover:scale-105 transition-transform duration-300`}>
-                    {item.icon}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {[
+                {
+                  icon: <FaCode size={22} />,
+                  color: "from-[var(--color-primary)] to-[#2b3c9a]",
+                  title: "Web Development",
+                  desc: "Custom websites and web apps built with modern frameworks — responsive, fast, and production-ready.",
+                  tags: ["React", "HTML/CSS", "Vite"],
+                },
+                {
+                  icon: <FaPaintBrush size={22} />,
+                  color: "from-orange-400 to-orange-600",
+                  title: "UI / UX Design",
+                  desc: "Clean, user-friendly interfaces designed with purpose — from wireframes to polished final designs.",
+                  tags: ["Figma", "Tailwind", "Design Systems"],
+                },
+                {
+                  icon: <FaGlobe size={22} />,
+                  color: "from-emerald-400 to-emerald-600",
+                  title: "Digital Presence",
+                  desc: "Help organizations establish and strengthen their online presence — websites, branding, and content.",
+                  tags: ["SEO", "Branding", "Content"],
+                },
+                {
+                  icon: <FaLaptopCode size={22} />,
+                  color: "from-purple-400 to-purple-600",
+                  title: "Reports & Publications",
+                  desc: "Annual reports, digital brochures, and event microsites — designed and delivered professionally.",
+                  tags: ["Annual Reports", "Microsites", "Print-ready"],
+                },
+              ].map((svc, i) => (
+                <div key={i} className="group bg-white rounded-2xl border border-gray-100 hover:border-[var(--color-primary)]/20 hover:shadow-xl transition-all duration-300 p-6 flex flex-col relative overflow-hidden">
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${svc.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${svc.color} flex items-center justify-center text-white mb-4 shadow-md group-hover:scale-105 transition-transform duration-300`}>
+                    {svc.icon}
                   </div>
-
-                  <h3 className="font-bold text-[var(--color-primary)] text-base mb-2">{item.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed flex-1">{item.desc}</p>
-
-                  {/* Stat number */}
-                  <div className="mt-5 pt-4 border-t border-gray-100">
-                    <span className={`inline-block text-sm font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
-                      {item.stat}
-                    </span>
+                  <h3 className="font-bold text-[var(--color-primary)] mb-2">{svc.title}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed flex-1 mb-4">{svc.desc}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {svc.tags.map((t) => (
+                      <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 font-medium">{t}</span>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* How It Works Flow */}
-            <div className="px-6 pb-12">
-              <div className="bg-white rounded-2xl border border-gray-100 px-6 py-7 shadow-sm">
-                <p className="text-center text-[11px] uppercase tracking-[0.2em] font-semibold text-gray-400 mb-6">How It Works</p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-0">
-                  {howItWorks.map((step, i) => (
-                    <div key={i} className="flex flex-col sm:flex-row items-center gap-0 flex-1">
-                      {/* Step card */}
-                      <div className="flex flex-col items-center text-center px-4 py-2 flex-1">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[#2b3c9a] flex items-center justify-center text-white text-xs font-bold mb-3 shadow-md">
-                          {step.step}
-                        </div>
-                        <p className="font-bold text-[var(--color-primary)] text-sm mb-1">{step.label}</p>
-                        <p className="text-xs text-gray-400 leading-snug max-w-[140px]">{step.desc}</p>
+            {/* How it works strip */}
+            <div className="mt-8 bg-[#f8f9fc] rounded-2xl border border-gray-100 px-6 py-6">
+              <p className="text-center text-[11px] uppercase tracking-[0.2em] font-semibold text-gray-400 mb-5">How It Works</p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0">
+                {[
+                  { step: "01", label: "You reach out", desc: "Email us at digitalteam@samiti.org" },
+                  { step: "02", label: "We scope it", desc: "Understand your needs & timeline" },
+                  { step: "03", label: "Students build", desc: "Mentored delivery, real quality" },
+                  { step: "04", label: "You launch", desc: "Handover, support & maintenance" },
+                ].map((s, i, arr) => (
+                  <div key={i} className="flex flex-col sm:flex-row items-center flex-1">
+                    <div className="flex flex-col items-center text-center px-3 py-2 flex-1">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[#2b3c9a] flex items-center justify-center text-white text-[11px] font-bold mb-2 shadow-md">
+                        {s.step}
                       </div>
-                      {/* Arrow connector */}
-                      {i < howItWorks.length - 1 && (
-                        <div className="flex items-center justify-center my-2 sm:my-0">
-                          <FaArrowRight size={14} className="text-[var(--color-secondary)] rotate-90 sm:rotate-0 flex-shrink-0" />
-                        </div>
-                      )}
+                      <p className="font-bold text-[var(--color-primary)] text-xs mb-0.5">{s.label}</p>
+                      <p className="text-[10px] text-gray-400 leading-snug max-w-[110px]">{s.desc}</p>
                     </div>
-                  ))}
-                </div>
+                    {i < arr.length - 1 && (
+                      <FaArrowRight size={12} className="text-[var(--color-secondary)] rotate-90 sm:rotate-0 flex-shrink-0 my-1 sm:my-0" />
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* ── OUR WORK — CREDIBILITY SECTION ── */}
+          {/* ── PROJECTS ── */}
           <div>
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 bg-[var(--color-secondary)]/10 border border-[var(--color-secondary)]/20 rounded-full px-4 py-1.5 mb-4">
@@ -232,113 +248,53 @@ export default function DigitalInitiatives() {
                 <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">Our Work</p>
               </div>
               <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)] mb-3">
-                Delivering Impact <span className="text-[var(--color-secondary)]">Across Domains</span>
+                Projects We've <span className="text-[var(--color-secondary)]">Delivered</span>
               </h2>
               <div className="flex justify-center items-center gap-2 mb-4">
                 <span className="w-8 h-[2px] bg-[var(--color-secondary)]" />
                 <span className="w-4 h-[2px] bg-gray-200" />
               </div>
-              <p className="text-sm text-gray-500 max-w-[600px] mx-auto leading-relaxed">
-                Over time, the VSS Digital Team has collaborated with organizations across domains, delivering
-                impactful digital solutions.
+              <p className="text-sm text-gray-500 max-w-[560px] mx-auto leading-relaxed">
+                From NGO websites to cultural event platforms — the VSS Digital Team has collaborated
+                with organizations across domains, delivering real digital solutions.
               </p>
             </div>
 
-            {/* PAST PROJECTS */}
-            <div className="mb-4">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex items-center gap-2 px-4 py-1.5 bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-sm">
-                  <FaCheckCircle size={11} /> Completed Projects
-                </div>
-                <div className="flex-1 h-px bg-gray-200" />
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {pastProjects.map((p, i) => (
-                  <a
-                    key={i}
-                    href={p.url || undefined}
-                    target={p.url ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    className={`group relative bg-white rounded-2xl border border-gray-100 hover:border-[var(--color-primary)]/25 hover:shadow-xl transition-all duration-300 p-5 flex flex-col items-center justify-center gap-3 text-center min-h-[120px] ${p.url ? "cursor-pointer" : "cursor-default"}`}
-                  >
-                    {p.logo ? (
-                      <img
-                        src={p.logo}
-                        alt={p.name}
-                        className="h-10 w-auto max-w-[100px] object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[#2b3c9a] flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
-                        <FaGlobe size={16} className="text-white" />
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-xs font-bold text-gray-800 leading-tight">{p.name}</p>
-                      <p className="text-[10px] text-gray-400 mt-0.5">{p.domain}</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {allProjects.map((p, i) => (
+                <a
+                  key={i}
+                  href={p.url || undefined}
+                  target={p.url ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className={`group relative bg-white rounded-2xl border border-gray-100 hover:border-[var(--color-primary)]/25 hover:shadow-xl transition-all duration-300 p-5 flex flex-col items-center justify-center gap-3 text-center min-h-[110px] ${p.url ? "cursor-pointer hover:-translate-y-1" : "cursor-default"}`}
+                >
+                  {p.logo ? (
+                    <img
+                      src={p.logo}
+                      alt={p.name}
+                      className="h-9 w-auto max-w-[90px] object-contain group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[#2b3c9a] flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
+                      <FaGlobe size={15} className="text-white" />
                     </div>
-                    {p.url && (
-                      <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <FaExternalLinkAlt size={9} className="text-[var(--color-secondary)]" />
-                      </div>
-                    )}
-                  </a>
-                ))}
-              </div>
+                  )}
+                  <div>
+                    <p className="text-xs font-bold text-gray-800 leading-tight">{p.name}</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">{p.domain}</p>
+                  </div>
+                  {p.url && (
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <FaExternalLinkAlt size={8} className="text-[var(--color-secondary)]" />
+                    </div>
+                  )}
+                </a>
+              ))}
             </div>
 
-            {/* ONGOING PROJECTS */}
-            <div className="mt-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex items-center gap-2 px-4 py-1.5 bg-orange-500 text-white rounded-xl text-xs font-bold shadow-sm">
-                  <FaCircle size={8} className="animate-pulse" /> Ongoing Projects
-                </div>
-                <div className="flex-1 h-px bg-gray-200" />
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {ongoingProjects.map((p, i) => (
-                  <a
-                    key={i}
-                    href={p.url || undefined}
-                    target={p.url ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    className="group relative bg-white rounded-2xl border border-orange-100 hover:border-orange-300 hover:shadow-xl transition-all duration-300 p-5 flex flex-col items-center justify-center gap-3 text-center min-h-[120px]"
-                  >
-                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-orange-50 border border-orange-200 rounded-full px-2 py-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-                      <span className="text-[9px] font-bold text-orange-500 uppercase tracking-wide">Live</span>
-                    </div>
-
-                    {p.logo ? (
-                      <img
-                        src={p.logo}
-                        alt={p.name}
-                        className="h-10 w-auto max-w-[100px] object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
-                        <FaGlobe size={16} className="text-white" />
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-xs font-bold text-gray-800 leading-tight">{p.name}</p>
-                      <p className="text-[10px] text-gray-400 mt-0.5">{p.domain}</p>
-                    </div>
-                    {p.url && (
-                      <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <FaExternalLinkAlt size={9} className="text-orange-400" />
-                      </div>
-                    )}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Caption */}
-            <p className="text-center text-sm text-gray-400 italic mt-8 max-w-[600px] mx-auto leading-relaxed">
-              Each project represents not just a delivery, but a learning journey for students — transforming
-              theoretical knowledge into real-world impact.
+            <p className="text-center text-sm text-gray-400 italic mt-8 max-w-[560px] mx-auto leading-relaxed">
+              Each project is a learning journey — transforming student knowledge into real-world impact.
             </p>
           </div>
 
@@ -416,9 +372,8 @@ export default function DigitalInitiatives() {
             </div>
           </div>
 
-          {/* ── PERSONAL SPOTLIGHT ── */}
+          {/* ── PERSONAL SPOTLIGHT — commented out, uncomment when ready
           <div>
-            {/* Header */}
             <div className="flex items-center gap-3 mb-6">
               <div className="inline-flex items-center gap-2 bg-[var(--color-secondary)]/10 border border-[var(--color-secondary)]/20 rounded-full px-4 py-1.5">
                 <FaStar size={10} className="text-[var(--color-secondary)]" />
@@ -426,134 +381,51 @@ export default function DigitalInitiatives() {
               </div>
               <div className="flex-1 h-px bg-gray-100" />
             </div>
-
-            {/* Compact horizontal card */}
-            <div className="relative overflow-hidden rounded-2xl border border-gray-100 shadow-lg bg-white flex flex-col md:flex-row">
-              <div className="absolute -top-16 -right-16 w-56 h-56 bg-[var(--color-secondary)]/5 rounded-full blur-3xl pointer-events-none" />
-
-              {/* LEFT — identity strip */}
-              <div className="md:w-64 flex-shrink-0 bg-gradient-to-b from-[var(--color-primary)] to-[#1a2560] p-7 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-[var(--color-secondary)]/10 rounded-full blur-2xl pointer-events-none" />
-
-                {/* Photo — swap null with your photo import */}
-                <div className="relative mb-4 z-10">
-                  <div className="w-24 h-24 rounded-full overflow-hidden border-[3px] border-white/25 shadow-xl bg-white/10 flex items-center justify-center">
-                    {/* TODO: import yourPhoto from "../assets/your-photo.jpg" and replace null */}
-                    {null ? (
-                      <img src={null} alt="Your Name" className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-3xl font-bold text-white/60 heading-font">YN</span>
-                    )}
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[var(--color-secondary)] border-2 border-white flex items-center justify-center shadow-md">
-                    <FaCode size={10} className="text-white" />
-                  </div>
-                </div>
-
-                <h3 className="heading-font text-base font-bold text-white mb-0.5 z-10">Your Name</h3>
-                <p className="text-[var(--color-secondary)] text-[10px] font-semibold uppercase tracking-widest mb-3 z-10">
-                  Web Designer & Developer
-                </p>
-
-                {/* Socials */}
-                <div className="flex items-center gap-2 mb-4 z-10">
-                  {[
-                    { href: "#", icon: <FaLinkedin size={12} />, label: "LinkedIn" },
-                    { href: "#", icon: <FaGlobe size={11} />, label: "Portfolio" },
-                    { href: "mailto:#", icon: <FaEnvelope size={11} />, label: "Email" },
-                  ].map((s) => (
-                    <a key={s.label} href={s.href} aria-label={s.label}
-                      className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/70 hover:text-white transition-all duration-200">
-                      {s.icon}
-                    </a>
-                  ))}
-                </div>
-
-                {/* Mini stats */}
-                <div className="flex items-center gap-3 z-10 border-t border-white/10 pt-4 w-full justify-center">
-                  {[["10+", "Projects"], ["1", "Website"], ["2yr", "Experience"]].map(([val, lbl]) => (
-                    <div key={lbl} className="text-center">
-                      <p className="text-white font-bold text-xs">{val}</p>
-                      <p className="text-white/40 text-[9px] leading-tight">{lbl}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* RIGHT — story */}
-              <div className="flex-1 p-7 md:p-8 flex flex-col justify-center relative z-10">
-                <div className="inline-flex items-center gap-2 bg-[var(--color-secondary)]/10 border border-[var(--color-secondary)]/20 rounded-full px-3 py-1 mb-4 w-fit">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)]" />
-                  <p className="secondary-text text-[10px] uppercase tracking-[0.2em] font-medium">Building with Purpose</p>
-                </div>
-
-                <h2 className="heading-font text-lg md:text-xl font-semibold text-[var(--color-primary)] mb-2 leading-snug">
-                  More Than a Project — <span className="text-[var(--color-secondary)]">A Journey</span>
-                </h2>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="w-6 h-[2px] bg-[var(--color-secondary)]" />
-                  <span className="w-3 h-[2px] bg-gray-200" />
-                </div>
-
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">
-                  The VSS Digital Initiative is not just about delivering projects — it is about creating
-                  opportunities, building confidence, and shaping journeys. Students take ownership of real
-                  problems and contribute meaningfully to the organization's growth.
-                </p>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">
-                  One such contribution has been the development of the VSS website — designed and built to
-                  strengthen its digital presence and outreach. Being part of this journey has been an
-                  opportunity to learn, take responsibility, and contribute to something larger than oneself.
-                </p>
-                <p className="text-sm font-semibold text-[var(--color-primary)] mb-5">
-                  Learning by doing. Growing by contributing. Creating impact through technology.
-                </p>
-
-                {/* Stack + CTA row */}
-                <div className="flex flex-wrap items-center gap-2">
-                  {["React", "Tailwind CSS", "Vite", "Figma", "UI/UX"].map((tag) => (
-                    <span key={tag} className="px-2.5 py-1 rounded-full bg-[var(--color-primary)]/8 border border-[var(--color-primary)]/10 text-[11px] font-semibold text-[var(--color-primary)]">
-                      {tag}
-                    </span>
-                  ))}
-                  <a href="/contact"
-                    className="ml-auto inline-flex items-center gap-1.5 bg-[var(--color-primary)] hover:bg-[#1a2560] text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                    Connect <FaArrowRight size={10} />
-                  </a>
-                </div>
-              </div>
-            </div>
+            ... personal card content ...
           </div>
+          ── */}
 
-          {/* ── BOTTOM CTA ── */}
+          {/* ── BOTTOM CTA — START A PROJECT ── */}
           <div className="relative overflow-hidden rounded-3xl bg-[var(--color-primary)] p-10 md:p-14 text-white shadow-2xl">
             <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-16 -left-16 w-80 h-80 bg-[var(--color-secondary)]/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[1px] h-full bg-gradient-to-b from-transparent via-white/10 to-transparent" />
             <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-              <div className="max-w-[520px]">
+              <div className="max-w-[540px]">
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 mb-5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)] animate-pulse" />
-                  <span className="text-white/70 text-[11px] uppercase tracking-[0.2em] font-medium">Join the Movement</span>
+                  <span className="text-white/70 text-[11px] uppercase tracking-[0.2em] font-medium">Start a Project</span>
                 </div>
                 <h2 className="heading-font text-2xl md:text-3xl font-semibold leading-snug mb-3">
-                  Let's Build the <span className="text-[var(--color-secondary)]">Future Together</span>
+                  Have a Project in Mind?{" "}
+                  <span className="text-[var(--color-secondary)]">Let's Build It.</span>
                 </h2>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Support the initiative, collaborate on a project, or help mentor the next generation of digital professionals.
+                <p className="text-white/60 text-sm leading-relaxed mb-4">
+                  Whether you're an NGO, a cultural organization, or a business — the VSS Digital Team
+                  is ready to collaborate. Reach out and let's create something meaningful together.
                 </p>
+                <div className="flex items-center gap-3 bg-white/10 border border-white/15 rounded-xl px-4 py-3 w-fit">
+                  <FaEnvelope size={14} className="text-[var(--color-secondary)] flex-shrink-0" />
+                  <a
+                    href="mailto:digitalteam@samiti.org"
+                    className="text-white font-semibold text-sm hover:text-[var(--color-secondary)] transition-colors duration-200"
+                  >
+                    digitalteam@samiti.org
+                  </a>
+                </div>
               </div>
               <div className="flex flex-col sm:flex-row md:flex-col gap-3 flex-shrink-0">
                 <a
-                  href="/contact"
+                  href="mailto:digitalteam@samiti.org"
                   className="flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white px-7 py-3 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  Get in Touch <FaArrowRight size={11} />
+                  Email the Team <FaArrowRight size={11} />
                 </a>
                 <a
-                  href="/support"
+                  href="/contact"
                   className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-7 py-3 rounded-xl text-sm font-semibold backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  Support Us
+                  Contact VSS
                 </a>
               </div>
             </div>

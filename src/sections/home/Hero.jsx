@@ -7,9 +7,10 @@ import h3 from "../../assets/heroimges/PD-Karkhanis-slider.jpg";
 import h4 from "../../assets/heroimges/Sumitra-photo.jpg";
 import h5 from "../../assets/heroimges/latikagaitonde-hostel.jpg";
 import h6 from "../../assets/heroimges/madhubhau_chaudhari-hostel.jpg";
+import h7 from "../../assets/heroimges/VSS_KJSB.png";
 
 export default function Hero() {
-  const images = [h1, h2, h3, h4, h5, h6];
+  const images = [h1, h2, h3, h4, h5, h6, h7];
   const [current, setCurrent] = useState(0);
 
   // 🔁 Smooth background change

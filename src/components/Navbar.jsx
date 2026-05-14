@@ -47,14 +47,14 @@ export default function Navbar() {
       <div className="bg-[#151d4e] text-white text-xs py-2 px-4 sm:px-6 border-b border-white/10">
         <div className="max-w-[1200px] mx-auto flex justify-between items-center">
           <div className="flex items-center gap-5">
-            <a href="mailto:contact@samiti.org" className="flex items-center gap-1.5 text-white/70 hover:text-[var(--color-secondary)] transition-colors duration-200">
+            <a href="mailto:president.vssf@samiti.org" className="flex items-center gap-1.5 text-white/70 hover:text-[var(--color-secondary)] transition-colors duration-200">
               <FaEnvelope size={11} />
-              <span>contact@samiti.org</span>
+              <span>president.vssf@samiti.org</span>
             </a>
             <span className="hidden sm:block w-px h-3 bg-white/20" />
-            <a href="tel:+912024475044" className="hidden sm:flex items-center gap-1.5 text-white/70 hover:text-[var(--color-secondary)] transition-colors duration-200">
+            <a href="tel:2482026613" className="hidden sm:flex items-center gap-1.5 text-white/70 hover:text-[var(--color-secondary)] transition-colors duration-200">
               <FaPhoneAlt size={10} />
-              <span>+91 20 2447 5044</span>
+              <span>(248) 202-6613</span>
             </a>
           </div>
           <div className="hidden md:flex items-center gap-2">

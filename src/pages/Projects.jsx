@@ -4,7 +4,7 @@ import { FaArrowRight, FaHeart, FaHome, FaUtensils, FaLaptopCode, FaCheckCircle,
 import heroImg      from "../assets/aboutvsspune/aboutvss.png";
 import project1     from "../assets/aboutvsspune/vss-meeting.png";
 import meals        from "../assets/services/food.png";
-import hostel       from "../assets/heroimges/madhubhau_chaudhari-hostel.jpg";
+import hostel       from "../assets/heroimges/VSS_KJSB.png";
 import girlsHostel  from "../assets/heroimges/latikagaitonde-hostel.jpg";
 import webDev       from "../assets/projects/websitedevlopment.png";
 
