@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const SITE_URL = "https://vssf.samiti.org";
+const SITE_URL = "https://vssf.vercel.app";
 
 /**
  * SEO component — updates document title and meta tags per page.
