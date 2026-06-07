@@ -1,3 +1,4 @@
+import SEO from "../components/SEO";
 import PageHero from "../components/PageHero";
 import { FaArrowRight, FaHeart, FaHome, FaUtensils, FaLaptopCode, FaCheckCircle, FaDollarSign } from "react-icons/fa";
 
@@ -79,6 +80,10 @@ const projects = [
 export default function Projects() {
   return (
     <>
+      <SEO
+        title="Our Projects"
+        description="Support VSS projects — sponsor a student's education, fund a week of meals, or name a hostel room. Every contribution transforms a student's life."
+      />
       <PageHero
         label="Our Projects"
         title="Initiatives That"

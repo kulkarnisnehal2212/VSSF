@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SEO from "../components/SEO";
 import PageHero from "../components/PageHero";
 import VideoModal from "../components/VideoModal";
 import aboutvssmeeting from "../assets/aboutvsspune/vss-meeting.png";
@@ -14,6 +15,10 @@ export default function AboutVSS() {
   return (
     <>
       <VideoModal videoId="KetG-Pqafhw" isOpen={filmOpen} onClose={() => setFilmOpen(false)} />
+      <SEO
+        title="About VSS Pune"
+        description="Vidyarthi Sahayyak Samiti, Pune — a 60+ year legacy of empowering rural students through 9 hostels, meals, mentorship and holistic development programs."
+      />
       <PageHero
         label="About VSS Pune"
         title="Vidyarthi Sahayyak"

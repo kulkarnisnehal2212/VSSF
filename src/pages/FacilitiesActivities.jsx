@@ -1,3 +1,4 @@
+import SEO from "../components/SEO";
 import PageHero from "../components/PageHero";
 import aboutvssintro from "../assets/aboutvsspune/aboutvss.png";
 import { FaHome, FaUtensils, FaBook, FaHeartbeat, FaDumbbell, FaLaptop, FaCheckCircle, FaImages } from "react-icons/fa";

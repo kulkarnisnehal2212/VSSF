@@ -1,3 +1,4 @@
+import SEO from "../components/SEO";
 import { useState } from "react";
 import PageHero from "../components/PageHero";
 import aboutvssintro from "../assets/aboutvsspune/aboutvss.png";
@@ -57,6 +58,10 @@ export default function EarnLearn() {
 
   return (
     <>
+      <SEO
+        title="Earn & Learn"
+        description="The VSS Earn & Learn program enables students to work 2–4 hours a week, earn stipends, and build real-world skills while continuing their education."
+      />
       <PageHero
         label="VSS Pune"
         title="Earn &"

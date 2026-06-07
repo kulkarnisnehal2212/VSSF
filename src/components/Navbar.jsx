@@ -72,8 +72,8 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <img src="/images/logo.png" alt="logo" className="h-14 sm:h-16 w-auto object-contain" />
             <div className="leading-tight">
-              <h1 className="heading-font text-sm sm:text-base font-semibold primary-text">Vidyarthi Sahayyak</h1>
-              <p className="text-[10px] sm:text-xs text-[var(--color-text-secondary)]">Samiti Foundation</p>
+              <h1 className="heading-font text-sm sm:text-base font-semibold primary-text">Vidyarthi Sahayyak Samiti</h1>
+              <p className="text-[10px] sm:text-xs text-[var(--color-text-secondary)]">Foundation, USA</p>
             </div>
           </div>
 

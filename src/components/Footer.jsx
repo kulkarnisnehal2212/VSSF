@@ -85,22 +85,22 @@ export default function Footer() {
                 <span className="mt-0.5 w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-lg bg-white/10">
                   <FaMapMarkerAlt size={11} className="text-[var(--color-secondary)]" />
                 </span>
-                <span className="text-white/55 leading-relaxed">Pune, Maharashtra, India</span>
+                <span className="text-white/55 leading-relaxed">C/o 47061 Hidden River N<br />Canton, Michigan 48188, USA</span>
               </li>
               <li className="flex items-center gap-3">
                 <span className="w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-lg bg-white/10">
                   <FaPhone size={11} className="text-[var(--color-secondary)]" />
                 </span>
-                <a href="tel:+910000000000" className="text-white/55 hover:text-[var(--color-secondary)] transition-colors duration-200">
-                  +91 00000 00000
+                <a href="tel:2482026613" className="text-white/55 hover:text-[var(--color-secondary)] transition-colors duration-200">
+                  (248) 202-6613
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <span className="w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-lg bg-white/10">
                   <FaEnvelope size={11} className="text-[var(--color-secondary)]" />
                 </span>
-                <a href="mailto:info@vss.org" className="text-white/55 hover:text-[var(--color-secondary)] transition-colors duration-200">
-                  info@vss.org
+                <a href="mailto:president.vssf@samiti.org" className="text-white/55 hover:text-[var(--color-secondary)] transition-colors duration-200">
+                  president.vssf@samiti.org
                 </a>
               </li>
             </ul>
