@@ -6,7 +6,7 @@ const SITE_URL = "https://vssf.vercel.app";
  * SEO component — updates document title and meta tags per page.
  * Usage: <SEO title="Page Title" description="..." />
  */
-export default function SEO({ title, description, image = "/images/logo.png", url }) {
+export default function SEO({ title, description, image = "/images/og-image.jpg", url }) {
   const fullTitle = title
     ? `${title} | VSS Foundation`
     : "Vidyarthi Sahayyak Samiti Foundation | Empowering Students";
