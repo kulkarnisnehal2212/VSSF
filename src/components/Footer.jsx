@@ -10,8 +10,19 @@ import {
 
 export default function Footer() {
   const links = {
-    "Quick Links": ["Home", "About Us", "Programs", "Projects", "Contact"],
-    "Get Involved": ["Donate", "Volunteer", "Partner With Us", "Sponsor a Student"],
+    "Quick Links": [
+      { label: "Home",        href: "/"           },
+      { label: "About VSSF",  href: "/about"      },
+      { label: "Programs",    href: "/vss-pune/facilities" },
+      { label: "Projects",    href: "/projects"   },
+      { label: "Contact",     href: "/contact"    },
+    ],
+    "Get Involved": [
+      { label: "Donate",             href: "/support"  },
+      { label: "Volunteer",          href: "/contact"  },
+      { label: "Partner With Us",    href: "/contact"  },
+      { label: "Sponsor a Student",  href: "/support"  },
+    ],
   };
 
   return (
@@ -61,13 +72,13 @@ export default function Footer() {
               </h4>
               <ul className="space-y-3">
                 {items.map((item) => (
-                  <li key={item}>
+                  <li key={item.label}>
                     <a
-                      href="#"
+                      href={item.href}
                       className="text-sm text-white/55 hover:text-[var(--color-secondary)] transition-colors duration-200 flex items-center gap-1.5 group"
                     >
                       <FaArrowRight size={9} className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[var(--color-secondary)]" />
-                      {item}
+                      {item.label}
                     </a>
                   </li>
                 ))}

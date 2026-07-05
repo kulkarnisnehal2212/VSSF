@@ -5,18 +5,14 @@ import { FaEnvelope, FaPhoneAlt, FaBars, FaTimes, FaChevronDown } from "react-ic
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState(null); // "vssf" | "vsspune" | null
-  const vssfRef = useRef();
   const vsspuneRef = useRef();
   const navRef = useRef();
   const location = useLocation();
 
-  // close dropdowns on outside click
+  // close dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
-      if (
-        vssfRef.current && !vssfRef.current.contains(e.target) &&
-        vsspuneRef.current && !vsspuneRef.current.contains(e.target)
-      ) {
+      if (vsspuneRef.current && !vsspuneRef.current.contains(e.target)) {
         setDropdown(null);
       }
     };
@@ -72,8 +68,8 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <img src="/images/logo.png" alt="logo" className="h-14 sm:h-16 w-auto object-contain" />
             <div className="leading-tight">
-              <h1 className="heading-font text-sm sm:text-base font-semibold primary-text">Vidyarthi Sahayyak Samiti</h1>
-              <p className="text-[10px] sm:text-xs text-[var(--color-text-secondary)]">Foundation, USA</p>
+              <h1 className="heading-font text-xs sm:text-sm font-semibold primary-text whitespace-nowrap">Vidyarthi Sahayyak Samiti Foundation</h1>
+              <p className="text-[10px] text-[var(--color-text-secondary)]">USA · 501(c)(3)</p>
             </div>
           </div>
 
@@ -83,42 +79,15 @@ export default function Navbar() {
 
               <Link to="/" className="hover:secondary-text transition">Home</Link>
 
-              {/* ── ABOUT VSSF DROPDOWN ── */}
-              <div className="relative" ref={vssfRef}>
-                <button
-                  onClick={() => toggle("vssf")}
-                  className="flex items-center gap-1 cursor-pointer hover:secondary-text transition"
-                >
-                  About VSSF
-                  <FaChevronDown size={12} className={`transition-transform duration-200 ${dropdown === "vssf" ? "rotate-180" : ""}`} />
-                </button>
+              <Link to="/about" className="hover:secondary-text transition">About VSSF</Link>
 
-                {dropdown === "vssf" && (
-                  <div className="absolute top-9 left-0 w-56 bg-white shadow-xl rounded-xl border border-gray-100 z-50 overflow-hidden">
-                    <Link
-                      to="/about"
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-150 group"
-                    >
-                      About VSSF
-                    </Link>
-                    <div className="h-px bg-gray-100" />
-                    <Link
-                      to="/vssf/digital-initiatives"
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-150 group"
-                    >
-                      Digital Initiatives
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              {/* ── ABOUT VSS PUNE DROPDOWN ── */}
+              {/* ── ABOUT VSS DROPDOWN ── */}
               <div className="relative" ref={vsspuneRef}>
                 <button
                   onClick={() => toggle("vsspune")}
                   className="flex items-center gap-1 cursor-pointer hover:secondary-text transition"
                 >
-                  About VSS Pune
+                  About VSS
                   <FaChevronDown size={12} className={`transition-transform duration-200 ${dropdown === "vsspune" ? "rotate-180" : ""}`} />
                 </button>
 
@@ -143,6 +112,13 @@ export default function Navbar() {
                       className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-150"
                     >
                       Earn & Learn
+                    </Link>
+                    <div className="h-px bg-gray-100" />
+                    <Link
+                      to="/vssf/digital-initiatives"
+                      className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-150"
+                    >
+                      Digital Initiatives
                     </Link>
                   </div>
                 )}
@@ -174,24 +150,16 @@ export default function Navbar() {
           <div className="md:hidden px-4 sm:px-6 pb-5 pt-2 space-y-1 text-sm body-font bg-white border-t border-gray-100 shadow-lg">
             <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 font-medium transition">Home</Link>
 
-            {/* About VSSF group */}
-            <div className="px-3 pt-2 pb-1">
-              <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">About VSSF</p>
-            </div>
-            <Link to="/about" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 pl-6 rounded-xl hover:bg-[var(--color-primary)] hover:text-white text-gray-600 transition">
-              About VSSF
-            </Link>
-            <Link to="/vssf/digital-initiatives" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 pl-6 rounded-xl hover:bg-[var(--color-primary)] hover:text-white text-gray-600 transition">
-              Digital Initiatives
-            </Link>
+            <Link to="/about" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 font-medium transition">About VSSF</Link>
 
-            {/* About VSS Pune group */}
+            {/* About VSS group */}
             <div className="px-3 pt-2 pb-1">
-              <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">About VSS Pune</p>
+              <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">About VSS</p>
             </div>
             <Link to="/vss-pune/about" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 pl-6 rounded-xl hover:bg-[var(--color-primary)] hover:text-white text-gray-600 transition">About VSS</Link>
             <Link to="/vss-pune/facilities" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 pl-6 rounded-xl hover:bg-[var(--color-primary)] hover:text-white text-gray-600 transition">Facilities & Activities</Link>
             <Link to="/vss-pune/earn-learn" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 pl-6 rounded-xl hover:bg-[var(--color-primary)] hover:text-white text-gray-600 transition">Earn & Learn</Link>
+            <Link to="/vssf/digital-initiatives" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 pl-6 rounded-xl hover:bg-[var(--color-primary)] hover:text-white text-gray-600 transition">Digital Initiatives</Link>
 
             <Link to="/resources" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 font-medium transition">Resources</Link>
             <Link to="/projects" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-gray-50 text-gray-700 font-medium transition">Projects</Link>

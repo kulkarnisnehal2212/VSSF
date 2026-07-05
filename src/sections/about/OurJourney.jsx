@@ -6,7 +6,7 @@ const journey = [
   { year: "1975", title: "First Hostel",        tag: "Infrastructure", desc: "The first dedicated student hostel was inaugurated, providing safe and affordable accommodation to students from rural Maharashtra." },
   { year: "1985", title: "Expansion",           tag: "Growth",        desc: "Hostels and facilities expanded significantly to accommodate a growing number of students from across India." },
   { year: "2005", title: "Holistic Development",tag: "Programs",      desc: "New programs introduced for personality development, leadership training and value-based education beyond academics." },
-  { year: "2015", title: "Global Outreach",     tag: "Global",        desc: "Vidyarthi Sahayyak Samiti Foundation (VSSF) formed to connect global supporters, donors and funding networks." },
+  { year: "2025", title: "Global Outreach",     tag: "Global",        desc: "Vidyarthi Sahayyak Samiti Foundation (VSSF) officially incorporated in Michigan, USA to connect North American supporters, donors and funding networks." },
   { year: "2020", title: "Digital Growth",      tag: "Technology",    desc: "Technology integrated into learning, management and communication systems to modernise student support." },
   { year: "2024", title: "New Girls Hostel",    tag: "Milestone",     desc: "Construction of a new girls hostel completed with support from global donors, expanding capacity and safety for female students." },
   { year: "Today",title: "8,000+ Lives Impacted",tag: "Impact",      desc: "Thousands of students empowered, building successful careers and giving back to their communities across India and beyond." },
@@ -42,7 +42,7 @@ export default function OurJourney() {
           <div>
             <p className="secondary-text text-xs uppercase tracking-[0.2em] mb-2 font-medium">Our Story</p>
             <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)]">
-              Our Journey Through Time
+              VSS Journey
             </h2>
             <p className="text-gray-500 text-sm mt-2">
               Over 60 years of transforming lives, one student at a time.

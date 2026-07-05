@@ -9,6 +9,18 @@ import permenanttrustee from "../assets/aboutvsspune/permenent_truestee_tukaramg
 import permenanttrustee1 from "../assets/aboutvsspune/perment_trustee_bhausahebjadhav.png";
 import managingtrustee from "../assets/aboutvsspune/managing_trustee_tusharrajankar.png";
 import treasurer from "../assets/aboutvsspune/trasurer_sanjayamrute.png";
+import chandrashekharPotnis from "../assets/aboutvsspune/Chandrashekhar-Potnis-Trustee.jpg";
+import drJyotiGogate from "../assets/aboutvsspune/Dr-Jyoti-Gogate-Trustee.png";
+import drMakrandPhadake from "../assets/aboutvsspune/Dr-Makrand-Phadake-Trustee.png";
+import manojGaikwad from "../assets/aboutvsspune/Manoj-Gaikwad-Trustee,karykarta.png";
+import chandrakantKulkarni from "../assets/aboutvsspune/Mr chandrakant-kulkarni-chief Executive officer.jpg";
+import durgeshPawar from "../assets/aboutvsspune/Mr. Durgesh Pawar chief Executive Officer.png";
+import prakashApte from "../assets/aboutvsspune/Mr. Praksh Apte - Trustee.jpeg";
+import preetiRao from "../assets/aboutvsspune/Mrs.-Preeti-Rao-Trustee.png";
+import nandakumarTalekar from "../assets/aboutvsspune/Nandakumar-Talekar-Trustee,Karykarta.jpg";
+import ratnakarMate from "../assets/aboutvsspune/Ratnakar-Mate-Trustee,karykarta.jpg";
+import sunandaMane from "../assets/aboutvsspune/sunanda-mane-Trustee,Advisior.jpg";
+import vinayaThombre from "../assets/aboutvsspune/Vinaya-Thombre-Trustee,Karykarta.png";
 
 export default function AboutVSS() {
   const [filmOpen, setFilmOpen] = useState(false);
@@ -16,14 +28,14 @@ export default function AboutVSS() {
     <>
       <VideoModal videoId="KetG-Pqafhw" isOpen={filmOpen} onClose={() => setFilmOpen(false)} />
       <SEO
-        title="About VSS Pune"
-        description="Vidyarthi Sahayyak Samiti, Pune — a 60+ year legacy of empowering rural students through 9 hostels, meals, mentorship and holistic development programs."
+        title="About VSS"
+        description="Vidyarthi Sahayyak Samiti — a 60+ year legacy of empowering students through hostels, meals, mentorship and holistic development programs."
       />
       <PageHero
-        label="About VSS Pune"
+        label="About VSS"
         title="Vidyarthi Sahayyak"
-        highlight="Samiti, Pune"
-        subtitle="A 60+ year legacy of empowering rural students through education, shelter and community."
+        highlight="Samiti"
+        subtitle="A 60+ year legacy of empowering students through education, shelter and community."
         image={aboutvssintro}
         objectPosition="80% 15%"
       />
@@ -172,14 +184,26 @@ export default function AboutVSS() {
             <p className="text-xs text-gray-400 hidden sm:block">Leadership guiding the vision and impact of VSS</p>
           </div>
 
-          {/* SCROLL ROW — horizontal on mobile, full row on desktop */}
+          {/* SCROLL ROW — horizontal on mobile, grid on desktop */}
           <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:overflow-visible lg:grid lg:grid-cols-5">
             {[
-              { name: "Mr. Pratap Pawar",    role: "Chairman",          img: chaireman        },
-              { name: "Mr. Tushar Rajankar", role: "Managing Trustee",  img: managingtrustee  },
-              { name: "Tukaram Gaikwad",     role: "Permanent Trustee", img: permenanttrustee },
-              { name: "Bhausaheb Jadhav",    role: "Permanent Trustee", img: permenanttrustee1},
-              { name: "Sanjay Amrute",       role: "Treasurer",         img: treasurer        },
+              { name: "Mr. Pratap Pawar",          role: "Chairman",                img: chaireman           },
+              { name: "Mr. Tushar Rajankar",        role: "Managing Trustee",        img: managingtrustee      },
+              { name: "Mr. Tukaram Gaikwad",        role: "Permanent Trustee",       img: permenanttrustee     },
+              { name: "Mr. Bhausaheb Jadhav",       role: "Permanent Trustee",       img: permenanttrustee1    },
+              { name: "Mr. Sanjay Amrute",          role: "Treasurer",               img: treasurer            },
+              { name: "Mr. Chandrashekhar Potnis",  role: "Trustee",                 img: chandrashekharPotnis },
+              { name: "Dr. Jyoti Gogate",           role: "Trustee",                 img: drJyotiGogate        },
+              { name: "Dr. Makrand Phadake",        role: "Trustee",                 img: drMakrandPhadake     },
+              { name: "Mr. Manoj Gaikwad",          role: "Trustee & Karykarta",     img: manojGaikwad         },
+              { name: "Mr. Chandrakant Kulkarni",   role: "Chief Executive Officer", img: chandrakantKulkarni  },
+              { name: "Mr. Durgesh Pawar",          role: "Chief Executive Officer", img: durgeshPawar         },
+              { name: "Mr. Prakash Apte",           role: "Trustee",                 img: prakashApte          },
+              { name: "Mrs. Preeti Rao",            role: "Trustee",                 img: preetiRao            },
+              { name: "Mr. Nandakumar Talekar",     role: "Trustee & Karykarta",     img: nandakumarTalekar    },
+              { name: "Mr. Ratnakar Mate",          role: "Trustee & Karykarta",     img: ratnakarMate         },
+              { name: "Sunanda Mane",               role: "Trustee & Advisor",       img: sunandaMane          },
+              { name: "Vinaya Thombre",             role: "Trustee & Karykarta",     img: vinayaThombre        },
             ].map((member, index) => (
               <div
                 key={index}

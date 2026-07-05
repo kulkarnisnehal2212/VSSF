@@ -63,7 +63,7 @@ export default function Hero() {
             {/* DESCRIPTION */}
             <p className="text-sm sm:text-base text-gray-200 body-font leading-relaxed mb-8 max-w-[520px]">
               Providing a safe, supportive and holistic environment for students 
-              from rural India to grow, learn and achieve their dreams.
+              from rural India and other countries to grow, learn and achieve their dreams.
             </p>
 
             {/* BUTTONS */}

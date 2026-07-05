@@ -46,9 +46,9 @@ const websiteData = [
 ];
 
 const faqs = [
-  { q: "What is the Samiti Earn & Learn program?",     a: "All Samiti students are expected to participate in the VSS Earn & Learn program. It provides part-time work opportunities within the Samiti or through external collaborations, allowing students to support themselves while continuing their education." },
-  { q: "Who is eligible for the Earn & Learn program?",a: "All students residing at VSS hostels are expected to participate in the Earn & Learn program." },
-  { q: "What kind of work is offered?",                a: ["Library assistance", "Administrative support", "Teaching or mentoring younger students", "Data entry and digital tasks", "On-campus maintenance and event management", "Companionship for elderly"] },
+  { q: "What is the Samiti Earn & Learn program?",     a: "The VSS Earn & Learn program provides part-time work opportunities to all students — both within the Samiti and through external partner organisations — allowing them to earn while continuing their education." },
+  { q: "Who is eligible for the Earn & Learn program?",a: "All students residing at VSS hostels are encouraged to participate in the Earn & Learn program." },
+  { q: "What kind of work is offered?",                a: ["Library assistance", "Administrative support", "Teaching or mentoring younger students", "Data entry and digital tasks", "Event management (on-campus and external)", "Companionship for elderly", "Website development projects", "Work with partner organisations outside Samiti"] },
   { q: "How many hours can a student work?",           a: "Students typically work 2 to 4 hours per week, ensuring academic performance is not affected. Hours may vary based on individual schedules and job requirements." },
   { q: "How does this program benefit students?",      a: ["Financial support for education and daily expenses", "Real-world work experience", "Time management and responsibility", "Networking opportunities for future career growth"] },
 ];
@@ -92,11 +92,11 @@ export default function EarnLearn() {
                 <p>
                   VSS promotes self-reliance through its{" "}
                   <span className="text-[var(--color-secondary)] font-semibold">Earn & Learn initiative</span> —
-                  enabling financially challenged students to support their education while gaining real-world experience.
+                  enabling all students to gain meaningful work experience while supporting themselves during their education.
                 </p>
                 <p>
                   Students work just <span className="font-semibold text-gray-800">2–4 hours per week</span> in meaningful roles
-                  within the Samiti ecosystem — earning money, building skills and growing as individuals.
+                  within the Samiti ecosystem or with external partner organisations — earning money, building skills and growing as individuals.
                 </p>
               </div>
 

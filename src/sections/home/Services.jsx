@@ -1,11 +1,11 @@
 import { FaHome, FaUtensils, FaBook, FaUserGraduate, FaHandshake, FaHeart } from "react-icons/fa";
 
-import s1 from "../../assets/services/accomodation.png";
+import s1 from "../../assets/services/accomodation.png"; // TODO: replace with inside room picture (client to provide)
 import s2 from "../../assets/services/food.png";
-import s3 from "../../assets/services/study.png";
+import s3 from "../../assets/services/study.png"; // TODO: replace with library picture or Sanskar & Values picture (client to provide)
 import s4 from "../../assets/services/personality.png";
 import s5 from "../../assets/services/earn.png";
-import s6 from "../../assets/services/values.png";
+import s6 from "../../assets/services/yoga.png"; // TODO: replace with Yoga picture (client to provide)
 
 export default function Services() {
     const services = [
@@ -54,7 +54,7 @@ export default function Services() {
                 {/* TITLE */}
                 <div className="text-center mb-14">
                     <p className="secondary-text text-xs tracking-widest uppercase mb-2">
-                        What We Provide
+                        What Our Partner, VSS Provides
                     </p>
 
                     <h2 className="heading-font text-2xl md:text-3xl font-semibold">

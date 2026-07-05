@@ -10,6 +10,8 @@ import h3 from "../assets/heroimges/latikagaitonde-hostel.jpg";
 import h4 from "../assets/heroimges/madhubhau_chaudhari-hostel.jpg";
 import h5 from "../assets/heroimges/PD-Karkhanis-slider.jpg";
 import h6 from "../assets/heroimges/Sumitra-photo.jpg";
+import h7 from "../assets/heroimges/VSS_KJSB.png";
+import h8 from "../assets/heroimges/VSS_MED.jpg.jpeg";
 
 // Activities Gallery — replace captions/images here as needed
 import gCooking         from "../assets/aboutvsspune/Activities-gallery/cooking.png";
@@ -37,6 +39,8 @@ const hostels = [
   { img: h4, name: "Madhubhau Chaudhari Hostel",     location: "Pune"            },
   { img: h5, name: "P.D. Karkhanis Hostel",          location: "Pune"            },
   { img: h6, name: "Sumitra Hostel",                 location: "Pune"            },
+  { img: h7, name: "Kalyanrao Jadhav Hostel",        location: "Ahilya Nagar"    },
+  { img: h8, name: "Meghavi Hostel",                 location: "Pune"            },
 ];
 
 const activities = [
@@ -51,6 +55,8 @@ const activities = [
 ];
 
 // Gallery — add/replace images & captions here
+// TODO: Add trek, rock climbing, and sports competition photos from client
+// TODO: Remove repeated images once new photos are provided
 const galleryItems = [
   { img: gCooking,        caption: "Cooking Activity"              },
   { img: gCultural,       caption: "Cultural Program"              },
@@ -153,12 +159,19 @@ export default function FacilitiesActivities() {
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
               {hostels.map((item, i) => (
                 <div key={i} className="group relative overflow-hidden rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
-                  <div className="h-[200px] overflow-hidden">
-                    <img
-                      src={item.img}
-                      alt={item.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                  <div className="h-[200px] overflow-hidden bg-gray-100">
+                    {item.img ? (
+                      <img
+                        src={item.img}
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-[var(--color-primary)]/8 to-gray-100">
+                        <FaHome className="text-[var(--color-primary)]/30" size={36} />
+                        <span className="text-xs text-gray-400 font-medium">Photo coming soon</span>
+                      </div>
+                    )}
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">

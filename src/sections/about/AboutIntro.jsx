@@ -9,10 +9,11 @@ const stats = [
 ];
 
 const highlights = [
-  "Safe & healthy hostel environment for rural students",
-  "Fundraising & global donor network via VSSF",
+  "Safe & healthy hostel environment for students",
+  "Fundraising & North America donor network via VSSF",
   "Earn & Learn opportunities for self-reliance",
   "Registered in Michigan, USA since Feb 2025",
+  "VSSF is exempt under US Internal Revenue Service Code Section 501(c)(3) (EIN: 33-1919808)",
 ];
 
 export default function AboutIntro() {

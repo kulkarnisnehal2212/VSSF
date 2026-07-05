@@ -114,7 +114,7 @@ export default function MissionVision() {
             <FaLeaf className="text-[var(--color-secondary)] text-lg mt-1 shrink-0" />
             <div>
               <p className="text-sm font-semibold text-gray-800">Sustainable Impact</p>
-              <p className="text-xs text-gray-500">Building future together</p>
+              <p className="text-xs text-gray-500">Building a future together</p>
             </div>
           </div>
 

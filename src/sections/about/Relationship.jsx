@@ -57,11 +57,11 @@ export default function Relationship() {
             </div>
 
             <h3 className="font-semibold text-gray-800 mb-2">
-              VSSF (Global)
+              VSS
             </h3>
 
             <p className="text-sm text-gray-600">
-              Enables global funding, partnerships and awareness to support VSS.
+              Enables funding from North America, partnerships and awareness to support VSS Pune.
             </p>
           </div>
 

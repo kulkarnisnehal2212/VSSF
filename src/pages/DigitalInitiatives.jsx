@@ -59,11 +59,10 @@ const allProjects = [
   { name: "Paragon Arts",      url: "https://paragonart.com",       logo: logoParagon,    domain: "paragonarts.com"    },
   { name: "BMM Online",        url: "https://bmmonline.org",         logo: logoBmm,        domain: "bmmonline.org"      },
   { name: "Kalasanman",        url: "https://kalasanman.org",        logo: logoKalasanman, domain: "kalasanman.org"     },
-  { name: "VSS Samiti (US)",   url: "https://us.samiti.org",         logo: samitius,       domain: "us.samiti.org"      },
+  { name: "VSSF (USA)",        url: "https://us.samiti.org",         logo: samitius,       domain: "us.samiti.org"      },
   { name: "SWA Pune",          url: "https://www.swapune.org",       logo: swa,            domain: "swapune.org"        },
-  { name: "BMM Annual Report", url: "https://bmmonline.org",         logo: logoBmm2,       domain: "BMM Annual Report"  },
+  { name: "BMM Annual Report", url: null,                         logo: logoBmm2,       domain: "BMM Annual Report"  },
   { name: "A2MM",              url: "https://www.a2mm.org",          logo: logoA2MM,       domain: "a2mm.org"           },
-  { name: "BMM Seattle 2025",  url: "https://bmmseattle2026.org",    logo: logoBmm1,       domain: "bmmseattle.org"     },
   { name: "BMM Seattle 2026",  url: "https://bmmseattle2026.org",    logo: logoBmm1,       domain: "bmmseattle2026.org" },
 ];
 

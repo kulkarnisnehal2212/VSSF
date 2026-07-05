@@ -143,26 +143,20 @@ const PdfPreviewCard = ({ item, onExpand }) => (
    MAIN PAGE
 ───────────────────────────────────────────────────────────── */
 const Resources = () => {
-  const [activeTab, setActiveTab] = useState("darpan");
+  const [activeTab, setActiveTab] = useState("vss");
   const [selectedPdf, setSelectedPdf] = useState(null);
 
   const tabs = [
     {
-      id: "darpan",
-      label: "Darpan",
+      id: "vss",
+      label: "VSS Documents",
       icon: <FaNewspaper size={13} />,
-      count: resourcesData.darpan.reduce((acc, y) => acc + y.items.length, 0),
+      count: resourcesData.darpan.reduce((acc, y) => acc + y.items.length, 0) + resourcesData.financial.length,
     },
     {
-      id: "financial",
-      label: "Financial Reports",
+      id: "vssf",
+      label: "VSSF Documents",
       icon: <FaFileInvoiceDollar size={13} />,
-      count: resourcesData.financial.length,
-    },
-    {
-      id: "others",
-      label: "Other Documents",
-      icon: <FaFolderOpen size={13} />,
       count: resourcesData.others.length,
     },
   ];
@@ -227,91 +221,102 @@ const Resources = () => {
             ))}
           </div>
 
-          {/* ── DARPAN TAB ── */}
-          {activeTab === "darpan" && (
+          {/* ── VSS TAB (Darpan + VSS Annual Reports) ── */}
+          {activeTab === "vss" && (
             <div className="animate-fadeIn space-y-12">
 
-              {/* Latest edition */}
+              {/* Darpan sub-section */}
               <section>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary)] text-white rounded-xl text-sm font-bold shadow-sm">
+                    <FaNewspaper size={11} />
+                    Darpan — Monthly Newsletter
+                  </div>
+                  <div className="flex-1 h-px bg-gray-200" />
+                </div>
+
+                {/* Latest edition */}
                 <div className="flex items-center gap-2 mb-5">
                   <span className="w-1 h-5 rounded-full bg-[var(--color-secondary)]" />
                   <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Latest Edition</h3>
                 </div>
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-10">
                   <DarpanCard
                     item={resourcesData.darpan[0].items[0]}
                     onExpand={setSelectedPdf}
                     featured
                   />
                 </div>
+
+                {/* Archive by year */}
+                {resourcesData.darpan.map((yearBlock) => (
+                  <div key={yearBlock.year} className="mb-10">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">
+                        <FaCalendarAlt size={11} />
+                        {yearBlock.year}
+                      </div>
+                      <div className="flex-1 h-px bg-gray-200" />
+                      <span className="text-xs text-gray-400 font-medium">{yearBlock.items.length} issues</span>
+                    </div>
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                      {yearBlock.items.map((item, i) => (
+                        <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </section>
 
-              {/* Archive by year */}
-              {resourcesData.darpan.map((yearBlock) => (
-                <section key={yearBlock.year}>
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary)] text-white rounded-xl text-sm font-bold shadow-sm">
-                      <FaCalendarAlt size={11} />
-                      {yearBlock.year}
-                    </div>
-                    <div className="flex-1 h-px bg-gray-200" />
-                    <span className="text-xs text-gray-400 font-medium">{yearBlock.items.length} issues</span>
+              {/* VSS Annual Reports sub-section */}
+              <section>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary)] text-white rounded-xl text-sm font-bold shadow-sm">
+                    <FaFileInvoiceDollar size={11} />
+                    VSS Annual Reports
                   </div>
-                  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                    {yearBlock.items.map((item, i) => (
-                      <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
-                    ))}
+                  <div className="flex-1 h-px bg-gray-200" />
+                </div>
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10 mb-6">
+                  <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[var(--color-primary)] flex items-center justify-center shadow-sm">
+                    <FaFileInvoiceDollar size={16} className="text-white" />
                   </div>
-                </section>
-              ))}
-            </div>
-          )}
-
-          {/* ── FINANCIAL TAB ── */}
-          {activeTab === "financial" && (
-            <div className="animate-fadeIn space-y-8">
-
-              {/* Info banner */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
-                <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[var(--color-primary)] flex items-center justify-center shadow-sm">
-                  <FaFileInvoiceDollar size={16} className="text-white" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">Financial Transparency</h4>
-                  <p className="text-xs text-gray-500 leading-relaxed">
-                    VSS Foundation is a 501(c)(3) registered non-profit (EIN: 33-1919808). All annual reports are
-                    audited and publicly available for review.
-                  </p>
-                </div>
-              </div>
-
-              {/* PDF preview cards */}
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {resourcesData.financial.map((item, i) => (
-                  <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ── OTHERS TAB ── */}
-          {activeTab === "others" && (
-            <div className="animate-fadeIn">
-              {resourcesData.others.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-24 text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
-                    <FaFolderOpen size={28} className="text-gray-300" />
+                  <div>
+                    <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">Financial Transparency</h4>
+                    <p className="text-xs text-gray-500 leading-relaxed">
+                      Vidyarthi Sahayyak Samiti, Pune — audited annual reports publicly available for review.
+                    </p>
                   </div>
-                  <h4 className="text-base font-semibold text-gray-400 mb-1">No documents yet</h4>
-                  <p className="text-sm text-gray-300">Check back soon.</p>
                 </div>
-              ) : (
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  {resourcesData.others.map((item, i) => (
+                  {resourcesData.financial.map((item, i) => (
                     <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
                   ))}
                 </div>
-              )}
+              </section>
+            </div>
+          )}
+
+          {/* ── VSSF TAB (Compliance & Certification Docs) ── */}
+          {activeTab === "vssf" && (
+            <div className="animate-fadeIn space-y-8">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
+                <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[var(--color-primary)] flex items-center justify-center shadow-sm">
+                  <FaFolderOpen size={16} className="text-white" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">VSSF Official Documents</h4>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    Vidyarthi Sahayyak Samiti Foundation (USA) — 501(c)(3) registered non-profit (EIN: 33-1919808).
+                    Official compliance documents and certifications.
+                  </p>
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {resourcesData.others.map((item, i) => (
+                  <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
+                ))}
+              </div>
             </div>
           )}
 
