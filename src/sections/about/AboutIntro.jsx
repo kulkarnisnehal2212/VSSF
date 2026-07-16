@@ -3,9 +3,9 @@ import aboutintro from "../../assets/aboutimg/aboutintro.png";
 import { FaCheckCircle } from "react-icons/fa";
 
 const stats = [
-  { value: "8,000+",    label: "Students Supported" },
-  { value: "60+",       label: "Years of Legacy"    },
-  { value: "501(c)(3)", label: "US Registered NGO"  },
+  { value: "8,000+",    label: "Students Supported"        },
+  { value: "60+",       label: "Years of Legacy"            },
+  { value: "501(c)(3)", label: "VSSF Non-Profit Organization" },
 ];
 
 const highlights = [

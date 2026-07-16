@@ -157,7 +157,7 @@ const Resources = () => {
       id: "vssf",
       label: "VSSF Documents",
       icon: <FaFileInvoiceDollar size={13} />,
-      count: resourcesData.others.length,
+      count: resourcesData.vssf.length,
     },
   ];
 
@@ -240,7 +240,7 @@ const Resources = () => {
                   <span className="w-1 h-5 rounded-full bg-[var(--color-secondary)]" />
                   <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Latest Edition</h3>
                 </div>
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-10">
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-6">
                   <DarpanCard
                     item={resourcesData.darpan[0].items[0]}
                     onExpand={setSelectedPdf}
@@ -248,24 +248,38 @@ const Resources = () => {
                   />
                 </div>
 
-                {/* Archive by year */}
-                {resourcesData.darpan.map((yearBlock) => (
-                  <div key={yearBlock.year} className="mb-10">
-                    <div className="flex items-center gap-3 mb-5">
+                {/* All issues — flat list, no year split */}
+                <div className="flex items-center gap-3 mb-5 mt-8">
+                  <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">
+                    <FaCalendarAlt size={11} />
+                    Financial Year 2025–26
+                  </div>
+                  <div className="flex-1 h-px bg-gray-200" />
+                  <span className="text-xs text-gray-400 font-medium">{resourcesData.darpan[0].items.length} issues</span>
+                </div>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {resourcesData.darpan[0].items.map((item, i) => (
+                    <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
+                  ))}
+                </div>
+
+                {resourcesData.darpan[1] && (
+                  <>
+                    <div className="flex items-center gap-3 mb-5 mt-10">
                       <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">
                         <FaCalendarAlt size={11} />
-                        {yearBlock.year}
+                        Financial Year 2024–25
                       </div>
                       <div className="flex-1 h-px bg-gray-200" />
-                      <span className="text-xs text-gray-400 font-medium">{yearBlock.items.length} issues</span>
+                      <span className="text-xs text-gray-400 font-medium">{resourcesData.darpan[1].items.length} issues</span>
                     </div>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                      {yearBlock.items.map((item, i) => (
+                      {resourcesData.darpan[1].items.map((item, i) => (
                         <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
                       ))}
                     </div>
-                  </div>
-                ))}
+                  </>
+                )}
               </section>
 
               {/* VSS Annual Reports sub-section */}
@@ -308,14 +322,16 @@ const Resources = () => {
                   <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">VSSF Official Documents</h4>
                   <p className="text-xs text-gray-500 leading-relaxed">
                     Vidyarthi Sahayyak Samiti Foundation (USA) — 501(c)(3) registered non-profit (EIN: 33-1919808).
-                    Official compliance documents and certifications.
+                    Official compliance documents and certifications will be available here.
                   </p>
                 </div>
               </div>
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {resourcesData.others.map((item, i) => (
-                  <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
-                ))}
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
+                  <FaFolderOpen size={28} className="text-gray-300" />
+                </div>
+                <h4 className="text-base font-semibold text-gray-400 mb-1">VSSF documents coming soon</h4>
+                <p className="text-sm text-gray-300">Official VSSF certifications and reports will be uploaded here.</p>
               </div>
             </div>
           )}

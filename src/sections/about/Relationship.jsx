@@ -19,7 +19,7 @@ export default function Relationship() {
         </p>
 
         <h2 className="heading-font text-3xl md:text-4xl text-[var(--color-primary)] mb-4">
-          Our Relationship with VSS Pune
+          Our Relationship with Vidyarthi Sahayyak Samiti (VSS)
         </h2>
 
         <p className="text-gray-500 text-sm max-w-[600px] mx-auto mb-16">
@@ -38,7 +38,7 @@ export default function Relationship() {
             </div>
 
             <h3 className="font-semibold text-gray-800 mb-2">
-              VSS Pune
+              Vidyarthi Sahayyak Samiti (VSS)
             </h3>
 
             <p className="text-sm text-gray-600">
@@ -57,11 +57,11 @@ export default function Relationship() {
             </div>
 
             <h3 className="font-semibold text-gray-800 mb-2">
-              VSS
+              VSSF
             </h3>
 
             <p className="text-sm text-gray-600">
-              Enables funding from North America, partnerships and awareness to support VSS Pune.
+              Enables funding from North America, partnerships and awareness to support VSS.
             </p>
           </div>
 

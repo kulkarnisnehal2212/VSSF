@@ -11,7 +11,6 @@ import h4 from "../assets/heroimges/madhubhau_chaudhari-hostel.jpg";
 import h5 from "../assets/heroimges/PD-Karkhanis-slider.jpg";
 import h6 from "../assets/heroimges/Sumitra-photo.jpg";
 import h7 from "../assets/heroimges/VSS_KJSB.png";
-import h8 from "../assets/heroimges/VSS_MED.jpg.jpeg";
 
 // Activities Gallery — replace captions/images here as needed
 import gCooking         from "../assets/aboutvsspune/Activities-gallery/cooking.png";
@@ -40,7 +39,6 @@ const hostels = [
   { img: h5, name: "P.D. Karkhanis Hostel",          location: "Pune"            },
   { img: h6, name: "Sumitra Hostel",                 location: "Pune"            },
   { img: h7, name: "Kalyanrao Jadhav Hostel",        location: "Ahilya Nagar"    },
-  { img: h8, name: "Meghavi Hostel",                 location: "Pune"            },
 ];
 
 const activities = [

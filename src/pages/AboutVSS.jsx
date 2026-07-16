@@ -47,7 +47,7 @@ export default function AboutVSS() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-[var(--color-secondary)]/10 border border-[var(--color-secondary)]/20 rounded-full px-4 py-1.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)]" />
-            <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">About VSS Pune</p>
+            <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">About VSS</p>
           </div>
           <h1 className="heading-font text-3xl md:text-4xl font-semibold text-[var(--color-primary)] mb-4">
             Vidyarthi Sahayyak Samiti, Pune
