@@ -48,20 +48,6 @@ export default function OurJourney() {
               Over 60 years of transforming lives, one student at a time.
             </p>
           </div>
-          <div className="flex gap-2 flex-shrink-0">
-            <button
-              onClick={() => scroll("left")}
-              className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white hover:bg-[var(--color-primary)] hover:text-white hover:border-[var(--color-primary)] text-gray-500 transition-all duration-200 shadow-sm"
-            >
-              <FaChevronLeft size={12} />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white hover:bg-[var(--color-primary)] hover:text-white hover:border-[var(--color-primary)] text-gray-500 transition-all duration-200 shadow-sm"
-            >
-              <FaChevronRight size={12} />
-            </button>
-          </div>
         </div>
 
         {/* TIMELINE */}
@@ -107,6 +93,23 @@ export default function OurJourney() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* SCROLL BUTTONS — left and right at bottom */}
+        <div className="flex items-center justify-between mt-4 px-1">
+          <button
+            onClick={() => scroll("left")}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white hover:bg-[var(--color-primary)] hover:text-white hover:border-[var(--color-primary)] text-gray-500 text-xs font-semibold transition-all duration-200 shadow-sm"
+          >
+            <FaChevronLeft size={11} /> Scroll left
+          </button>
+          <span className="text-xs text-gray-300 hidden sm:block">← scroll to explore →</span>
+          <button
+            onClick={() => scroll("right")}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white hover:bg-[var(--color-primary)] hover:text-white hover:border-[var(--color-primary)] text-gray-500 text-xs font-semibold transition-all duration-200 shadow-sm"
+          >
+            Scroll right <FaChevronRight size={11} />
+          </button>
         </div>
 
       </div>
