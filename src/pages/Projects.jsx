@@ -22,6 +22,7 @@ const projects = [
     body: "VSS incurs a total cost of USD 840 per student per year. Of this, 50% is borne by the student. The remaining balance is raised through donations. It is highly desirable that a donor supports the entire academic journey of a student, typically spanning 3 to 4 years.",
     note: "*Students are encouraged to contribute through the Earn & Learn program.",
     cta: "Sponsor a Student",
+    ctaLink: "/support",
   },
   {
     id: "02",
@@ -35,6 +36,7 @@ const projects = [
     body: "A donation of USD 2,800 provides two meals per day for 1,200 students for one week, ensuring proper nutrition and well-being for every student at VSS.",
     note: null,
     cta: "Sponsor Meals",
+    ctaLink: "/support",
   },
   {
     id: "03",
@@ -48,6 +50,7 @@ const projects = [
     body: "The hostel is nearing completion and donation packages are available. Donors have the opportunity to name facilities of their choice, contributing meaningfully to the infrastructure and future of the students.",
     note: null,
     cta: "Donate Now",
+    ctaLink: "/support",
   },
   {
     id: "04",
@@ -61,6 +64,7 @@ const projects = [
     body: "At the beginning of academic year 2024–25, a new girls hostel with 112 rooms and a capacity of 336 students was opened on the Lajpat campus of VSS behind Shivaji Housing Society, off Senapati Bapat Road.",
     note: null,
     cta: "Sponsor a Room",
+    ctaLink: "/support",
   },
   {
     id: "05",
@@ -74,6 +78,7 @@ const projects = [
     body: "The Website Development Program at VSS empowers students with real-world technical skills while delivering professional web solutions to NGOs, businesses and institutions. Students design, develop and maintain websites while gaining industry exposure and financial support.",
     note: "If you have a website project, connect with us to get it developed by our skilled students.",
     cta: "Connect With Us",
+    ctaLink: "/contact",
   },
 ];
 
@@ -202,7 +207,7 @@ export default function Projects() {
 
                 {/* CTA */}
                 <a
-                  href="/support"
+                  href={project.ctaLink}
                   className={`self-start inline-flex items-center gap-2 bg-gradient-to-r ${project.color} text-white px-6 py-2.5 rounded-xl text-sm font-semibold shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200`}
                 >
                   {project.cta} <FaArrowRight size={11} />

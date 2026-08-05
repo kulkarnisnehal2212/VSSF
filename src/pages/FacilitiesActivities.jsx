@@ -79,19 +79,11 @@ const galleryItems = [
   { img: gEntrepreneurship2,  caption: "Entrepreneurship 2.0"                        },
   { img: gMentoringSessions,  caption: "Mentoring Sessions"                          },
   { img: gCampingOutdoor,     caption: "Camping & Outdoor Education"                 },
-  
   { img: gCooking,            caption: "Cooking Activity"                            },
- 
-
   { img: gExpertInteractions, caption: "Expert Interactions"                         },
-  
-  
-
-  { img: gOrganicFarming,     caption: "Organic Farming Initiative"                  },
-  
+  { img: gOrganicFarming,     caption: "Organic Farming Initiative"                  }, 
   { img: gEarnLearn,          caption: "Earn & Learn Program"                        },
   { img: gSeedFunding,        caption: "Seed Funding for Aspiring Entrepreneurs"     },
-
   { img: gSports,             caption: "Sports Competition"                          },
   { img: gConfidenceBuilding, caption: "Confidence Building"                         },
   { img: gStorytelling,       caption: "Storytelling Workshop"                       },
@@ -294,12 +286,10 @@ export default function FacilitiesActivities() {
                       />
                     </div>
 
-                    {/* CAPTION — always visible */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-3">
-                      <div className="flex items-start gap-2">
-                        <span className="w-1 h-1 rounded-full bg-[var(--color-secondary)] mt-1.5 flex-shrink-0" />
-                        <p className="text-white text-xs font-medium leading-snug">{item.caption}</p>
-                      </div>
+                    {/* CAPTION — solid labeled bar */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-[var(--color-primary)] border-t-2 border-[var(--color-secondary)] px-3 py-2 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)] flex-shrink-0" />
+                      <p className="text-white text-xs font-semibold leading-snug truncate">{item.caption}</p>
                     </div>
                   </div>
                 ))}
