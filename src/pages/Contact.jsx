@@ -171,15 +171,15 @@ export default function Contact() {
 
               {/* VSS PUNE CONTACT */}
               <div className="p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
-                <p className="text-xs text-gray-400 uppercase tracking-widest mb-3 font-medium">VSS Pune Office</p>
+                <p className="text-xs text-gray-400 uppercase tracking-widest mb-3 font-medium">VSS Office</p>
                 <div className="space-y-2">
                   <p className="text-sm text-gray-700 flex items-center gap-2">
                     <FaPhoneAlt size={11} className="text-[var(--color-secondary)]" />
-                    +91 20 2447 5044
+                    +91 94048 55530
                   </p>
                   <p className="text-sm text-gray-700 flex items-center gap-2">
                     <FaEnvelope size={11} className="text-[var(--color-secondary)]" />
-                    contact@samiti.org
+                    info@samiti.org
                   </p>
                 </div>
               </div>

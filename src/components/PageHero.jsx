@@ -1,13 +1,13 @@
-export default function PageHero({ label, title, highlight, subtitle, image, objectPosition = "right top", actions }) {
+export default function PageHero({ label, title, highlight, subtitle, image, objectPosition = "right top", objectFit = "cover", actions }) {
   return (
     <section className="relative w-full h-[52vh] min-h-[340px] flex items-end overflow-hidden">
 
-      {/* BG IMAGE — shifted right so subject is visible, text sits on left overlay */}
+      {/* BG IMAGE */}
       <img
         src={image}
         alt={title}
-        style={{ objectPosition }}
-        className="absolute inset-0 w-full h-full object-cover"
+        style={{ objectPosition, objectFit }}
+        className="absolute inset-0 w-full h-full"
       />
 
       {/* LAYERED OVERLAYS */}

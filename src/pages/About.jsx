@@ -14,7 +14,7 @@ export default function About() {
       />
       <AboutIntro />
       <Relationship />
-      <OurJourney />
+      {/* <OurJourney /> */}
       <Team />
       <AboutCTA />
     </>

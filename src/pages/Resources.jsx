@@ -143,20 +143,26 @@ const PdfPreviewCard = ({ item, onExpand }) => (
    MAIN PAGE
 ───────────────────────────────────────────────────────────── */
 const Resources = () => {
-  const [activeTab, setActiveTab] = useState("vss");
+  const [activeTab, setActiveTab] = useState("darpan");
   const [selectedPdf, setSelectedPdf] = useState(null);
 
   const tabs = [
     {
-      id: "vss",
-      label: "VSS Documents",
+      id: "darpan",
+      label: "Darpan",
       icon: <FaNewspaper size={13} />,
-      count: resourcesData.darpan.reduce((acc, y) => acc + y.items.length, 0) + resourcesData.financial.length,
+      count: resourcesData.darpan.reduce((acc, y) => acc + y.items.length, 0),
+    },
+    {
+      id: "annual",
+      label: "Annual Reports",
+      icon: <FaFileInvoiceDollar size={13} />,
+      count: resourcesData.financial.length,
     },
     {
       id: "vssf",
       label: "VSSF Documents",
-      icon: <FaFileInvoiceDollar size={13} />,
+      icon: <FaFolderOpen size={13} />,
       count: resourcesData.vssf.length,
     },
   ];
@@ -221,93 +227,55 @@ const Resources = () => {
             ))}
           </div>
 
-          {/* ── VSS TAB (Darpan + VSS Annual Reports) ── */}
-          {activeTab === "vss" && (
-            <div className="animate-fadeIn space-y-12">
+          {/* ── DARPAN TAB ── */}
+          {activeTab === "darpan" && (
+            <div className="animate-fadeIn space-y-8">
 
-              {/* Darpan sub-section */}
-              <section>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary)] text-white rounded-xl text-sm font-bold shadow-sm">
-                    <FaNewspaper size={11} />
-                    Darpan — Monthly Newsletter
-                  </div>
-                  <div className="flex-1 h-px bg-gray-200" />
-                </div>
+              {/* Latest edition */}
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-1 h-5 rounded-full bg-[var(--color-secondary)]" />
+                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Latest Edition</h3>
+              </div>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <DarpanCard item={resourcesData.darpan[0].items[0]} onExpand={setSelectedPdf} featured />
+              </div>
 
-                {/* Latest edition */}
-                <div className="flex items-center gap-2 mb-5">
-                  <span className="w-1 h-5 rounded-full bg-[var(--color-secondary)]" />
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Latest Edition</h3>
+              {/* All issues */}
+              <div className="flex items-center gap-3 mt-4">
+                <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">
+                  <FaCalendarAlt size={11} />
+                  Financial Year 2025–26
                 </div>
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-6">
-                  <DarpanCard
-                    item={resourcesData.darpan[0].items[0]}
-                    onExpand={setSelectedPdf}
-                    featured
-                  />
-                </div>
+                <div className="flex-1 h-px bg-gray-200" />
+                <span className="text-xs text-gray-400 font-medium">{resourcesData.darpan[0].items.length} issues</span>
+              </div>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                {resourcesData.darpan[0].items.map((item, i) => (
+                  <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
+                ))}
+              </div>
+            </div>
+          )}
 
-                {/* All issues — flat list, no year split */}
-                <div className="flex items-center gap-3 mb-5 mt-8">
-                  <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">
-                    <FaCalendarAlt size={11} />
-                    Financial Year 2025–26
-                  </div>
-                  <div className="flex-1 h-px bg-gray-200" />
-                  <span className="text-xs text-gray-400 font-medium">{resourcesData.darpan[0].items.length} issues</span>
+          {/* ── ANNUAL REPORTS TAB ── */}
+          {activeTab === "annual" && (
+            <div className="animate-fadeIn space-y-8">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
+                <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[var(--color-primary)] flex items-center justify-center shadow-sm">
+                  <FaFileInvoiceDollar size={16} className="text-white" />
                 </div>
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                  {resourcesData.darpan[0].items.map((item, i) => (
-                    <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
-                  ))}
+                <div>
+                  <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">Financial Transparency</h4>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    Vidyarthi Sahayyak Samiti, Pune — audited annual reports publicly available for review.
+                  </p>
                 </div>
-
-                {resourcesData.darpan[1] && (
-                  <>
-                    <div className="flex items-center gap-3 mb-5 mt-10">
-                      <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">
-                        <FaCalendarAlt size={11} />
-                        Financial Year 2024–25
-                      </div>
-                      <div className="flex-1 h-px bg-gray-200" />
-                      <span className="text-xs text-gray-400 font-medium">{resourcesData.darpan[1].items.length} issues</span>
-                    </div>
-                    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                      {resourcesData.darpan[1].items.map((item, i) => (
-                        <DarpanCard key={i} item={item} onExpand={setSelectedPdf} />
-                      ))}
-                    </div>
-                  </>
-                )}
-              </section>
-
-              {/* VSS Annual Reports sub-section */}
-              <section>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary)] text-white rounded-xl text-sm font-bold shadow-sm">
-                    <FaFileInvoiceDollar size={11} />
-                    VSS Annual Reports
-                  </div>
-                  <div className="flex-1 h-px bg-gray-200" />
-                </div>
-                <div className="flex items-start gap-4 p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10 mb-6">
-                  <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[var(--color-primary)] flex items-center justify-center shadow-sm">
-                    <FaFileInvoiceDollar size={16} className="text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">Financial Transparency</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed">
-                      Vidyarthi Sahayyak Samiti, Pune — audited annual reports publicly available for review.
-                    </p>
-                  </div>
-                </div>
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  {resourcesData.financial.map((item, i) => (
-                    <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
-                  ))}
-                </div>
-              </section>
+              </div>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {resourcesData.financial.map((item, i) => (
+                  <PdfPreviewCard key={i} item={item} onExpand={setSelectedPdf} />
+                ))}
+              </div>
             </div>
           )}
 

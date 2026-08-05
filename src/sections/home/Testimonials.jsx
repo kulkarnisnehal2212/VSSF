@@ -5,14 +5,12 @@ export default function Testimonials() {
   const [activeVideo, setActiveVideo] = useState(null);
 
   const videos = [
-    { id: "XWYJYe7x3UQ", title: "Student Experience", name: "Rahul Sharma",  tag: "2nd Year, Engineering" },
-    { id: "2K5ghfrbu6E", title: "Student Journey",     name: "Priya Patel",   tag: "3rd Year, Commerce"  },
+    { id: "XWYJYe7x3UQ", title: "Student Experience", name: "Anshu Kumari",  tag: "2nd Year, Engineering" },
+    { id: "2K5ghfrbu6E", title: "Student Journey",     name: "Angaraki Mande",   tag: "3rd Year, Commerce"  },
     { id: "OerOXtVU-qc", title: "Student Growth",      name: "Amit Verma",   tag: "1st Year, Science"   },
-    { id: "KgqsRRdiMg0", title: "Learning Experience", name: "Sneha Joshi",  tag: "Final Year, Arts"    },
-    { id: "mpKyzWNeeZY", title: "Campus Life",          name: "Rohan Desai",  tag: "2nd Year, Medical"   },
-    { id: "x22IutPVBkg", title: "Success Story",        name: "Kavya Nair",   tag: "Alumni, 2023"        },
-    { id: "2K5ghfrbu6E", title: "Student Journey",     name: "Priya Patel",   tag: "3rd Year, Commerce"  },
-    { id: "KgqsRRdiMg0", title: "Learning Experience", name: "Sneha Joshi",  tag: "Final Year, Arts"    },
+    { id: "KgqsRRdiMg0", title: "Learning Experience", name: "Sakshi Thorat",  tag: "Final Year, Arts"    },
+    { id: "mpKyzWNeeZY", title: "Campus Life",          name: "Prerana",  tag: "2nd Year, Medical"   },
+    
   ];
 
   return (

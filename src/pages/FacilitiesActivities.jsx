@@ -12,15 +12,28 @@ import h5 from "../assets/heroimges/PD-Karkhanis-slider.jpg";
 import h6 from "../assets/heroimges/Sumitra-photo.jpg";
 import h7 from "../assets/heroimges/VSS_KJSB.png";
 
-// Activities Gallery — replace captions/images here as needed
-import gCooking         from "../assets/aboutvsspune/Activities-gallery/cooking.png";
-import gCultural        from "../assets/aboutvsspune/Activities-gallery/culturalprogram.png";
-import gTours           from "../assets/aboutvsspune/Activities-gallery/educationaltours.png";
-import gEnglishClass    from "../assets/aboutvsspune/Activities-gallery/english -language-class.png";
-import gEnglishPresent  from "../assets/aboutvsspune/Activities-gallery/english-presentation.png";
-import gFarming         from "../assets/aboutvsspune/Activities-gallery/organic farming.png";
-import gStorytelling    from "../assets/aboutvsspune/Activities-gallery/storytelling.png";
-import gYoga            from "../assets/aboutvsspune/Activities-gallery/yoga.png";
+// Activities Gallery
+import gAdventureOutdoor    from "../assets/aboutvsspune/Activities-gallery/Adventure and Outdoor Education.png";
+import gAnkurMagazine       from "../assets/aboutvsspune/Activities-gallery/Ankur Magzine.png";
+import gCampingOutdoor      from "../assets/aboutvsspune/Activities-gallery/Camping and Outdoor Education.png";
+import gConfidenceBuilding  from "../assets/aboutvsspune/Activities-gallery/Confidence Building.png";
+import gCooking             from "../assets/aboutvsspune/Activities-gallery/cooking.png";
+import gEducationalTours    from "../assets/aboutvsspune/Activities-gallery/educationaltours.png";
+import gEntrepreneurship    from "../assets/aboutvsspune/Activities-gallery/Enterprenuership Buisness Idea Competition.png";
+import gEntrepreneurship2   from "../assets/aboutvsspune/Activities-gallery/Enterprenurship 2.0.png";
+import gExpertInteractions  from "../assets/aboutvsspune/Activities-gallery/Expert interactions.png";
+import gGuidingVisions      from "../assets/aboutvsspune/Activities-gallery/Guiding vIsions.png";
+import gIndustrialVisits    from "../assets/aboutvsspune/Activities-gallery/Industrial visits.png";
+import gMentoringSessions   from "../assets/aboutvsspune/Activities-gallery/Mentoring sessions.png";
+import gOrganicFarming      from "../assets/aboutvsspune/Activities-gallery/orgganic farming.png";
+import gPrizeDistribution   from "../assets/aboutvsspune/Activities-gallery/Prize_Distibution .png";
+import gEarnLearn           from "../assets/aboutvsspune/Activities-gallery/samiti - Earn & Learn.png";
+import gSeedFunding         from "../assets/aboutvsspune/Activities-gallery/seed funding given to Aspiring Enterprenuers.png";
+import gSocialAwareness     from "../assets/aboutvsspune/Activities-gallery/Social Awareness .png";
+import gSports              from "../assets/aboutvsspune/Activities-gallery/sports.png";
+import gStorytelling        from "../assets/aboutvsspune/Activities-gallery/storytelling.png";
+import gVisualArt           from "../assets/aboutvsspune/Activities-gallery/Visual Art sessions.png";
+import gYoga                from "../assets/aboutvsspune/Activities-gallery/yoga.png";
 
 const facilities = [
   { icon: <FaHome />,      title: "Hostels",        desc: "Well-ventilated rooms with essential amenities ensuring a comfortable and safe stay."         },
@@ -52,27 +65,38 @@ const activities = [
   "Earn & Learn Opportunities",
 ];
 
-// Gallery — add/replace images & captions here
 // TODO: Add trek, rock climbing, and sports competition photos from client
-// TODO: Remove repeated images once new photos are provided
 const galleryItems = [
-  { img: gCooking,        caption: "Cooking Activity"              },
-  { img: gCultural,       caption: "Cultural Program"              },
-  { img: gTours,          caption: "Educational Tours"             },
-  { img: gEnglishClass,   caption: "English Language Class"        },
-  { img: gEnglishPresent, caption: "English Presentation Session"  },
-  { img: gFarming,        caption: "Organic Farming Initiative"    },
-  { img: gStorytelling,   caption: "Storytelling Workshop"         },
-  { img: gYoga,           caption: "Yoga & Wellness Session"       },
-  // repeated for preview — replace with real images later
-  { img: gCooking,        caption: "Cooking Activity"              },
-  { img: gCultural,       caption: "Cultural Program"              },
-  { img: gTours,          caption: "Educational Tours"             },
-  { img: gEnglishClass,   caption: "English Language Class"        },
-  { img: gEnglishPresent, caption: "English Presentation Session"  },
-  { img: gFarming,        caption: "Organic Farming Initiative"    },
-  { img: gStorytelling,   caption: "Storytelling Workshop"         },
-  { img: gYoga,           caption: "Yoga & Wellness Session"       },
+  
+  { img: gAnkurMagazine,      caption: "Ankur Magazine"                              },
+  { img: gIndustrialVisits,   caption: "Industrial Visits"                           },
+  { img: gPrizeDistribution,  caption: "Prize Distribution"                          },
+  { img: gSocialAwareness,    caption: "Social Awareness"                            },
+  { img: gAdventureOutdoor,   caption: "Adventure & Outdoor Education"               },
+  { img: gEntrepreneurship,   caption: "Entrepreneurship & Business Idea Competition"},
+  { img: gEducationalTours,   caption: "Educational Tours"                           },
+  { img: gGuidingVisions,     caption: "Guiding Visions"                             },
+  { img: gEntrepreneurship2,  caption: "Entrepreneurship 2.0"                        },
+  { img: gMentoringSessions,  caption: "Mentoring Sessions"                          },
+  { img: gCampingOutdoor,     caption: "Camping & Outdoor Education"                 },
+  
+  { img: gCooking,            caption: "Cooking Activity"                            },
+ 
+
+  { img: gExpertInteractions, caption: "Expert Interactions"                         },
+  
+  
+
+  { img: gOrganicFarming,     caption: "Organic Farming Initiative"                  },
+  
+  { img: gEarnLearn,          caption: "Earn & Learn Program"                        },
+  { img: gSeedFunding,        caption: "Seed Funding for Aspiring Entrepreneurs"     },
+
+  { img: gSports,             caption: "Sports Competition"                          },
+  { img: gConfidenceBuilding, caption: "Confidence Building"                         },
+  { img: gStorytelling,       caption: "Storytelling Workshop"                       },
+  { img: gVisualArt,          caption: "Visual Art Sessions"                         },
+  { img: gYoga,               caption: "Yoga & Wellness Session"                     },
 ];
 
 export default function FacilitiesActivities() {
@@ -270,20 +294,12 @@ export default function FacilitiesActivities() {
                       />
                     </div>
 
-                    {/* GRADIENT OVERLAY */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                    {/* CAPTION */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    {/* CAPTION — always visible */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-3">
                       <div className="flex items-start gap-2">
                         <span className="w-1 h-1 rounded-full bg-[var(--color-secondary)] mt-1.5 flex-shrink-0" />
                         <p className="text-white text-xs font-medium leading-snug">{item.caption}</p>
                       </div>
-                    </div>
-
-                    {/* TOP CORNER BADGE */}
-                    <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="text-white text-[10px] font-bold">{i + 1}</span>
                     </div>
                   </div>
                 ))}

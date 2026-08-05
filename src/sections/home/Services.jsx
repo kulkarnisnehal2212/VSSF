@@ -4,7 +4,7 @@ import s1 from "../../assets/services/accomodation.png"; // TODO: replace with i
 import s2 from "../../assets/services/food.png";
 import s3 from "../../assets/services/study.png"; // TODO: replace with library picture or Sanskar & Values picture (client to provide)
 import s4 from "../../assets/services/personality.png";
-import s5 from "../../assets/services/earn.png";
+import s5 from "../../assets/services/earn and Learn .png";
 import s6 from "../../assets/services/yoga.png"; // TODO: replace with Yoga picture (client to provide)
 
 export default function Services() {
@@ -14,36 +14,42 @@ export default function Services() {
             title: "Accommodation",
             desc: "Safe, clean and affordable hostel facilities.",
             img: s1,
+            imgPosition: "center center",
         },
         {
             icon: <FaUtensils />,
             title: "Food Facilities",
             desc: "Nutritious and hygienic meals for students.",
             img: s2,
+            imgPosition: "center center",
         },
         {
             icon: <FaBook />,
             title: "Study Environment",
             desc: "Peaceful atmosphere with dedicated study spaces.",
             img: s3,
+            imgPosition: "center center",
         },
         {
             icon: <FaUserGraduate />,
             title: "Personality Development",
             desc: "Programs to build confidence and leadership skills.",
             img: s4,
+            imgPosition: "center 20%",
         },
         {
             icon: <FaHandshake />,
             title: "Earn & Learn",
             desc: "Opportunities to support their own expenses.",
             img: s5,
+            imgPosition: "center 40%",
         },
         {
             icon: <FaHeart />,
             title: "Sanskar & Values",
             desc: "Building discipline and a sense of responsibility.",
             img: s6,
+            imgPosition: "center center",
         },
     ];
 
@@ -77,6 +83,7 @@ export default function Services() {
                                     src={item.img}
                                     alt={item.title}
                                     className="w-full h-40 object-cover group-hover:scale-105 transition duration-500"
+                                    style={{ objectPosition: item.imgPosition }}
                                 />
                             </div>
 

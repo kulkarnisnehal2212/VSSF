@@ -1,5 +1,6 @@
 import PageHero from "../../components/PageHero";
 import aboutintro from "../../assets/aboutimg/aboutintro.png";
+import aboutvssf from "../../assets/aboutimg/About VSSF.png";
 import { FaCheckCircle } from "react-icons/fa";
 
 const stats = [
@@ -25,8 +26,9 @@ export default function AboutIntro() {
         title="Vidyarthi Sahayyak"
         highlight="Samiti Foundation"
         subtitle="Empowering under-resourced students from rural India through education, mentorship and a supportive community."
-        image={aboutintro}
-        objectPosition="70% 40%"
+        image={aboutvssf}
+        objectPosition="70% 90%"
+        objectFit="cover"
       />
 
       {/* CONTENT SECTION */}
