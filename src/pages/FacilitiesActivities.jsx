@@ -11,6 +11,7 @@ import h4 from "../assets/heroimges/madhubhau_chaudhari-hostel.jpg";
 import h5 from "../assets/heroimges/PD-Karkhanis-slider.jpg";
 import h6 from "../assets/heroimges/Sumitra-photo.jpg";
 import h7 from "../assets/heroimges/VSS_KJSB.png";
+import h8 from "../assets/heroimges/VSS_HBP.png";
 
 // Activities Gallery
 import gAdventureOutdoor    from "../assets/aboutvsspune/Activities-gallery/Adventure and Outdoor Education.png";
@@ -45,13 +46,14 @@ const facilities = [
 ];
 
 const hostels = [
-  { img: h1, name: "Dr. Achyutrao Apte Hostel",     location: "FC Road, Pune"   },
-  { img: h2, name: "Lajpat Bhavan",                  location: "Pune"            },
-  { img: h3, name: "Latika Gaitonde Hostel",         location: "Pune"            },
+  { img: h1, name: "Dr. Achyutrao Apte Hostel",      location: "FC Road, Pune"   },
+  { img: h2, name: "Lala Lajpat Bhavan",             location: "Pune"            },
+  { img: h3, name: "Shrimati Latika Jaywant Gaitonde Hostel",         location: "Pune"            },
   { img: h4, name: "Madhubhau Chaudhari Hostel",     location: "Ahilya Nagar"            },
   { img: h5, name: "P.D. Karkhanis Hostel",          location: "Pune"            },
-  { img: h6, name: "Sumitra Hostel",                 location: "Pune"            },
-  { img: h7, name: "Kalyanrao Jadhav Hostel",        location: "Ahilya Nagar"    },
+  { img: h6, name: "Sumitra Sadan Hostel",                 location: "Pune"            },
+  { img: h7, name: "Kalyanrao Jadhav Smruti Bhavan",        location: "Ahilya Nagar"    },
+  { img: h8, name: "Haribhau Phatak Hostel",                location: "Pune"            },
 ];
 
 const activities = [

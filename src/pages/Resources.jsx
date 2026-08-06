@@ -159,12 +159,8 @@ const Resources = () => {
       icon: <FaFileInvoiceDollar size={13} />,
       count: resourcesData.financial.length,
     },
-    {
-      id: "vssf",
-      label: "VSSF Documents",
-      icon: <FaFolderOpen size={13} />,
-      count: resourcesData.vssf.length,
-    },
+    // VSSF Documents tab hidden until documents are uploaded
+    // { id: "vssf", label: "VSSF Documents", icon: <FaFolderOpen size={13} />, count: resourcesData.vssf.length },
   ];
 
   return (
@@ -279,30 +275,13 @@ const Resources = () => {
             </div>
           )}
 
-          {/* ── VSSF TAB (Compliance & Certification Docs) ── */}
+          {/* ── VSSF TAB — commented out until documents are uploaded
           {activeTab === "vssf" && (
             <div className="animate-fadeIn space-y-8">
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
-                <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[var(--color-primary)] flex items-center justify-center shadow-sm">
-                  <FaFolderOpen size={16} className="text-white" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">VSSF Official Documents</h4>
-                  <p className="text-xs text-gray-500 leading-relaxed">
-                    Vidyarthi Sahayyak Samiti Foundation (USA) — 501(c)(3) registered non-profit (EIN: 33-1919808).
-                    Official compliance documents and certifications will be available here.
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center justify-center py-16 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
-                  <FaFolderOpen size={28} className="text-gray-300" />
-                </div>
-                <h4 className="text-base font-semibold text-gray-400 mb-1">VSSF documents coming soon</h4>
-                <p className="text-sm text-gray-300">Official VSSF certifications and reports will be uploaded here.</p>
-              </div>
+              ... VSSF documents section ...
             </div>
           )}
+          ── */}
 
           {/* ── BOTTOM CTA ── */}
           <div className="relative overflow-hidden rounded-3xl bg-[var(--color-primary)] p-10 md:p-12 text-white shadow-2xl mt-16">

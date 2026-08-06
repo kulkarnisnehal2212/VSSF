@@ -196,14 +196,14 @@ export default function AboutVSS() {
               { name: "Dr. Jyoti Gogate",           role: "Trustee",                 img: drJyotiGogate        },
               { name: "Dr. Makrand Phadake",        role: "Trustee",                 img: drMakrandPhadake     },
               { name: "Mr. Manoj Gaikwad",          role: "Trustee & Karykarta",     img: manojGaikwad         },
-              { name: "Mr. Chandrakant Kulkarni",   role: "Chief Executive Officer", img: chandrakantKulkarni  },
-              { name: "Mr. Durgesh Pawar",          role: "Chief Executive Officer", img: durgeshPawar         },
               { name: "Mr. Prakash Apte",           role: "Trustee",                 img: prakashApte          },
               { name: "Mrs. Preeti Rao",            role: "Trustee",                 img: preetiRao            },
               { name: "Mr. Nandakumar Talekar",     role: "Trustee & Karykarta",     img: nandakumarTalekar    },
               { name: "Mr. Ratnakar Mate",          role: "Trustee & Karykarta",     img: ratnakarMate         },
               { name: "Sunanda Mane",               role: "Trustee & Advisor",       img: sunandaMane          },
               { name: "Vinaya Thombre",             role: "Trustee & Karykarta",     img: vinayaThombre        },
+              { name: "Mr. Chandrakant Kulkarni",   role: "Chief Development Officer", img: chandrakantKulkarni  },
+              { name: "Mr. Durgesh Pawar",          role: "Chief Executive Officer", img: durgeshPawar         },
             ].map((member, index) => (
               <div
                 key={index}

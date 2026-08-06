@@ -2,9 +2,10 @@ import PageHero from "../components/PageHero";
 import heroImg from "../assets/heroimges/Lajpat-Bhavan.jpg";
 import webDev from "../assets/aboutvsspune/website/digitalteam.png";
 import logoA2MM from "../assets/aboutvsspune/website/A2MM.png";
-import logoBmm from "../assets/aboutvsspune/website/bmm.png";
-import logoBmm1 from "../assets/aboutvsspune/website/bmm1.png";
+import logoBmm from "../assets/aboutvsspune/website/bmm1.png";
+import logoBmm1 from "../assets/aboutvsspune/website/bmm_report.png";
 import logoBmm2 from "../assets/aboutvsspune/website/bmm_report.png";
+import logoBmmcleavland from "../assets/aboutvsspune/website/bmm.png";
 import logoKalasanman from "../assets/aboutvsspune/website/kalasanman.png";
 import logoParagon from "../assets/aboutvsspune/website/paragon.png";
 import samitius from "../assets/aboutvsspune/website/us_samiti.png";
@@ -14,6 +15,7 @@ import {
   FaLaptopCode, FaUsers, FaHandshake, FaArrowRight,
   FaCheckCircle, FaGlobe, FaCode, FaPaintBrush,
   FaExternalLinkAlt, FaLinkedin, FaEnvelope, FaStar,
+  FaVideo, FaRobot, FaMobileAlt, FaPen, FaShareAlt,
 } from "react-icons/fa";
 
 const ecosystem = [
@@ -57,12 +59,13 @@ const highlights = [
 
 const allProjects = [
   { name: "Paragon Arts",      url: "https://paragonart.com",       logo: logoParagon,    domain: "paragonarts.com"    },
-  { name: "BMM Online",        url: "https://bmmonline.org",         logo: logoBmm,        domain: "bmmonline.org"      },
+  { name: "Bruhan Maharashtra Mandal",        url: "https://bmmonline.org",         logo: logoBmm,        domain: "bmmonline.org"      },
   { name: "Kalasanman",        url: "https://kalasanman.org",        logo: logoKalasanman, domain: "kalasanman.org"     },
   { name: "VSSF (USA)",        url: "https://us.samiti.org",         logo: samitius,       domain: "us.samiti.org"      },
   { name: "SWA Pune",          url: "https://www.swapune.org",       logo: swa,            domain: "swapune.org"        },
   { name: "BMM Annual Report", url: null,                         logo: logoBmm2,       domain: "BMM Annual Report"  },
   { name: "A2MM",              url: "https://www.a2mm.org",          logo: logoA2MM,       domain: "a2mm.org"           },
+  { name: "BMM Cleveland",     url: null,                         logo: logoBmmcleavland,        domain: "BMM Cleveland"      },
   { name: "BMM Seattle 2026",  url: "https://bmmseattle2026.org",    logo: logoBmm1,       domain: "bmmseattle2026.org" },
 ];
 
@@ -165,7 +168,7 @@ export default function DigitalInitiatives() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
                 {
                   icon: <FaCode size={22} />,
@@ -194,6 +197,41 @@ export default function DigitalInitiatives() {
                   title: "Reports & Publications",
                   desc: "Annual reports, digital brochures, and event microsites — designed and delivered professionally.",
                   tags: ["Annual Reports", "Microsites", "Print-ready"],
+                },
+                {
+                  icon: <FaShareAlt size={22} />,
+                  color: "from-pink-400 to-pink-600",
+                  title: "Social Media Management",
+                  desc: "Strategy, content creation and scheduling for social media platforms to grow your online presence.",
+                  tags: ["Instagram", "Facebook", "LinkedIn"],
+                },
+                {
+                  icon: <FaVideo size={22} />,
+                  color: "from-red-400 to-red-600",
+                  title: "Video Editing",
+                  desc: "Professional video editing for events, promotions, reels, and organizational storytelling.",
+                  tags: ["Reels", "Events", "Promotions"],
+                },
+                {
+                  icon: <FaRobot size={22} />,
+                  color: "from-cyan-400 to-cyan-600",
+                  title: "Chatbot Development",
+                  desc: "AI-powered chatbots for websites and platforms to automate support and engagement.",
+                  tags: ["AI", "WhatsApp", "Web Chat"],
+                },
+                {
+                  icon: <FaMobileAlt size={22} />,
+                  color: "from-teal-400 to-teal-600",
+                  title: "App Development",
+                  desc: "Mobile and web app development for NGOs, businesses and community platforms.",
+                  tags: ["React Native", "Android", "Web App"],
+                },
+                {
+                  icon: <FaPen size={22} />,
+                  color: "from-amber-400 to-amber-600",
+                  title: "Content Writing",
+                  desc: "SEO-friendly content, blogs, newsletters and organizational copy crafted by skilled student writers.",
+                  tags: ["SEO", "Blogs", "Newsletters"],
                 },
               ].map((svc, i) => (
                 <div key={i} className="group bg-white rounded-2xl border border-gray-100 hover:border-[var(--color-primary)]/20 hover:shadow-xl transition-all duration-300 p-6 flex flex-col relative overflow-hidden">

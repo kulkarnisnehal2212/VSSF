@@ -40,8 +40,8 @@ const workTypes = [
 const websiteData = [
   { img: site1, name: "Paragon",    bg: "bg-blue-50",   border: "border-blue-100"   },
   { img: site2, name: "Kalasanman", bg: "bg-orange-50", border: "border-orange-100" },
-  { img: site3, name: "BMM",        bg: "bg-green-50",  border: "border-green-100"  },
-  { img: site4, name: "BMM Plus",   bg: "bg-purple-50", border: "border-purple-100" },
+  { img: site3, name: "BMM Maitree Melava",        bg: "bg-green-50",  border: "border-green-100"  },
+  { img: site4, name: "Bruhan Maharashtra Mandal",   bg: "bg-purple-50", border: "border-purple-100" },
   { img: site5, name: "A2MM",       bg: "bg-rose-50",   border: "border-rose-100"   },
 ];
 
@@ -286,6 +286,14 @@ export default function EarnLearn() {
               ))}
             </div>
             <p className="text-center text-xs text-gray-400 italic">*Students receive stipends under the Earn & Learn scheme for website development projects.</p>
+            <div className="text-center mt-6">
+              <a
+                href="/vssf/digital-initiatives"
+                className="inline-flex items-center gap-2 bg-[var(--color-primary)] hover:bg-[#1a2568] text-white px-7 py-3 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(35,48,125,0.2)] hover:-translate-y-0.5 transition-all duration-200"
+              >
+                Explore Digital Initiatives <FaArrowRight size={11} />
+              </a>
+            </div>
           </div>
 
           {/* FAQ */}
