@@ -69,7 +69,7 @@ export default function Navbar() {
             <img src="/images/logo.png" alt="logo" className="h-14 sm:h-16 w-auto object-contain" />
             <div className="leading-tight">
               <h1 className="heading-font text-xs sm:text-sm font-semibold primary-text whitespace-nowrap">Vidyarthi Sahayyak Samiti Foundation</h1>
-              <p className="text-[10px] text-[var(--color-text-secondary)]">VSSF USA — 501(c)(3) Non-Profit</p>
+              <p className="text-[10px] text-[var(--color-text-secondary)]">US 501 C(3) Organization</p>
             </div>
           </div>
 

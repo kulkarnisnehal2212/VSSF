@@ -48,7 +48,7 @@ const hostels = [
   { img: h1, name: "Dr. Achyutrao Apte Hostel",     location: "FC Road, Pune"   },
   { img: h2, name: "Lajpat Bhavan",                  location: "Pune"            },
   { img: h3, name: "Latika Gaitonde Hostel",         location: "Pune"            },
-  { img: h4, name: "Madhubhau Chaudhari Hostel",     location: "Pune"            },
+  { img: h4, name: "Madhubhau Chaudhari Hostel",     location: "Ahilya Nagar"            },
   { img: h5, name: "P.D. Karkhanis Hostel",          location: "Pune"            },
   { img: h6, name: "Sumitra Hostel",                 location: "Pune"            },
   { img: h7, name: "Kalyanrao Jadhav Hostel",        location: "Ahilya Nagar"    },
@@ -233,7 +233,7 @@ export default function FacilitiesActivities() {
                 {[
                   { value: "1200+", label: "Active Students"       },
                   { value: "50+",   label: "Annual Events"         },
-                  { value: "60+",   label: "Years of Excellence"   },
+                  { value: "70+",   label: "Years of Excellence"   },
                 ].map((s, i) => (
                   <div key={i} className={`flex items-center justify-between py-3 ${i !== 2 ? "border-b border-white/10" : ""}`}>
                     <p className="text-white/60 text-sm">{s.label}</p>

@@ -4,7 +4,7 @@ export default function Impact() {
   const stats = [
     { icon: <FaUserGraduate />, number: "8000+", label: "Students Supported" },
     { icon: <FaBuilding />, number: "9", label: "Hostels" },
-    { icon: <FaCalendarAlt />, number: "60+", label: "Years of Legacy" },
+    { icon: <FaCalendarAlt />, number: "70+", label: "Years of Legacy" },
     { icon: <FaUsers />, number: "1300+", label: "Students Currently" },
   ];
 

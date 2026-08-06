@@ -5,7 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const stats = [
   { value: "8,000+",    label: "Students Supported"        },
-  { value: "60+",       label: "Years of Legacy"            },
+  { value: "70+",       label: "Years of Legacy"            },
   { value: "501(c)(3)", label: "VSSF Non-Profit Organization" },
 ];
 
@@ -25,7 +25,7 @@ export default function AboutIntro() {
         label="About Us"
         title="Vidyarthi Sahayyak"
         highlight="Samiti Foundation"
-        subtitle="Empowering under-resourced students from rural India through education, mentorship and a supportive community."
+        subtitle="Empowering under-resourced students from rural India and other countries through education, mentorship and a supportive community."
         image={aboutvssf}
         objectPosition="70% 90%"
         objectFit="cover"

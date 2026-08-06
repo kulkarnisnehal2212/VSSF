@@ -3,7 +3,8 @@ export const resourcesData = {
     {
       year: "Financial Year 2025–26",
       items: [
-        { title: "May 2026",       file: "/resources/Darpan/May_2026-2.pdf",                      image: null },
+        { title: "July 2026",      file: "/resources/Darpan/July_2026-3.pdf",                      image: null },
+        { title: "May 2026",       file: "/resources/Darpan/May_2026-2.pdf",                       image: null },
         { title: "April 2026",     file: "/resources/Darpan/Darpan April 2026.pdf",               image: null },
         { title: "March 2026",     file: "/resources/Darpan/Darpan March 2026.pdf",               image: null },
         { title: "February 2026",  file: "/resources/Darpan/Darpan February 2026.pdf",            image: null },

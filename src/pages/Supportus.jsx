@@ -22,7 +22,7 @@ export default function SupportUs() {
     <>
       <SEO
         title="Support Us"
-        description="Donate to VSS Foundation and make a direct impact on a student's life. Financial and non-financial support options available. 501(c)(3) tax deductible, EIN: 33-1919808."
+        description="Donate to VSS Foundation and make a direct impact on a student's life. Financial and non-financial support options available. 501(c)(3) non-profit, EIN: 33-1919808."
       />
       <PageHero
         label="Support Us"

@@ -29,13 +29,13 @@ export default function AboutVSS() {
       <VideoModal videoId="KetG-Pqafhw" isOpen={filmOpen} onClose={() => setFilmOpen(false)} />
       <SEO
         title="About VSS"
-        description="Vidyarthi Sahayyak Samiti — a 60+ year legacy of empowering students through hostels, meals, mentorship and holistic development programs."
+        description="Vidyarthi Sahayyak Samiti — a 70+ year legacy of empowering students through hostels, meals, mentorship and holistic development programs."
       />
       <PageHero
         label="About VSS"
         title="Vidyarthi Sahayyak"
         highlight="Samiti"
-        subtitle="A 60+ year legacy of empowering students through education, shelter and community."
+        subtitle="A 70+ year legacy of empowering students through education, shelter and community."
         image={aboutvssintro}
         objectPosition="80% 15%"
       />
@@ -89,7 +89,7 @@ export default function AboutVSS() {
               { value: "1955", label: "Year Established",  color: "primary"   },
               { value: "1200+",label: "Students Supported",color: "secondary"  },
               { value: "9",    label: "Hostels in Pune",   color: "primary"   },
-              { value: "60+",  label: "Years of Legacy",   color: "secondary"  },
+              { value: "70+",  label: "Years of Legacy",   color: "secondary"  },
             ].map((s, i) => (
               <div key={i} className={`flex items-center gap-4 px-4 py-3 rounded-xl border ${
                 s.color === "primary"
@@ -257,7 +257,7 @@ export default function AboutVSS() {
                 Be Part of VSS's <span className="text-[var(--color-secondary)]">Legacy</span>
               </h2>
               <p className="text-white/60 text-sm leading-relaxed">
-                Whether you want to support a student, visit our campus or simply learn more — we welcome you to be part of this 60+ year journey of transformation.
+                Whether you want to support a student, visit our campus or simply learn more — we welcome you to be part of this 70+ year journey of transformation.
               </p>
             </div>
 

@@ -13,7 +13,7 @@ const tiers = [
     amount: "USD 420",
     label: "Half-Year Support",
     desc: "Cover 50% of a student's annual cost for one semester.",
-    perks: ["Student profile shared with donor", "Progress updates twice a year", "Tax deductible (501c3)"],
+    perks: ["Student profile shared with donor", "Progress updates twice a year", "Donations may be deductible to the extent allowed by law"],
   },
   {
     icon: <FaUserGraduate />,
@@ -21,7 +21,7 @@ const tiers = [
     amount: "USD 1,700",
     label: "Full Journey Sponsor",
     desc: "Support a student's complete 3–4 year academic journey.",
-    perks: ["Named sponsorship certificate", "Annual student progress report", "Direct student connection", "Tax deductible (501c3)"],
+    perks: ["Named sponsorship certificate", "Annual student progress report", "Direct student connection", "Donations may be deductible to the extent allowed by law"],
     featured: true,
   },
   {
@@ -30,7 +30,7 @@ const tiers = [
     amount: "USD 2,800",
     label: "Sponsor a Week of Meals",
     desc: "Provide two meals/day for 1,200 students for one full week.",
-    perks: ["Meal sponsorship certificate", "Photo update from campus", "Tax deductible (501c3)"],
+    perks: ["Meal sponsorship certificate", "Photo update from campus", "Donations may be deductible to the extent allowed by law"],
   },
   {
     icon: <FaHome />,
@@ -38,15 +38,15 @@ const tiers = [
     amount: "USD 12,500",
     label: "Sponsor a Hostel Room",
     desc: "Name a room in the new girls hostel on Lajpat campus.",
-    perks: ["Name plaque on sponsored room", "Inauguration invitation", "Lifetime recognition", "Tax deductible (501c3)"],
+    perks: ["Name plaque on sponsored room", "Inauguration invitation", "Lifetime recognition", "Donations may be deductible to the extent allowed by law"],
   },
 ];
 
 const impactItems = [
-  { value: "USD 840",   label: "Annual cost per student"         },
-  { value: "50%",       label: "Borne by the student"            },
-  { value: "1,200+",    label: "Students currently supported"    },
-  { value: "501(c)(3)", label: "US registered, tax deductible"   },
+  { value: "USD 840",   label: "Annual cost per student"      },
+  { value: "50%",       label: "Borne by the student"         },
+  { value: "1,200+",    label: "Students currently supported" },
+  { value: "501(c)(3)", label: "US registered non-profit"     },
 ];
 
 const inputClass = "w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all duration-200";
@@ -149,14 +149,14 @@ export default function Donate() {
                   <span className="w-4 h-[2px] bg-gray-200" />
                 </div>
                 <p className="text-sm text-gray-500 leading-relaxed">
-                  All donations are processed securely. VSSF is a 501(c)(3) registered non-profit — your donation is fully tax deductible.
+                  All donations are processed securely. VSSF is a 501(c)(3) registered non-profit — donations to VSSF may be deductible to the extent allowed by the law.
                 </p>
               </div>
 
               <div className="space-y-3">
                 {[
                   { icon: <FaLock size={13} />,        text: "Secure & encrypted payment"    },
-                  { icon: <FaCheckCircle size={13} />, text: "501(c)(3) tax deductible"       },
+                  { icon: <FaCheckCircle size={13} />, text: "501(c)(3) — deductible to the extent allowed by law" },
                   { icon: <FaGlobe size={13} />,       text: "EIN: 33-1919808, Michigan USA"  },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm text-gray-600">
@@ -186,7 +186,7 @@ export default function Donate() {
                     <span className="text-white/70 text-[10px] uppercase tracking-[0.2em] font-medium">VSS Foundation</span>
                   </div>
                   <h3 className="heading-font text-lg font-semibold text-white">Donor Information</h3>
-                  <p className="text-white/60 text-xs mt-1">501(c)(3) registered · EIN: 33-1919808 · Tax deductible</p>
+                  <p className="text-white/60 text-xs mt-1">501(c)(3) registered · EIN: 33-1919808 · Donations may be deductible to the extent allowed by law</p>
 
                   {/* TABS */}
                   <div className="flex gap-2 mt-4">
@@ -252,12 +252,12 @@ export default function Donate() {
                     </div>
                     <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 border border-gray-100">
                       <FaLock size={12} className="text-gray-400 flex-shrink-0" />
-                      <p className="text-xs text-gray-500">Secure & encrypted · 100% tax deductible under 501(c)(3)</p>
+                      <p className="text-xs text-gray-500">Secure & encrypted · Donations to VSSF may be deductible to the extent allowed by the law</p>
                     </div>
                     <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200">
                       <FaHeart size={13} /> Donate Now <FaArrowRight size={11} />
                     </button>
-                    <p className="text-center text-xs text-gray-400">By donating you agree to our terms. All donations are tax deductible under 501(c)(3).</p>
+                    <p className="text-center text-xs text-gray-400">By donating you agree to our terms. Donations to VSSF may be deductible to the extent allowed by the law.</p>
                   </form>
                 ) : (
                   <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>

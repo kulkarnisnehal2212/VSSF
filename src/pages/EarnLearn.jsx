@@ -95,7 +95,7 @@ export default function EarnLearn() {
                   enabling all students to gain meaningful work experience while supporting themselves during their education.
                 </p>
                 <p>
-                  Students work just <span className="font-semibold text-gray-800">2–4 hours per week</span> in meaningful roles
+                  Students work  <span className="font-semibold text-gray-800">2–4 hours per week</span> in meaningful roles
                   within the Samiti ecosystem or with external partner organisations — earning money, building skills and growing as individuals.
                 </p>
               </div>
@@ -105,7 +105,7 @@ export default function EarnLearn() {
                 {[
                   { value: "1200+", label: "Students"    },
                   { value: "8+",    label: "Work Roles"  },
-                  { value: "60+",   label: "Years"       },
+                  { value: "70+",   label: "Years"       },
                 ].map((s, i) => (
                   <div key={i} className="text-center p-3 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
                     <p className="heading-font text-xl font-bold text-[var(--color-primary)]">{s.value}</p>

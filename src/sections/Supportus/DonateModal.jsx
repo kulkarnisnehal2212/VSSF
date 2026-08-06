@@ -192,7 +192,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
                 <span className="text-white/70 text-[10px] uppercase tracking-[0.2em] font-medium">VSS Foundation</span>
               </div>
               <h2 className="heading-font text-xl font-semibold text-white">Support a Student's Future</h2>
-              <p className="text-white/60 text-xs mt-1">501(c)(3) registered · EIN: 33-1919808 · Tax deductible</p>
+              <p className="text-white/60 text-xs mt-1">501(c)(3) registered · EIN: 33-1919808 · Donations may be deductible to the extent allowed by law</p>
             </div>
             <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200 flex-shrink-0 mt-1">
               <FaTimes size={13} />
@@ -274,7 +274,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
 
               <div className="flex items-center gap-4 py-3 px-4 rounded-xl bg-gray-50 border border-gray-100">
                 <FaLock size={12} className="text-gray-400 flex-shrink-0" />
-                <p className="text-xs text-gray-500">Secure & encrypted · 100% tax deductible under 501(c)(3)</p>
+                <p className="text-xs text-gray-500">Secure & encrypted · Donations to VSSF may be deductible to the extent allowed by law</p>
               </div>
 
               {finStatus === "success" && (

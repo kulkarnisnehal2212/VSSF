@@ -268,7 +268,7 @@ export default function FinancialDonors({ openModal }) {
               Please Fill Out the <span className="text-[var(--color-secondary)]">Donation Form</span>
             </h2>
             <p className="text-white/60 text-sm leading-relaxed">
-              Your contribution is fully tax deductible. Every dollar goes directly toward supporting a student's education and future.
+              Donations to VSSF may be deductible to the extent allowed by the law. Every dollar goes directly toward supporting a student's education and future.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row md:flex-col gap-3 flex-shrink-0">
