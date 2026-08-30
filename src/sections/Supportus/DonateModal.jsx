@@ -23,6 +23,15 @@ const normalizeDonationAmount = (value) => {
   return /^usd\b/i.test(trimmed) ? trimmed.replace(/^usd\b/i, "USD") : `USD ${trimmed}`;
 };
 
+const logDonationEmailError = (err) => {
+  console.error("Donation EmailJS send failed", {
+    status: err?.status,
+    text: err?.text,
+    message: err?.message,
+    error: err,
+  });
+};
+
 export default function DonateModal({ isOpen, onClose, defaultTab = "financial" }) {
   const [tab, setTab] = useState(defaultTab);
   const [selectedAmount, setSelectedAmount] = useState("");
@@ -119,7 +128,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
       setFinTouched({});
       setFinErrors({});
     } catch (err) {
-      console.error(err);
+      logDonationEmailError(err);
       setFinStatus("error");
     }
   };
@@ -181,7 +190,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
       setNonTouched({});
       setNonErrors({});
     } catch (err) {
-      console.error(err);
+      logDonationEmailError(err);
       setNonStatus("error");
     }
   };
