@@ -56,7 +56,7 @@ export default function SupportUs() {
           <div className="max-w-[780px] mx-auto text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-[var(--color-secondary)]/10 border border-[var(--color-secondary)]/20 rounded-full px-4 py-1.5 mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-secondary)]" />
-              <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">How You Can Help VSSF</p>
+              <p className="secondary-text text-[11px] uppercase tracking-[0.2em] font-medium">How You Can Help VSSF Via your work</p>
             </div>
             <h2 className="heading-font text-2xl md:text-3xl font-semibold text-[var(--color-primary)] mb-4">
               Every Contribution <span className="text-[var(--color-secondary)]">Counts</span>
