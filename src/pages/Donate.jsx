@@ -76,6 +76,17 @@ const normalizeDonationAmount = (value) => {
   return /^usd\b/i.test(trimmed) ? trimmed.replace(/^usd\b/i, "USD") : `USD ${trimmed}`;
 };
 
+const withEmailJsTemplateCompatibility = (params) => ({
+  ...params,
+  "donation\\_type": params.donation_type,
+  "first\\_name": params.first_name,
+  "last\\_name": params.last_name,
+  "donation\\_amount": params.donation_amount,
+  "help\\_type": params.help_type,
+  "is\\_financial": params.is_financial,
+  "is\\_non\\_financial": params.is_non_financial,
+});
+
 export default function Donate() {
   const [selectedTier, setSelectedTier] = useState(1);
   const [selectedAmount, setSelectedAmount] = useState(tiers[1].amount);
@@ -101,7 +112,7 @@ export default function Donate() {
     setFinancialStatus("sending");
 
     try {
-      await sendDonationEmail({
+      await sendDonationEmail(withEmailJsTemplateCompatibility({
         donation_type: "Financial Donor",
         first_name: financialForm.first_name,
         last_name: financialForm.last_name,
@@ -114,7 +125,7 @@ export default function Donate() {
         message: financialForm.message || "",
         is_financial: true,
         is_non_financial: false,
-      });
+      }));
 
       setFinancialStatus("success");
       setFinancialForm(initFinancialForm);
@@ -131,7 +142,7 @@ export default function Donate() {
     setNonFinancialStatus("sending");
 
     try {
-      await sendDonationEmail({
+      await sendDonationEmail(withEmailJsTemplateCompatibility({
         donation_type: "Non-Financial Donor",
         first_name: nonFinancialForm.first_name,
         last_name: nonFinancialForm.last_name,
@@ -144,7 +155,7 @@ export default function Donate() {
         message: nonFinancialForm.message,
         is_financial: false,
         is_non_financial: true,
-      });
+      }));
 
       setNonFinancialStatus("success");
       setNonFinancialForm(initNonFinancialForm);

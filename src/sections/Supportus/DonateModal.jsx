@@ -32,6 +32,17 @@ const logDonationEmailError = (err) => {
   });
 };
 
+const withEmailJsTemplateCompatibility = (params) => ({
+  ...params,
+  "donation\\_type": params.donation_type,
+  "first\\_name": params.first_name,
+  "last\\_name": params.last_name,
+  "donation\\_amount": params.donation_amount,
+  "help\\_type": params.help_type,
+  "is\\_financial": params.is_financial,
+  "is\\_non\\_financial": params.is_non_financial,
+});
+
 export default function DonateModal({ isOpen, onClose, defaultTab = "financial" }) {
   const [tab, setTab] = useState(defaultTab);
   const [selectedAmount, setSelectedAmount] = useState("");
@@ -108,7 +119,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     setFinStatus("sending");
     try {
       const donationAmount = normalizeDonationAmount(fin.custom_amount || selectedAmount);
-      await sendDonationEmail({
+      await sendDonationEmail(withEmailJsTemplateCompatibility({
         donation_type: "Financial Donor",
         first_name: fin.first_name,
         last_name: fin.last_name,
@@ -121,7 +132,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
         message: fin.message || "",
         is_financial: true,
         is_non_financial: false,
-      });
+      }));
       setFinStatus("success");
       setFin(initFinancial);
       setSelectedAmount("");
@@ -171,7 +182,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     if (Object.keys(errs).length > 0) return;
     setNonStatus("sending");
     try {
-      await sendDonationEmail({
+      await sendDonationEmail(withEmailJsTemplateCompatibility({
         donation_type: "Non-Financial Donor",
         first_name: non.first_name,
         last_name: non.last_name,
@@ -184,7 +195,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
         message: non.details,
         is_financial: false,
         is_non_financial: true,
-      });
+      }));
       setNonStatus("success");
       setNon(initNonFinancial);
       setNonTouched({});
