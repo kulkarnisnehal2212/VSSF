@@ -49,6 +49,6 @@ export const sendDonationEmail = (data) => {
     DONATION_SERVICE_ID,
     DONATION_TEMPLATE_ID,
     data,
-    { publicKey: DONATION_PUBLIC_KEY }
+    DONATION_PUBLIC_KEY
   );
 }
