@@ -3,14 +3,14 @@ import emailjs from "@emailjs/browser";
 const SERVICE_ID = "service_fv55klu";
 const PUBLIC_KEY = "f7JATMFJVYNtj3Fjs";
 
-const DONATION_SERVICE_ID = "service_0jz75ur";
-const DONATION_PUBLIC_KEY = "8Xwguh_QqCvwQQXH4";
+const DONATION_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_0jz75ur";
+const DONATION_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "8Xwguh_QqCvwQQXH4";
 
 //  CONTACT TEMPLATE
 const CONTACT_TEMPLATE_ID = "template_7n61l55";
 
 //  DONATION TEMPLATE 
-const DONATION_TEMPLATE_ID = "template_c40xsr7";
+const DONATION_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_DONATION_TEMPLATE_ID || "template_c40xsr7";
 
 //  Contact Form
 export const sendContactEmail = (data) => {
@@ -28,6 +28,6 @@ export const sendDonationEmail = (data) => {
     DONATION_SERVICE_ID,
     DONATION_TEMPLATE_ID,
     data,
-    DONATION_PUBLIC_KEY
+    { publicKey: DONATION_PUBLIC_KEY }
   );
 }

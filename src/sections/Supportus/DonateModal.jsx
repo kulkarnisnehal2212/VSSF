@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaTimes, FaHeart, FaHandshake, FaArrowRight, FaLock, FaCheckCircle, FaExclamationCircle, FaTimesCircle } from "react-icons/fa";
-import { rules, validateForm, sanitizeName, sanitizeAmount } from "../../utils/validation";
+import { rules, validateForm, sanitizeName } from "../../utils/validation";
 import { sendDonationEmail } from "../../services/emailService";
 
 const inputClass = "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all duration-200";
@@ -16,6 +16,12 @@ const donationAmounts = ["USD 200", "USD 420", "USD 1,700", "USD 2,800", "USD 12
 
 const initFinancial = { first_name: "", last_name: "", email: "", phone: "", address: "", custom_amount: "", message: "" };
 const initNonFinancial = { first_name: "", last_name: "", email: "", phone: "", help_type: "", profession: "", details: "" };
+
+const normalizeDonationAmount = (value) => {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+  return /^usd\b/i.test(trimmed) ? trimmed.replace(/^usd\b/i, "USD") : `USD ${trimmed}`;
+};
 
 export default function DonateModal({ isOpen, onClose, defaultTab = "financial" }) {
   const [tab, setTab] = useState(defaultTab);
@@ -92,16 +98,20 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     if (Object.keys(errs).length > 0) return;
     setFinStatus("sending");
     try {
+      const donationAmount = normalizeDonationAmount(fin.custom_amount || selectedAmount);
       await sendDonationEmail({
-        donor_type:    "Financial Donor",
-        first_name:    fin.first_name,
-        last_name:     fin.last_name,
-        email:         fin.email,
-        phone:         fin.phone,
-        address:       fin.address || "—",
-        amount:        selectedAmount || "—",
-        custom_amount: fin.custom_amount || "—",
-        message:       fin.message || "—",
+        donation_type: "Financial Donor",
+        first_name: fin.first_name,
+        last_name: fin.last_name,
+        email: fin.email,
+        phone: fin.phone,
+        address: fin.address || "",
+        donation_amount: donationAmount,
+        help_type: "",
+        profession: "",
+        message: fin.message || "",
+        is_financial: true,
+        is_non_financial: false,
       });
       setFinStatus("success");
       setFin(initFinancial);
@@ -153,16 +163,18 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     setNonStatus("sending");
     try {
       await sendDonationEmail({
-        donor_type:   "Non-Financial Donor",
-        first_name:   non.first_name,
-        last_name:    non.last_name,
-        email:        non.email,
-        phone:        non.phone,
-        address:      "—",
-        amount:       "—",
-        help_type:    non.help_type,
-        profession:   non.profession,
-        message:      non.details,
+        donation_type: "Non-Financial Donor",
+        first_name: non.first_name,
+        last_name: non.last_name,
+        email: non.email,
+        phone: non.phone,
+        address: "",
+        donation_amount: "",
+        help_type: non.help_type,
+        profession: non.profession,
+        message: non.details,
+        is_financial: false,
+        is_non_financial: true,
       });
       setNonStatus("success");
       setNon(initNonFinancial);
