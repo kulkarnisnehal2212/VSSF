@@ -5,7 +5,7 @@ import {
   FaHeart, FaHome, FaUtensils, FaUserGraduate,
   FaCheckCircle, FaArrowRight, FaLock, FaGlobe, FaHandshake,
 } from "react-icons/fa";
-import { sendDonatePageEmail } from "../services/donatePageEmailService";
+import { sendDonationEmail } from "../services/emailService";
 
 const tiers = [
   {
@@ -70,6 +70,12 @@ const initNonFinancialForm = {
   message: "",
 };
 
+const normalizeDonationAmount = (value) => {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+  return /^usd\b/i.test(trimmed) ? trimmed.replace(/^usd\b/i, "USD") : `USD ${trimmed}`;
+};
+
 export default function Donate() {
   const [selectedTier, setSelectedTier] = useState(1);
   const [selectedAmount, setSelectedAmount] = useState(tiers[1].amount);
@@ -95,18 +101,19 @@ export default function Donate() {
     setFinancialStatus("sending");
 
     try {
-      await sendDonatePageEmail({
-        donor_type: "Financial Donor",
+      await sendDonationEmail({
+        donation_type: "Financial Donor",
         first_name: financialForm.first_name,
         last_name: financialForm.last_name,
         email: financialForm.email,
         phone: financialForm.phone,
-        address: "-",
-        amount: custom || selectedAmount || "-",
-        custom_amount: custom || selectedAmount || "-",
-        help_type: "-",
-        profession: "-",
-        message: financialForm.message || "-",
+        address: "",
+        donation_amount: normalizeDonationAmount(custom || selectedAmount),
+        help_type: "",
+        profession: "",
+        message: financialForm.message || "",
+        is_financial: true,
+        is_non_financial: false,
       });
 
       setFinancialStatus("success");
@@ -124,18 +131,19 @@ export default function Donate() {
     setNonFinancialStatus("sending");
 
     try {
-      await sendDonatePageEmail({
-        donor_type: "Non-Financial Donor",
+      await sendDonationEmail({
+        donation_type: "Non-Financial Donor",
         first_name: nonFinancialForm.first_name,
         last_name: nonFinancialForm.last_name,
         email: nonFinancialForm.email,
         phone: nonFinancialForm.phone,
-        address: "-",
-        amount: "-",
-        custom_amount: "-",
-        help_type: nonFinancialForm.help_type || "-",
-        profession: nonFinancialForm.profession || "-",
-        message: nonFinancialForm.message || "-",
+        address: "",
+        donation_amount: "",
+        help_type: nonFinancialForm.help_type,
+        profession: nonFinancialForm.profession,
+        message: nonFinancialForm.message,
+        is_financial: false,
+        is_non_financial: true,
       });
 
       setNonFinancialStatus("success");
