@@ -24,24 +24,11 @@ const normalizeDonationAmount = (value) => {
 };
 
 const logDonationEmailError = (err) => {
-  console.error("Donation EmailJS send failed", {
-    status: err?.status,
-    text: err?.text,
-    message: err?.message,
-    error: err,
-  });
+  console.error("Donation EmailJS send failed");
+  console.error("EmailJS status:", err?.status);
+  console.error("EmailJS text:", err?.text || err?.message || err);
+  console.error(err);
 };
-
-const withEmailJsTemplateCompatibility = (params) => ({
-  ...params,
-  "donation\\_type": params.donation_type,
-  "first\\_name": params.first_name,
-  "last\\_name": params.last_name,
-  "donation\\_amount": params.donation_amount,
-  "help\\_type": params.help_type,
-  "is\\_financial": params.is_financial,
-  "is\\_non\\_financial": params.is_non_financial,
-});
 
 export default function DonateModal({ isOpen, onClose, defaultTab = "financial" }) {
   const [tab, setTab] = useState(defaultTab);
@@ -119,7 +106,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     setFinStatus("sending");
     try {
       const donationAmount = normalizeDonationAmount(fin.custom_amount || selectedAmount);
-      await sendDonationEmail(withEmailJsTemplateCompatibility({
+      await sendDonationEmail({
         donation_type: "Financial Donor",
         first_name: fin.first_name,
         last_name: fin.last_name,
@@ -132,7 +119,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
         message: fin.message || "",
         is_financial: true,
         is_non_financial: false,
-      }));
+      });
       setFinStatus("success");
       setFin(initFinancial);
       setSelectedAmount("");
@@ -182,7 +169,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     if (Object.keys(errs).length > 0) return;
     setNonStatus("sending");
     try {
-      await sendDonationEmail(withEmailJsTemplateCompatibility({
+      await sendDonationEmail({
         donation_type: "Non-Financial Donor",
         first_name: non.first_name,
         last_name: non.last_name,
@@ -195,7 +182,7 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
         message: non.details,
         is_financial: false,
         is_non_financial: true,
-      }));
+      });
       setNonStatus("success");
       setNon(initNonFinancial);
       setNonTouched({});
