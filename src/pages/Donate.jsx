@@ -5,6 +5,7 @@ import {
   FaHeart, FaHome, FaUtensils, FaUserGraduate,
   FaCheckCircle, FaArrowRight, FaLock, FaGlobe, FaHandshake,
 } from "react-icons/fa";
+import { sendDonatePageEmail } from "../services/donatePageEmailService";
 
 const tiers = [
   {
@@ -51,10 +52,99 @@ const impactItems = [
 
 const inputClass = "w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all duration-200";
 
+const initFinancialForm = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  message: "",
+};
+
+const initNonFinancialForm = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  help_type: "",
+  profession: "",
+  message: "",
+};
+
 export default function Donate() {
-  const [selected, setSelected] = useState(1);
+  const [selectedTier, setSelectedTier] = useState(1);
+  const [selectedAmount, setSelectedAmount] = useState(tiers[1].amount);
   const [custom, setCustom] = useState("");
   const [formTab, setFormTab] = useState("financial");
+  const [financialForm, setFinancialForm] = useState(initFinancialForm);
+  const [nonFinancialForm, setNonFinancialForm] = useState(initNonFinancialForm);
+  const [financialStatus, setFinancialStatus] = useState("");
+  const [nonFinancialStatus, setNonFinancialStatus] = useState("");
+
+  const handleFinancialChange = (e) => {
+    const { name, value } = e.target;
+    setFinancialForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleNonFinancialChange = (e) => {
+    const { name, value } = e.target;
+    setNonFinancialForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFinancialSubmit = async (e) => {
+    e.preventDefault();
+    setFinancialStatus("sending");
+
+    try {
+      await sendDonatePageEmail({
+        donor_type: "Financial Donor",
+        first_name: financialForm.first_name,
+        last_name: financialForm.last_name,
+        email: financialForm.email,
+        phone: financialForm.phone,
+        address: "-",
+        amount: custom || selectedAmount || "-",
+        custom_amount: custom || selectedAmount || "-",
+        help_type: "-",
+        profession: "-",
+        message: financialForm.message || "-",
+      });
+
+      setFinancialStatus("success");
+      setFinancialForm(initFinancialForm);
+      setCustom("");
+      setSelectedAmount(tiers[selectedTier].amount);
+    } catch (err) {
+      console.error(err);
+      setFinancialStatus("error");
+    }
+  };
+
+  const handleNonFinancialSubmit = async (e) => {
+    e.preventDefault();
+    setNonFinancialStatus("sending");
+
+    try {
+      await sendDonatePageEmail({
+        donor_type: "Non-Financial Donor",
+        first_name: nonFinancialForm.first_name,
+        last_name: nonFinancialForm.last_name,
+        email: nonFinancialForm.email,
+        phone: nonFinancialForm.phone,
+        address: "-",
+        amount: "-",
+        custom_amount: "-",
+        help_type: nonFinancialForm.help_type || "-",
+        profession: nonFinancialForm.profession || "-",
+        message: nonFinancialForm.message || "-",
+      });
+
+      setNonFinancialStatus("success");
+      setNonFinancialForm(initNonFinancialForm);
+    } catch (err) {
+      console.error(err);
+      setNonFinancialStatus("error");
+    }
+  };
 
   return (
     <>
@@ -96,9 +186,13 @@ export default function Donate() {
               {tiers.map((tier, i) => (
                 <div
                   key={i}
-                  onClick={() => setSelected(i)}
+                  onClick={() => {
+                    setSelectedTier(i);
+                    setSelectedAmount(tier.amount);
+                    setCustom("");
+                  }}
                   className={`relative cursor-pointer rounded-2xl border p-6 transition-all duration-300 flex flex-col ${
-                    selected === i
+                    selectedTier === i
                       ? "border-[var(--color-primary)] shadow-xl -translate-y-1"
                       : "border-gray-100 hover:shadow-md hover:border-[var(--color-primary)]/20"
                   } ${tier.featured ? "ring-2 ring-[var(--color-primary)]/30" : ""}`}
@@ -126,7 +220,7 @@ export default function Donate() {
                     ))}
                   </ul>
 
-                  {selected === i && (
+                  {selectedTier === i && (
                     <div className="mt-4 w-full h-1 rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)]" />
                   )}
                 </div>
@@ -170,8 +264,8 @@ export default function Donate() {
 
               <div className="p-5 rounded-2xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
                 <p className="text-xs text-gray-400 uppercase tracking-widest mb-2 font-medium">Selected</p>
-                <p className="heading-font text-xl font-bold text-[var(--color-primary)]">{tiers[selected].amount}</p>
-                <p className="text-sm text-gray-600 mt-1">{tiers[selected].label}</p>
+                <p className="heading-font text-xl font-bold text-[var(--color-primary)]">{selectedAmount || custom || tiers[selectedTier].amount}</p>
+                <p className="text-sm text-gray-600 mt-1">{tiers[selectedTier].label}</p>
               </div>
             </div>
 
@@ -212,76 +306,86 @@ export default function Donate() {
 
               <div className="bg-white rounded-b-3xl border border-gray-100 shadow-xl px-8 py-7">
                 {formTab === "financial" ? (
-                  <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                  <form className="space-y-4" onSubmit={handleFinancialSubmit}>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name</label>
-                        <input type="text" placeholder="Rahul" className={inputClass} />
+                        <input name="first_name" type="text" placeholder="Rahul" value={financialForm.first_name} onChange={handleFinancialChange} required className={inputClass} />
                       </div>
                       <div>
                         <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name</label>
-                        <input type="text" placeholder="Sharma" className={inputClass} />
+                        <input name="last_name" type="text" placeholder="Sharma" value={financialForm.last_name} onChange={handleFinancialChange} required className={inputClass} />
                       </div>
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Email Address</label>
-                      <input type="email" placeholder="you@example.com" className={inputClass} />
+                      <input name="email" type="email" placeholder="you@example.com" value={financialForm.email} onChange={handleFinancialChange} required className={inputClass} />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Phone Number</label>
-                      <input type="tel" placeholder="+1 (000) 000-0000" className={inputClass} />
+                      <input name="phone" type="tel" placeholder="+1 (000) 000-0000" value={financialForm.phone} onChange={handleFinancialChange} required className={inputClass} />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Donation Amount</label>
                       <div className="flex flex-wrap gap-2 mb-2">
                         {["USD 200","USD 420","USD 1,700","USD 2,800","USD 12,500"].map((amt) => (
                           <button key={amt} type="button"
-                            onClick={() => { setSelected(amt); setCustom(""); }}
+                            onClick={() => { setSelectedAmount(amt); setCustom(""); }}
                             className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all duration-200 ${
-                              selected === amt
+                              selectedAmount === amt
                                 ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
                                 : "bg-gray-50 text-gray-600 border-gray-200 hover:border-[var(--color-primary)]/30"
                             }`}>{amt}</button>
                         ))}
                       </div>
-                      <input type="text" placeholder="Or enter custom amount (USD)" value={custom} onChange={(e) => { setCustom(e.target.value); setSelected(""); }} className={inputClass} />
+                      <input type="text" placeholder="Or enter custom amount (USD)" value={custom} onChange={(e) => { setCustom(e.target.value); setSelectedAmount(""); }} className={inputClass} />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Message <span className="text-gray-300">(optional)</span></label>
-                      <textarea rows={3} placeholder="Any specific project or note..." className={inputClass + " resize-none"} />
+                      <textarea name="message" rows={3} placeholder="Any specific project or note..." value={financialForm.message} onChange={handleFinancialChange} className={inputClass + " resize-none"} />
                     </div>
                     <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 border border-gray-100">
                       <FaLock size={12} className="text-gray-400 flex-shrink-0" />
                       <p className="text-xs text-gray-500">Secure & encrypted · Donations to VSSF may be deductible to the extent allowed by the law</p>
                     </div>
-                    <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200">
-                      <FaHeart size={13} /> Donate Now <FaArrowRight size={11} />
+                    {financialStatus === "success" && (
+                      <div className="flex items-center gap-3 text-sm text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
+                        <FaCheckCircle size={15} className="flex-shrink-0" /> Thank you! Your donation inquiry has been received.
+                      </div>
+                    )}
+                    {financialStatus === "error" && (
+                      <div className="text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-xl px-4 py-3">
+                        Something went wrong. Please try again.
+                      </div>
+                    )}
+                    <button type="submit" disabled={financialStatus === "sending"} className="w-full flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+                      <FaHeart size={13} /> {financialStatus === "sending" ? "Submitting..." : "Donate Now"} <FaArrowRight size={11} />
                     </button>
                     <p className="text-center text-xs text-gray-400">By donating you agree to our terms. Donations to VSSF may be deductible to the extent allowed by the law.</p>
                   </form>
                 ) : (
-                  <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                  <form className="space-y-4" onSubmit={handleNonFinancialSubmit}>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name</label>
-                        <input type="text" placeholder="Rahul" className={inputClass} />
+                        <input name="first_name" type="text" placeholder="Rahul" value={nonFinancialForm.first_name} onChange={handleNonFinancialChange} required className={inputClass} />
                       </div>
                       <div>
                         <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name</label>
-                        <input type="text" placeholder="Sharma" className={inputClass} />
+                        <input name="last_name" type="text" placeholder="Sharma" value={nonFinancialForm.last_name} onChange={handleNonFinancialChange} required className={inputClass} />
                       </div>
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Email Address</label>
-                      <input type="email" placeholder="you@example.com" className={inputClass} />
+                      <input name="email" type="email" placeholder="you@example.com" value={nonFinancialForm.email} onChange={handleNonFinancialChange} required className={inputClass} />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Phone Number</label>
-                      <input type="tel" placeholder="+1 (000) 000-0000" className={inputClass} />
+                      <input name="phone" type="tel" placeholder="+1 (000) 000-0000" value={nonFinancialForm.phone} onChange={handleNonFinancialChange} required className={inputClass} />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">How would you like to help?</label>
-                      <select className={inputClass}>
+                      <select name="help_type" value={nonFinancialForm.help_type} onChange={handleNonFinancialChange} required className={inputClass}>
                         <option value="">Select an option</option>
                         <option>Provide Mentorship (Palya Palaka Yojana)</option>
                         <option>Identify Earn & Learn Opportunities</option>
@@ -292,11 +396,11 @@ export default function Donate() {
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Your Profession / Field</label>
-                      <input type="text" placeholder="e.g. Software Engineer, Doctor..." className={inputClass} />
+                      <input name="profession" type="text" placeholder="e.g. Software Engineer, Doctor..." value={nonFinancialForm.profession} onChange={handleNonFinancialChange} required className={inputClass} />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Message / Details</label>
-                      <textarea rows={3} placeholder="Tell us how you'd like to contribute..." className={inputClass + " resize-none"} />
+                      <textarea name="message" rows={3} placeholder="Tell us how you'd like to contribute..." value={nonFinancialForm.message} onChange={handleNonFinancialChange} required className={inputClass + " resize-none"} />
                     </div>
                     <div className="space-y-2 py-3 px-4 rounded-xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
                       {["Flexible time commitment","Make a real impact on students' lives","Connect with a global community"].map((pt, i) => (
@@ -305,8 +409,18 @@ export default function Donate() {
                         </div>
                       ))}
                     </div>
-                    <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[#1a2568] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(35,48,125,0.2)] hover:-translate-y-0.5 transition-all duration-200">
-                      <FaHandshake size={13} /> Submit My Interest <FaArrowRight size={11} />
+                    {nonFinancialStatus === "success" && (
+                      <div className="flex items-center gap-3 text-sm text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
+                        <FaCheckCircle size={15} className="flex-shrink-0" /> Thank you! Your interest has been submitted.
+                      </div>
+                    )}
+                    {nonFinancialStatus === "error" && (
+                      <div className="text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-xl px-4 py-3">
+                        Something went wrong. Please try again.
+                      </div>
+                    )}
+                    <button type="submit" disabled={nonFinancialStatus === "sending"} className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[#1a2568] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(35,48,125,0.2)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+                      <FaHandshake size={13} /> {nonFinancialStatus === "sending" ? "Submitting..." : "Submit My Interest"} <FaArrowRight size={11} />
                     </button>
                   </form>
                 )}
