@@ -4,13 +4,11 @@ const SERVICE_ID = "service_fv55klu";
 const PUBLIC_KEY = "f7JATMFJVYNtj3Fjs";
 
 const cleanEmailJsKey = (value, fallback) => {
-  const cleaned = String(value || fallback)
+  const raw = String(value || fallback)
     .trim()
-    .replace(/^['"]|['"]$/g, "")
-    .replace(/\\/g, "")
-    .split("=")
-    .pop()
-    .trim();
+    .replace(/^['"]|['"]$/g, "");
+  const valueOnly = raw.includes("=") ? raw.split("=").pop().trim() : raw;
+  const cleaned = valueOnly.replace(/\\_/g, "_").trim();
 
   return cleaned || fallback;
 };
