@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { FaTimes, FaHeart, FaHandshake, FaArrowRight, FaLock, FaCheckCircle, FaExclamationCircle, FaTimesCircle } from "react-icons/fa";
-import { rules, validateForm, sanitizeName } from "../../utils/validation";
+import { FaTimes, FaHeart, FaArrowRight, FaLock, FaCheckCircle, FaExclamationCircle, FaTimesCircle } from "react-icons/fa";
+import { rules, validateForm, sanitizeName, sanitizeAmount } from "../../utils/validation";
 import { sendDonationEmail } from "../../services/emailService";
 
 const inputClass = "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all duration-200";
@@ -12,15 +12,31 @@ const FieldError = ({ msg }) => msg ? (
   </p>
 ) : null;
 
-const donationAmounts = ["USD 200", "USD 420", "USD 1,700", "USD 2,800", "USD 12,500"];
+const initForm = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  street_address_1: "",
+  street_address_2: "",
+  city: "",
+  zip_code: "",
+  state: "",
+  country: "",
+  donation_type: "",
+  amount: "",
+  help_type: "",
+  profession: "",
+  message: "",
+};
 
-const initFinancial = { first_name: "", last_name: "", email: "", phone: "", address: "", custom_amount: "", message: "" };
-const initNonFinancial = { first_name: "", last_name: "", email: "", phone: "", help_type: "", profession: "", details: "" };
-
-const normalizeDonationAmount = (value) => {
-  const trimmed = String(value || "").trim();
-  if (!trimmed) return "";
-  return /^usd\b/i.test(trimmed) ? trimmed.replace(/^usd\b/i, "USD") : `USD ${trimmed}`;
+const validateAmount = (value) => {
+  if (!value || value.trim() === "") return "Please enter a donation amount.";
+  const normalized = value.replace(/,/g, "");
+  if (!/^\d+(\.\d{1,2})?$/.test(normalized) || Number(normalized) <= 0) {
+    return "Enter a valid numeric donation amount.";
+  }
+  return null;
 };
 
 const logDonationEmailError = (err) => {
@@ -30,166 +46,148 @@ const logDonationEmailError = (err) => {
   console.error(err);
 };
 
-export default function DonateModal({ isOpen, onClose, defaultTab = "financial" }) {
-  const [tab, setTab] = useState(defaultTab);
-  const [selectedAmount, setSelectedAmount] = useState("");
+export default function DonateModal({ isOpen, onClose }) {
+  const [form, setForm] = useState(initForm);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [status, setStatus] = useState("");
 
-  // Financial form state
-  const [fin, setFin] = useState(initFinancial);
-  const [finErrors, setFinErrors] = useState({});
-  const [finTouched, setFinTouched] = useState({});
-  const [finStatus, setFinStatus] = useState("");
-
-  // Non-financial form state
-  const [non, setNon] = useState(initNonFinancial);
-  const [nonErrors, setNonErrors] = useState({});
-  const [nonTouched, setNonTouched] = useState({});
-  const [nonStatus, setNonStatus] = useState("");
-
-  useEffect(() => {
-    if (isOpen) {
-      setTab(defaultTab);
-      // reset both forms cleanly every time modal opens
-      setFin(initFinancial);
-      setFinErrors({});
-      setFinTouched({});
-      setFinStatus("");
-      setNon(initNonFinancial);
-      setNonErrors({});
-      setNonTouched({});
-      setNonStatus("");
-      setSelectedAmount("");
-    }
-  }, [isOpen, defaultTab]);
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
-  // ── FINANCIAL VALIDATION ──
-  const validateFin = (f) => validateForm({
-    first_name:    { value: f.first_name,    rule: rules.name     },
-    last_name:     { value: f.last_name,     rule: rules.name     },
-    email:         { value: f.email,         rule: rules.email    },
-    phone:         { value: f.phone,         rule: rules.phone    },
-    amount:        { value: f.custom_amount, rule: rules.amount   },
-  });
+  const validateDonationForm = (values) => {
+    const fields = {
+      first_name: { value: values.first_name, rule: rules.name },
+      last_name: { value: values.last_name, rule: rules.name },
+      email: { value: values.email, rule: rules.email },
+      phone: { value: values.phone, rule: rules.phone },
+      street_address_1: { value: values.street_address_1, rule: rules.required },
+      street_address_2: { value: values.street_address_2, rule: rules.required },
+      city: { value: values.city, rule: rules.required },
+      zip_code: { value: values.zip_code, rule: rules.required },
+      state: { value: values.state, rule: rules.required },
+      country: { value: values.country, rule: rules.required },
+      donation_type: { value: values.donation_type, rule: rules.select },
+    };
 
-  const handleFinChange = (e) => {
+    if (values.donation_type === "Financial Donation") {
+      fields.amount = { value: values.amount, rule: validateAmount };
+    }
+
+    if (values.donation_type === "Non-Financial Donation") {
+      fields.help_type = { value: values.help_type, rule: rules.select };
+      fields.profession = { value: values.profession, rule: rules.required };
+    }
+
+    return validateForm(fields);
+  };
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    let v = value;
-    if (name === "first_name" || name === "last_name") v = sanitizeName(value);
-    // phone: don't sanitize — let validation show the error
-    if (name === "custom_amount") {
-      setSelectedAmount(""); // deselect pill when user types manually
-    }
-    const updated = { ...fin, [name]: v };
-    setFin(updated);
-    if (finTouched[name] || v !== "") {
-      setFinTouched((p) => ({ ...p, [name]: true }));
-      setFinErrors(validateFin(updated));
-    }
-  };
+    let nextValue = value;
 
-  const handleFinBlur = (e) => {
-    setFinTouched((p) => ({ ...p, [e.target.name]: true }));
-    setFinErrors(validateFin(fin));
-  };
+    if (name === "first_name" || name === "last_name") nextValue = sanitizeName(value);
+    if (name === "amount") nextValue = sanitizeAmount(value);
 
-  const handleFinSubmit = async (e) => {
-    e.preventDefault();
-    const allTouched = { first_name: true, last_name: true, email: true, phone: true, amount: true };
-    setFinTouched(allTouched);
-    const errs = validateFin(fin);
-    setFinErrors(errs);
-    if (Object.keys(errs).length > 0) return;
-    setFinStatus("sending");
-    try {
-      const donationAmount = normalizeDonationAmount(fin.custom_amount || selectedAmount);
-      await sendDonationEmail({
-        donation_type: "Financial Donor",
-        first_name: fin.first_name,
-        last_name: fin.last_name,
-        email: fin.email,
-        phone: fin.phone,
-        address: fin.address || "",
-        donation_amount: donationAmount,
-        help_type: "",
-        profession: "",
-        message: fin.message || "",
-        is_financial: true,
-        is_non_financial: false,
+    const updated = { ...form, [name]: nextValue };
+
+    if (name === "donation_type") {
+      updated.amount = "";
+      updated.help_type = "";
+      updated.profession = "";
+      updated.message = form.message;
+    }
+
+    setForm(updated);
+    if (touched[name] || nextValue !== "" || name === "donation_type") {
+      setTouched((prev) => {
+        const nextTouched = { ...prev, [name]: true };
+        if (name === "donation_type") {
+          delete nextTouched.amount;
+          delete nextTouched.help_type;
+          delete nextTouched.profession;
+        }
+        return nextTouched;
       });
-      setFinStatus("success");
-      setFin(initFinancial);
-      setSelectedAmount("");
-      setFinTouched({});
-      setFinErrors({});
+      setErrors(validateDonationForm(updated));
+    }
+  };
+
+  const handleBlur = (e) => {
+    setTouched((prev) => ({ ...prev, [e.target.name]: true }));
+    setErrors(validateDonationForm(form));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const activeTouched = {
+      first_name: true,
+      last_name: true,
+      email: true,
+      phone: true,
+      street_address_1: true,
+      street_address_2: true,
+      city: true,
+      zip_code: true,
+      state: true,
+      country: true,
+      donation_type: true,
+    };
+
+    if (form.donation_type === "Financial Donation") activeTouched.amount = true;
+    if (form.donation_type === "Non-Financial Donation") {
+      activeTouched.help_type = true;
+      activeTouched.profession = true;
+    }
+
+    setTouched(activeTouched);
+    const validationErrors = validateDonationForm(form);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
+
+    const isFinancial = form.donation_type === "Financial Donation";
+    const address = [
+      form.street_address_1,
+      form.street_address_2,
+      form.city,
+      form.state,
+      form.zip_code,
+      form.country,
+    ].filter(Boolean).join(", ");
+
+    setStatus("sending");
+    try {
+      await sendDonationEmail({
+        first_name: form.first_name,
+        last_name: form.last_name,
+        email: form.email,
+        phone: form.phone,
+        street_address_1: form.street_address_1,
+        street_address_2: form.street_address_2,
+        city: form.city,
+        zip_code: form.zip_code,
+        state: form.state,
+        country: form.country,
+        donation_type: form.donation_type,
+        amount: isFinancial ? form.amount : "",
+        help_type: isFinancial ? "" : form.help_type,
+        profession: isFinancial ? "" : form.profession,
+        message: form.message || "",
+        address,
+        donation_amount: isFinancial ? form.amount : "",
+        is_financial: isFinancial,
+        is_non_financial: !isFinancial,
+      });
+      setStatus("success");
+      setForm(initForm);
+      setTouched({});
+      setErrors({});
     } catch (err) {
       logDonationEmailError(err);
-      setFinStatus("error");
-    }
-  };
-
-  // ── NON-FINANCIAL VALIDATION ──
-  const validateNon = (f) => validateForm({
-    first_name: { value: f.first_name, rule: rules.name     },
-    last_name:  { value: f.last_name,  rule: rules.name     },
-    email:      { value: f.email,      rule: rules.email    },
-    phone:      { value: f.phone,      rule: rules.phone    },
-    help_type:  { value: f.help_type,  rule: rules.select   },
-    profession: { value: f.profession, rule: rules.required },
-    details:    { value: f.details,    rule: rules.message  },
-  });
-
-  const handleNonChange = (e) => {
-    const { name, value } = e.target;
-    let v = value;
-    if (name === "first_name" || name === "last_name") v = sanitizeName(value);
-    // phone: don't sanitize — let validation show the error
-    const updated = { ...non, [name]: v };
-    setNon(updated);
-    if (nonTouched[name] || v !== "") {
-      setNonTouched((p) => ({ ...p, [name]: true }));
-      setNonErrors(validateNon(updated));
-    }
-  };
-
-  const handleNonBlur = (e) => {
-    setNonTouched((p) => ({ ...p, [e.target.name]: true }));
-    setNonErrors(validateNon(non));
-  };
-
-  const handleNonSubmit = async (e) => {
-    e.preventDefault();
-    const allTouched = { first_name: true, last_name: true, email: true, phone: true, help_type: true, profession: true, details: true };
-    setNonTouched(allTouched);
-    const errs = validateNon(non);
-    setNonErrors(errs);
-    if (Object.keys(errs).length > 0) return;
-    setNonStatus("sending");
-    try {
-      await sendDonationEmail({
-        donation_type: "Non-Financial Donor",
-        first_name: non.first_name,
-        last_name: non.last_name,
-        email: non.email,
-        phone: non.phone,
-        address: "",
-        donation_amount: "",
-        help_type: non.help_type,
-        profession: non.profession,
-        message: non.details,
-        is_financial: false,
-        is_non_financial: true,
-      });
-      setNonStatus("success");
-      setNon(initNonFinancial);
-      setNonTouched({});
-      setNonErrors({});
-    } catch (err) {
-      logDonationEmailError(err);
-      setNonStatus("error");
+      setStatus("error");
     }
   };
 
@@ -199,8 +197,6 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-6" onClick={onClose}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div className="relative z-10 w-full max-w-[720px] max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl" onClick={(e) => e.stopPropagation()}>
-
-        {/* HEADER */}
         <div className="relative bg-[var(--color-primary)] rounded-t-3xl px-8 py-7 overflow-hidden">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none" />
           <div className="absolute -bottom-10 -left-10 w-52 h-52 bg-[var(--color-secondary)]/10 rounded-full blur-3xl pointer-events-none" />
@@ -211,188 +207,154 @@ export default function DonateModal({ isOpen, onClose, defaultTab = "financial" 
                 <span className="text-white/70 text-[10px] uppercase tracking-[0.2em] font-medium">VSS Foundation</span>
               </div>
               <h2 className="heading-font text-xl font-semibold text-white">Support a Student's Future</h2>
-              <p className="text-white/60 text-xs mt-1">501(c)(3) registered · EIN: 33-1919808 · Donations may be deductible to the extent allowed by law</p>
+              <p className="text-white/60 text-xs mt-1">Vidyarthi Sahayyak Samiti Foundation is classified as a 501(c)(3) non-profit organization by the standards of the Internal Revenue Service (IRS).  Therefore, the donation may be tax-deductible to the extent allowed by law.</p>
             </div>
             <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200 flex-shrink-0 mt-1">
               <FaTimes size={13} />
             </button>
           </div>
-          <div className="relative z-10 flex gap-2 mt-5">
-            {[
-              { key: "financial",    label: "Financial Donor",     icon: <FaHeart size={11} />     },
-              { key: "nonfinancial", label: "Non-Financial Donor", icon: <FaHandshake size={11} /> },
-            ].map((t) => (
-              <button key={t.key} onClick={() => setTab(t.key)}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${tab === t.key ? "bg-white text-[var(--color-primary)] shadow-md" : "bg-white/10 text-white/70 hover:bg-white/20"}`}>
-                {t.icon} {t.label}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* BODY */}
         <div className="px-8 py-7">
-
-          {/* ── FINANCIAL FORM ── */}
-          {tab === "financial" && (
-            <form className="space-y-5" onSubmit={handleFinSubmit} noValidate>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name <span className="text-rose-400">*</span></label>
-                  <input name="first_name" type="text" placeholder="Rahul" value={fin.first_name} onChange={handleFinChange} onBlur={handleFinBlur} className={finTouched.first_name && finErrors.first_name ? inputError : inputClass} />
-                  <FieldError msg={finTouched.first_name && finErrors.first_name} />
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name <span className="text-rose-400">*</span></label>
-                  <input name="last_name" type="text" placeholder="Sharma" value={fin.last_name} onChange={handleFinChange} onBlur={handleFinBlur} className={finTouched.last_name && finErrors.last_name ? inputError : inputClass} />
-                  <FieldError msg={finTouched.last_name && finErrors.last_name} />
-                </div>
+          <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name <span className="text-rose-400">*</span></label>
+                <input name="first_name" type="text" placeholder="Rahul" value={form.first_name} onChange={handleChange} onBlur={handleBlur} className={touched.first_name && errors.first_name ? inputError : inputClass} />
+                <FieldError msg={touched.first_name && errors.first_name} />
               </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name <span className="text-rose-400">*</span></label>
+                <input name="last_name" type="text" placeholder="Sharma" value={form.last_name} onChange={handleChange} onBlur={handleBlur} className={touched.last_name && errors.last_name ? inputError : inputClass} />
+                <FieldError msg={touched.last_name && errors.last_name} />
+              </div>
+            </div>
 
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="text-xs text-gray-500 font-medium mb-1.5 block">Email Address <span className="text-rose-400">*</span></label>
-                <input name="email" type="email" placeholder="you@example.com" value={fin.email} onChange={handleFinChange} onBlur={handleFinBlur} className={finTouched.email && finErrors.email ? inputError : inputClass} />
-                <FieldError msg={finTouched.email && finErrors.email} />
+                <input name="email" type="email" placeholder="you@example.com" value={form.email} onChange={handleChange} onBlur={handleBlur} className={touched.email && errors.email ? inputError : inputClass} />
+                <FieldError msg={touched.email && errors.email} />
               </div>
-
               <div>
                 <label className="text-xs text-gray-500 font-medium mb-1.5 block">Phone Number <span className="text-rose-400">*</span></label>
-                <input name="phone" type="tel" placeholder="+1 (000) 000-0000" value={fin.phone} onChange={handleFinChange} onBlur={handleFinBlur} maxLength={15} className={finTouched.phone && finErrors.phone ? inputError : inputClass} />
-                <FieldError msg={finTouched.phone && finErrors.phone} />
+                <input name="phone" type="tel" placeholder="+1 (000) 000-0000" value={form.phone} onChange={handleChange} onBlur={handleBlur} maxLength={15} className={touched.phone && errors.phone ? inputError : inputClass} />
+                <FieldError msg={touched.phone && errors.phone} />
               </div>
+            </div>
 
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1.5 block">Street Address 1 <span className="text-rose-400">*</span></label>
+              <input name="street_address_1" type="text" placeholder="Street address" value={form.street_address_1} onChange={handleChange} onBlur={handleBlur} className={touched.street_address_1 && errors.street_address_1 ? inputError : inputClass} />
+              <FieldError msg={touched.street_address_1 && errors.street_address_1} />
+            </div>
+
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1.5 block">Street Address 2 <span className="text-rose-400">*</span></label>
+              <input name="street_address_2" type="text" placeholder="Apartment, suite, unit, building" value={form.street_address_2} onChange={handleChange} onBlur={handleBlur} className={touched.street_address_2 && errors.street_address_2 ? inputError : inputClass} />
+              <FieldError msg={touched.street_address_2 && errors.street_address_2} />
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Address <span className="text-gray-300">(optional)</span></label>
-                <input name="address" type="text" placeholder="City, State, Country" value={fin.address} onChange={handleFinChange} className={inputClass} />
+                <label className="text-xs text-gray-500 font-medium mb-1.5 block">City <span className="text-rose-400">*</span></label>
+                <input name="city" type="text" placeholder="City" value={form.city} onChange={handleChange} onBlur={handleBlur} className={touched.city && errors.city ? inputError : inputClass} />
+                <FieldError msg={touched.city && errors.city} />
               </div>
-
               <div>
-                <label className="text-xs text-gray-500 font-medium mb-2 block">Donation Amount <span className="text-rose-400">*</span></label>
-                <div className="grid grid-cols-3 gap-2 mb-3">
-                  {donationAmounts.map((amt) => (
-                    <button key={amt} type="button"
-                      onClick={() => {
-                        setSelectedAmount(amt);
-                        setFin((p) => ({ ...p, custom_amount: amt }));
-                        setFinErrors((p) => ({ ...p, amount: null }));
-                        setFinTouched((p) => ({ ...p, amount: true }));
-                      }}
-                      className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all duration-200 ${selectedAmount === amt ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-md" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-[var(--color-primary)]/30"}`}>
-                      {amt}
-                    </button>
-                  ))}
-                </div>
-                <input name="custom_amount" type="text" placeholder="Or enter custom amount (USD)" value={fin.custom_amount} onChange={handleFinChange} onBlur={handleFinBlur} className={finTouched.amount && finErrors.amount ? inputError : inputClass} />
-                <FieldError msg={finTouched.amount && finErrors.amount} />
+                <label className="text-xs text-gray-500 font-medium mb-1.5 block">ZIP / Postal Code <span className="text-rose-400">*</span></label>
+                <input name="zip_code" type="text" placeholder="ZIP / Postal Code" value={form.zip_code} onChange={handleChange} onBlur={handleBlur} className={touched.zip_code && errors.zip_code ? inputError : inputClass} />
+                <FieldError msg={touched.zip_code && errors.zip_code} />
               </div>
+            </div>
 
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Message <span className="text-gray-300">(optional)</span></label>
-                <textarea name="message" rows={3} placeholder="Any specific project or note..." value={fin.message} onChange={handleFinChange} className={inputClass + " resize-none"} />
+                <label className="text-xs text-gray-500 font-medium mb-1.5 block">State <span className="text-rose-400">*</span></label>
+                <input name="state" type="text" placeholder="State" value={form.state} onChange={handleChange} onBlur={handleBlur} className={touched.state && errors.state ? inputError : inputClass} />
+                <FieldError msg={touched.state && errors.state} />
               </div>
-
-              <div className="flex items-center gap-4 py-3 px-4 rounded-xl bg-gray-50 border border-gray-100">
-                <FaLock size={12} className="text-gray-400 flex-shrink-0" />
-                <p className="text-xs text-gray-500">Secure & encrypted · Donations to VSSF may be deductible to the extent allowed by law</p>
+              <div>
+                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Country <span className="text-rose-400">*</span></label>
+                <input name="country" type="text" placeholder="Country" value={form.country} onChange={handleChange} onBlur={handleBlur} className={touched.country && errors.country ? inputError : inputClass} />
+                <FieldError msg={touched.country && errors.country} />
               </div>
+            </div>
 
-              {finStatus === "success" && (
-                <div className="flex items-center gap-3 text-sm text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
-                  <FaCheckCircle size={15} className="flex-shrink-0" /> Thank you! Your donation inquiry has been received. We'll be in touch shortly.
-                </div>
-              )}
-              {finStatus === "error" && (
-                <div className="flex items-center gap-3 text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-xl px-4 py-3">
-                  <FaTimesCircle size={15} className="flex-shrink-0" /> Something went wrong. Please try again.
-                </div>
-              )}
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1.5 block">Donation Type <span className="text-rose-400">*</span></label>
+              <select name="donation_type" value={form.donation_type} onChange={handleChange} onBlur={handleBlur} className={touched.donation_type && errors.donation_type ? inputError : inputClass}>
+                <option value="">Select a donation type</option>
+                <option>Financial Donation</option>
+                <option>Non-Financial Donation</option>
+              </select>
+              <FieldError msg={touched.donation_type && errors.donation_type} />
+            </div>
 
-              <button type="submit" disabled={finStatus === "sending"}
-                className="w-full flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
-                <FaHeart size={13} /> {finStatus === "sending" ? "Submitting..." : "Donate Now"} <FaArrowRight size={11} />
-              </button>
-            </form>
-          )}
-
-          {/* ── NON-FINANCIAL FORM ── */}
-          {tab === "nonfinancial" && (
-            <form className="space-y-5" onSubmit={handleNonSubmit} noValidate>
-              <div className="grid grid-cols-2 gap-4">
+            {form.donation_type === "Financial Donation" && (
+              <>
                 <div>
-                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">First Name <span className="text-rose-400">*</span></label>
-                  <input name="first_name" type="text" placeholder="Rahul" value={non.first_name} onChange={handleNonChange} onBlur={handleNonBlur} className={nonTouched.first_name && nonErrors.first_name ? inputError : inputClass} />
-                  <FieldError msg={nonTouched.first_name && nonErrors.first_name} />
+                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">Donation Amount <span className="text-rose-400">*</span></label>
+                  <input name="amount" type="number" min="1" step="0.01" placeholder="Enter amount in USD" value={form.amount} onChange={handleChange} onBlur={handleBlur} className={touched.amount && errors.amount ? inputError : inputClass} />
+                  <FieldError msg={touched.amount && errors.amount} />
                 </div>
+
                 <div>
-                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">Last Name <span className="text-rose-400">*</span></label>
-                  <input name="last_name" type="text" placeholder="Sharma" value={non.last_name} onChange={handleNonChange} onBlur={handleNonBlur} className={nonTouched.last_name && nonErrors.last_name ? inputError : inputClass} />
-                  <FieldError msg={nonTouched.last_name && nonErrors.last_name} />
+                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">Message <span className="text-gray-300">(optional)</span></label>
+                  <textarea name="message" rows={3} placeholder="Any specific project or note..." value={form.message} onChange={handleChange} className={inputClass + " resize-none"} />
                 </div>
-              </div>
+              </>
+            )}
 
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Email Address <span className="text-rose-400">*</span></label>
-                <input name="email" type="email" placeholder="you@example.com" value={non.email} onChange={handleNonChange} onBlur={handleNonBlur} className={nonTouched.email && nonErrors.email ? inputError : inputClass} />
-                <FieldError msg={nonTouched.email && nonErrors.email} />
-              </div>
-
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Phone Number <span className="text-rose-400">*</span></label>
-                <input name="phone" type="tel" placeholder="+1 (000) 000-0000" value={non.phone} onChange={handleNonChange} onBlur={handleNonBlur} maxLength={15} className={nonTouched.phone && nonErrors.phone ? inputError : inputClass} />
-                <FieldError msg={nonTouched.phone && nonErrors.phone} />
-              </div>
-
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1.5 block">How would you like to help? <span className="text-rose-400">*</span></label>
-                <select name="help_type" value={non.help_type} onChange={handleNonChange} onBlur={handleNonBlur} className={nonTouched.help_type && nonErrors.help_type ? inputError : inputClass}>
-                  <option value="">Select an option</option>
-                  <option>Provide Mentorship (Palya Palaka Yojana)</option>
-                  <option>Identify Earn & Learn Opportunities</option>
-                  <option>Provide Internship / Placement References</option>
-                  <option>Join as a Samiti Mitra</option>
-                  <option>Other</option>
-                </select>
-                <FieldError msg={nonTouched.help_type && nonErrors.help_type} />
-              </div>
-
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Your Profession / Field <span className="text-rose-400">*</span></label>
-                <input name="profession" type="text" placeholder="e.g. Software Engineer, Doctor..." value={non.profession} onChange={handleNonChange} onBlur={handleNonBlur} className={nonTouched.profession && nonErrors.profession ? inputError : inputClass} />
-                <FieldError msg={nonTouched.profession && nonErrors.profession} />
-              </div>
-
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1.5 block">Message / Details <span className="text-rose-400">*</span></label>
-                <textarea name="details" rows={3} placeholder="Tell us how you'd like to contribute..." value={non.details} onChange={handleNonChange} onBlur={handleNonBlur} className={(nonTouched.details && nonErrors.details ? inputError : inputClass) + " resize-none"} />
-                <FieldError msg={nonTouched.details && nonErrors.details} />
-              </div>
-
-              <div className="space-y-2 py-3 px-4 rounded-xl bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10">
-                {["Flexible time commitment", "Make a real impact on students' lives", "Connect with a global community"].map((pt, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs text-gray-600">
-                    <FaCheckCircle size={11} className="text-[var(--color-secondary)] flex-shrink-0" /> {pt}
-                  </div>
-                ))}
-              </div>
-
-              {nonStatus === "success" && (
-                <div className="flex items-center gap-3 text-sm text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
-                  <FaCheckCircle size={15} className="flex-shrink-0" /> Thank you! Your interest has been submitted. We'll reach out to you soon.
+            {form.donation_type === "Non-Financial Donation" && (
+              <>
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">How would you like to help? <span className="text-rose-400">*</span></label>
+                  <select name="help_type" value={form.help_type} onChange={handleChange} onBlur={handleBlur} className={touched.help_type && errors.help_type ? inputError : inputClass}>
+                    <option value="">Select an option</option>
+                    <option>Provide Mentorship (Palya Palaka Yojana)</option>
+                    <option>Identify Earn & Learn Opportunities</option>
+                    <option>Provide Internship / Placement References</option>
+                    <option>Join as a Samiti Mitra</option>
+                    <option>Other</option>
+                  </select>
+                  <FieldError msg={touched.help_type && errors.help_type} />
                 </div>
-              )}
-              {nonStatus === "error" && (
-                <div className="flex items-center gap-3 text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-xl px-4 py-3">
-                  <FaTimesCircle size={15} className="flex-shrink-0" /> Something went wrong. Please try again.
+
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">Your Profession / Field <span className="text-rose-400">*</span></label>
+                  <input name="profession" type="text" placeholder="e.g. Software Engineer, Doctor..." value={form.profession} onChange={handleChange} onBlur={handleBlur} className={touched.profession && errors.profession ? inputError : inputClass} />
+                  <FieldError msg={touched.profession && errors.profession} />
                 </div>
-              )}
 
-              <button type="submit" disabled={nonStatus === "sending"}
-                className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[#1a2568] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(35,48,125,0.2)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
-                <FaHandshake size={13} /> {nonStatus === "sending" ? "Submitting..." : "Submit My Interest"} <FaArrowRight size={11} />
-              </button>
-            </form>
-          )}
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1.5 block">Message <span className="text-gray-300">(optional)</span></label>
+                  <textarea name="message" rows={3} placeholder="Tell us how you'd like to contribute..." value={form.message} onChange={handleChange} className={inputClass + " resize-none"} />
+                </div>
+              </>
+            )}
 
+            <div className="flex items-center gap-4 py-3 px-4 rounded-xl bg-gray-50 border border-gray-100">
+              <FaLock size={12} className="text-gray-400 flex-shrink-0" />
+              <p className="text-xs text-gray-500">Secure & encrypted - Donations to VSSF may be deductible to the extent allowed by law</p>
+            </div>
+
+            {status === "success" && (
+              <div className="flex items-center gap-3 text-sm text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
+                <FaCheckCircle size={15} className="flex-shrink-0" /> Thank you! Your donation inquiry has been received. We'll be in touch shortly.
+              </div>
+            )}
+            {status === "error" && (
+              <div className="flex items-center gap-3 text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-xl px-4 py-3">
+                <FaTimesCircle size={15} className="flex-shrink-0" /> Something went wrong. Please try again.
+              </div>
+            )}
+
+            <button type="submit" disabled={!form.donation_type || status === "sending"}
+              className="w-full flex items-center justify-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white py-3.5 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.3)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+              <FaHeart size={13} /> {status === "sending" ? "Submitting..." : "Submit"} <FaArrowRight size={11} />
+            </button>
+          </form>
         </div>
       </div>
     </div>

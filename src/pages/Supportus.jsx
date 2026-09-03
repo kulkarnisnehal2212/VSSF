@@ -7,14 +7,14 @@ import DonorToggle from "../sections/Supportus/DonorToggle";
 import FinancialDonors from "../sections/Supportus/FinancialDonors";
 import NonFinancialDonors from "../sections/Supportus/NonFinancialDonors";
 import DonateModal from "../sections/Supportus/DonateModal";
+import WaysToDonateModal from "../sections/Supportus/WaysToDonateModal";
 
 export default function SupportUs() {
   const [activeTab, setActiveTab] = useState("financial");
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalTab, setModalTab] = useState("financial");
+  const [waysModalOpen, setWaysModalOpen] = useState(false);
 
-  const openModal = (tab = "financial") => {
-    setModalTab(tab);
+  const openModal = () => {
     setModalOpen(true);
   };
 
@@ -34,10 +34,16 @@ export default function SupportUs() {
         actions={
           <>
             <button
-              onClick={() => openModal("financial")}
+              onClick={() => setWaysModalOpen(true)}
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white px-7 py-3 rounded-xl text-sm font-semibold backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200"
+            >
+              Ways to Donate <FaArrowRight size={11} />
+            </button>
+            <button
+              onClick={openModal}
               className="inline-flex items-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white px-7 py-3 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.35)] hover:-translate-y-0.5 transition-all duration-200"
             >
-              Donate Now <FaArrowRight size={11} />
+              Donate Form <FaArrowRight size={11} />
             </button>
             <a
               href="/contact"
@@ -90,11 +96,18 @@ export default function SupportUs() {
       </section>
 
       {/* MODAL */}
-      <DonateModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        defaultTab={modalTab}
-      />
+      {modalOpen && (
+        <DonateModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+        />
+      )}
+      {waysModalOpen && (
+        <WaysToDonateModal
+          isOpen={waysModalOpen}
+          onClose={() => setWaysModalOpen(false)}
+        />
+      )}
     </>
   );
 }
