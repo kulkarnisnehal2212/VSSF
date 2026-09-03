@@ -43,7 +43,7 @@ export default function SupportUs() {
               onClick={openModal}
               className="inline-flex items-center gap-2 bg-[var(--color-secondary)] hover:bg-[#e0731a] text-white px-7 py-3 rounded-xl text-sm font-semibold shadow-[0_8px_24px_rgba(245,130,32,0.35)] hover:-translate-y-0.5 transition-all duration-200"
             >
-              Donate Form <FaArrowRight size={11} />
+              Donation form <FaArrowRight size={11} />
             </button>
             <a
               href="/contact"
