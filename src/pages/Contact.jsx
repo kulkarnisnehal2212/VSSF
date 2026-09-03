@@ -2,7 +2,7 @@ import { useState } from "react";
 import PageHero from "../components/PageHero";
 import heroImg from "../assets/aboutvsspune/aboutvss.png";
 import { sendContactEmail } from "../services/emailService";
-import { rules, validateForm, sanitizeName, sanitizePhone } from "../utils/validation";
+import { rules, validateForm, sanitizeName } from "../utils/validation";
 import {
   FaMapMarkerAlt, FaPhoneAlt, FaEnvelope,
   FaFacebookF, FaInstagram, FaYoutube, FaArrowRight,
@@ -42,7 +42,21 @@ const FieldError = ({ msg }) => msg ? (
 ) : null;
 
 export default function Contact() {
-  const [form, setForm] = useState({ first_name: "", last_name: "", address: "", phone: "", email: "", message: "" });
+  const initialForm = {
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    street_address_1: "",
+    street_address_2: "",
+    city: "",
+    zip_code: "",
+    state: "",
+    country: "",
+    message: "",
+  };
+
+  const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [status, setStatus] = useState("");
@@ -52,6 +66,12 @@ export default function Contact() {
     last_name:  { value: f.last_name,  rule: rules.name    },
     email:      { value: f.email,      rule: rules.email   },
     phone:      { value: f.phone,      rule: rules.phone   },
+    street_address_1: { value: f.street_address_1, rule: rules.required },
+    street_address_2: { value: f.street_address_2, rule: rules.required },
+    city:       { value: f.city,       rule: rules.required },
+    zip_code:   { value: f.zip_code,   rule: rules.required },
+    state:      { value: f.state,      rule: rules.required },
+    country:    { value: f.country,    rule: rules.required },
     message:    { value: f.message,    rule: rules.message },
   });
 
@@ -76,16 +96,38 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const allTouched = { first_name: true, last_name: true, email: true, phone: true, message: true };
+    const allTouched = {
+      first_name: true,
+      last_name: true,
+      email: true,
+      phone: true,
+      street_address_1: true,
+      street_address_2: true,
+      city: true,
+      zip_code: true,
+      state: true,
+      country: true,
+      message: true,
+    };
     setTouched(allTouched);
     const errs = validate(form);
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
+
+    const address = [
+      form.street_address_1,
+      form.street_address_2,
+      form.city,
+      form.state,
+      form.zip_code,
+      form.country,
+    ].filter(Boolean).join(", ");
+
     setStatus("sending");
     try {
-      await sendContactEmail(form);
+      await sendContactEmail({ ...form, address });
       setStatus("success");
-      setForm({ first_name: "", last_name: "", address: "", phone: "", email: "", message: "" });
+      setForm(initialForm);
       setTouched({});
       setErrors({});
     } catch (error) {
@@ -227,8 +269,41 @@ export default function Contact() {
 
                   {/* ADDRESS */}
                   <div>
-                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Address <span className="text-gray-300">(optional)</span></label>
-                    <input name="address" type="text" placeholder="City, State, Country" value={form.address} onChange={handleChange} className={inputClass} />
+                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Street Address 1 <span className="text-rose-400">*</span></label>
+                    <input name="street_address_1" type="text" placeholder="Street address" value={form.street_address_1} onChange={handleChange} onBlur={handleBlur} className={touched.street_address_1 && errors.street_address_1 ? inputError : inputClass} />
+                    <FieldError msg={touched.street_address_1 && errors.street_address_1} />
+                  </div>
+
+                  <div>
+                    <label className="text-xs text-gray-500 font-medium mb-1.5 block">Street Address 2 <span className="text-rose-400">*</span></label>
+                    <input name="street_address_2" type="text" placeholder="Apartment, suite, unit, building" value={form.street_address_2} onChange={handleChange} onBlur={handleBlur} className={touched.street_address_2 && errors.street_address_2 ? inputError : inputClass} />
+                    <FieldError msg={touched.street_address_2 && errors.street_address_2} />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">City <span className="text-rose-400">*</span></label>
+                      <input name="city" type="text" placeholder="City" value={form.city} onChange={handleChange} onBlur={handleBlur} className={touched.city && errors.city ? inputError : inputClass} />
+                      <FieldError msg={touched.city && errors.city} />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">ZIP / Postal Code <span className="text-rose-400">*</span></label>
+                      <input name="zip_code" type="text" placeholder="ZIP / Postal Code" value={form.zip_code} onChange={handleChange} onBlur={handleBlur} className={touched.zip_code && errors.zip_code ? inputError : inputClass} />
+                      <FieldError msg={touched.zip_code && errors.zip_code} />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">State <span className="text-rose-400">*</span></label>
+                      <input name="state" type="text" placeholder="State" value={form.state} onChange={handleChange} onBlur={handleBlur} className={touched.state && errors.state ? inputError : inputClass} />
+                      <FieldError msg={touched.state && errors.state} />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500 font-medium mb-1.5 block">Country <span className="text-rose-400">*</span></label>
+                      <input name="country" type="text" placeholder="Country" value={form.country} onChange={handleChange} onBlur={handleBlur} className={touched.country && errors.country ? inputError : inputClass} />
+                      <FieldError msg={touched.country && errors.country} />
+                    </div>
                   </div>
 
                   {/* MESSAGE */}
